@@ -8,9 +8,10 @@
   unless you are working with YASM's source code.</para>
 
  <para>Note that this design document may not always be in sync with
-  the source code, although we try to do the best to update both.  If
-  you notice any discrepencies, please feel free to fix them (or at
-  least notify the development group about it).</para>
+  the source code, although we try to do our best to update this
+  document when changes are made to the source.  If you notice any
+  discrepencies, please feel free to fix them (or at least notify the
+  development group about it).</para>
 </chapter>
 
 <!--
