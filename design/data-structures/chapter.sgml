@@ -1,0 +1,90 @@
+<!-- $IdPath$ -->
+<chapter id="data-structures">
+ <title>Data Structures</title>
+
+ <para>YASM, like other assemblers and compilers, is at its heart just
+  a data processing application.  It transforms data from one form
+  (ASCII source code) to another (binary object code).  Thus, the data
+  structures used to keep track of the internal state of the assembler
+  are the most important things for a coder working on the assembler
+  to understand.  This chapter attempts to present reasoned
+  explanations for the many decisions made while designing the most
+  important data structures in the YASM assembler.</para>
+
+ <sect1 id="data-structures.bytecode">
+  <title>Bytecodes</title>
+
+  <para>The use of <quote>bytecodes</quote> as the basic building
+   block of the assembler was a fundamental requirement of both the
+   goals (see <xref linkend="goals">) and the architecture (see <xref
+    linkend="architecture">) of YASM.  A bytecode is essentially
+   nothing more than a single machine instruction or assembler
+   pseudo-instruction stored in an expanded format that keeps track of
+   all the internal state information needed by the assembler
+   to:</para>
+
+  <itemizedlist>
+   <listitem>
+    <para>Optimize the instruction size by resolving circular
+     dependencies between instructions.</para>
+   </listitem>
+
+   <listitem>
+    <para>Resolve labels that are used before they are defined.</para>
+   </listitem>
+
+   <listitem>
+    <para>Detect error conditions such as undefined labels.</para>
+   </listitem>
+  </itemizedlist>
+
+  <para>Most, if not all, other assemblers accomplish the above goals
+   by re-parsing the source code in multiple passes.  As YASM only
+   parses the code once, bytecodes are needed to store all the
+   information for every parsed instruction and pseudo-instruction.
+   This fundamental difference is a tradeoff choice between processing
+   time and required memory space.  The bytecode method requires that
+   the entire source file's content must be stored in memory at one
+   time (its content in terms of assembler state, not the actual ASCII
+   source).  To minimize the memory space that must be used, the YASM
+   implementation tries to make the bytecode size as small as
+   possible.</para>
+
+  <sect2 id="data-structures.bytecode.goals">
+   <title>Bytecode Design Goals</title>
+
+   <itemizedlist>
+    <listitem>
+     <para>Instruction set independence: architecture-specific data is
+      associated with each bytecode, but is not a part of the main
+      bytecode data structure.</para>
+    </listitem>
+
+    <listitem>
+     <para>Pseudo-instructions and instructions treated essentially
+      the same.  Data declarations and space reserving
+      pseudo-instructions should be treated as a special case of
+      architecture-specific data.</para>
+    </listitem>
+
+    <listitem>
+     <para>Source code syntax independence.  Commonalities between
+      syntaxes should be utilized as to make non-parser stages as
+      independent as possible of the original source.</para>
+    </listitem>
+   </itemizedlist>
+  </sect2>
+ </sect1>
+</chapter>
+
+<!--
+     Local Variables:
+     mode: sgml
+     sgml-declaration: "../chapter.decl"
+     sgml-indent-data: t
+     sgml-indent-step: 1
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-parent-document: ("../book.sgml" "part" "chapter")
+     End:
+-->

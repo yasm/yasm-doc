@@ -7,6 +7,7 @@
 <!ENTITY % chap.introduction "IGNORE">
 <!ENTITY % chap.goals "IGNORE">
 <!ENTITY % chap.architecture "IGNORE">
+<!ENTITY % chap.data-structures "IGNORE">
 <!ENTITY % chap.coding-style "IGNORE">
 
 ]>
@@ -27,10 +28,11 @@
   </authorgroup>
  </bookinfo>
 
- <![ %chap.introduction;   [ &chap.introduction;    ]]>
- <![ %chap.goals;          [ &chap.goals;           ]]>
- <![ %chap.architecture;   [ &chap.architecture;    ]]>
- <![ %chap.coding-style;   [ &chap.coding-style;    ]]>
+ <![ %chap.introduction;      [ &chap.introduction;    ]]>
+ <![ %chap.goals;             [ &chap.goals;           ]]>
+ <![ %chap.architecture;      [ &chap.architecture;    ]]>
+ <![ %chap.data-structures;   [ &chap.data-structures; ]]>
+ <![ %chap.coding-style;      [ &chap.coding-style;    ]]>
 </book>
 
 <!--

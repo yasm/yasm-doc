@@ -15,13 +15,14 @@
  <para><xref linkend="architecture-pipeline"> illustrates the 3-stage
   pipeline architecture of the assembler, and where each particular
   interface fits between the pipeline stages.  The data passed between
-  each stage is structured as a linked list of
-  <quote>bytecodes</quote> (an internal representation of a machine
-  instruction or assembler pseudo-instruction).  Two additional stages
-  are shown in <xref linkend="architecture-pipeline">, the
-  preprocessor and the debug format, which while being major
-  components of the overall architecture, execute in parallel with a
-  main pipeline stage.</para>
+  each stage is structured as a linked list of bytecodes (an internal
+  representation of a machine instruction or assembler
+  pseudo-instruction, see <xref
+   linkend="data-structures.bytecode"> for more information).  Two
+  additional stages are shown in <xref
+   linkend="architecture-pipeline">, the preprocessor and the debug
+  format, which while being major components of the overall
+  architecture, execute in parallel with a main pipeline stage.</para>
 
  <note>
   <para>Strictly speaking, YASM isn't a pipeline in the traditional

@@ -20,6 +20,7 @@ SRCS=  book.sgml
 SRCS+= introduction/chapter.sgml
 SRCS+= goals/chapter.sgml
 SRCS+= architecture/chapter.sgml
+SRCS+= data-structures/chapter.sgml
 SRCS+= coding-style/chapter.sgml
 
 # Entities
