@@ -8,6 +8,9 @@ design document (and other DocBook documentation) from their SGML sources:
 - XHTML DTD
 - OpenJade (recommended) or Jade
 - JadeTeX
+- Ghostscript
+- Dia
 
 For those fortunate enough (IMHO) to be using FreeBSD, just install the docproj
-port or package to get all the tools necessary for building ALL output formats.
+port or package as well as the Dia port/package to get all the tools necessary
+for building ALL output formats.
