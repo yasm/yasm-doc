@@ -1,0 +1,110 @@
+<!--
+     Names of x86 registers
+
+     $IdPath$
+-->
+
+<!-- 8 bit -->
+<!ENTITY reg.al                "<register role=reg8>AL</register>">
+<!ENTITY reg.bl                "<register role=reg8>BL</register>">
+<!ENTITY reg.cl                "<register role=reg8>CL</register>">
+<!ENTITY reg.dl                "<register role=reg8>DL</register>">
+<!ENTITY reg.ah                "<register role=reg8>AH</register>">
+<!ENTITY reg.bh                "<register role=reg8>BH</register>">
+<!ENTITY reg.ch                "<register role=reg8>CH</register>">
+<!ENTITY reg.dh                "<register role=reg8>DH</register>">
+
+<!-- 16 bit -->
+<!ENTITY reg.ax                "<register role=reg16>AX</register>">
+<!ENTITY reg.bx                "<register role=reg16>BX</register>">
+<!ENTITY reg.cx                "<register role=reg16>CX</register>">
+<!ENTITY reg.dx                "<register role=reg16>DX</register>">
+<!ENTITY reg.si                "<register role=reg16>SI</register>">
+<!ENTITY reg.di                "<register role=reg16>DI</register>">
+<!ENTITY reg.bp                "<register role=reg16>BP</register>">
+<!ENTITY reg.sp                "<register role=reg16>SP</register>">
+
+<!ENTITY reg.ip                "<register role=reg16>IP</register>">
+
+<!-- segment -->
+<!ENTITY reg.cs                "<register role=segment>CS</register>">
+<!ENTITY reg.ds                "<register role=segment>DS</register>">
+<!ENTITY reg.es                "<register role=segment>ES</register>">
+<!ENTITY reg.fs                "<register role=segment>FS</register>">
+<!ENTITY reg.gs                "<register role=segment>GS</register>">
+<!ENTITY reg.ss                "<register role=segment>SS</register>">
+
+<!-- 32 bit -->
+<!ENTITY reg.eax               "<register role=reg32>EAX</register>">
+<!ENTITY reg.ebx               "<register role=reg32>EBX</register>">
+<!ENTITY reg.ecx               "<register role=reg32>ECX</register>">
+<!ENTITY reg.edx               "<register role=reg32>EDX</register>">
+<!ENTITY reg.esi               "<register role=reg32>ESI</register>">
+<!ENTITY reg.edi               "<register role=reg32>EDI</register>">
+<!ENTITY reg.ebp               "<register role=reg32>EBP</register>">
+<!ENTITY reg.esp               "<register role=reg32>ESP</register>">
+
+<!ENTITY reg.eip               "<register role=reg32>EIP</register>">
+
+<!-- floating point -->
+<!ENTITY reg.st0               "<register role=floating-point>ST0</register>">
+<!ENTITY reg.st1               "<register role=floating-point>ST1</register>">
+<!ENTITY reg.st2               "<register role=floating-point>ST2</register>">
+<!ENTITY reg.st3               "<register role=floating-point>ST3</register>">
+<!ENTITY reg.st4               "<register role=floating-point>ST4</register>">
+<!ENTITY reg.st5               "<register role=floating-point>ST5</register>">
+<!ENTITY reg.st6               "<register role=floating-point>ST6</register>">
+<!ENTITY reg.st7               "<register role=floating-point>ST7</register>">
+
+<!-- MMX -->
+<!ENTITY reg.mm0               "<register role=mmx>MM0</register>">
+<!ENTITY reg.mm1               "<register role=mmx>MM1</register>">
+<!ENTITY reg.mm2               "<register role=mmx>MM2</register>">
+<!ENTITY reg.mm3               "<register role=mmx>MM3</register>">
+<!ENTITY reg.mm4               "<register role=mmx>MM4</register>">
+<!ENTITY reg.mm5               "<register role=mmx>MM5</register>">
+<!ENTITY reg.mm6               "<register role=mmx>MM6</register>">
+<!ENTITY reg.mm7               "<register role=mmx>MM7</register>">
+
+<!-- control -->
+<!ENTITY reg.cr0               "<register role=control>CR0</register>">
+<!ENTITY reg.cr2               "<register role=control>CR2</register>">
+<!ENTITY reg.cr3               "<register role=control>CR3</register>">
+<!ENTITY reg.cr4               "<register role=control>CR4</register>">
+
+<!-- debug -->
+<!ENTITY reg.dr0               "<register role=debug>DR0</register>">
+<!ENTITY reg.dr1               "<register role=debug>DR1</register>">
+<!ENTITY reg.dr2               "<register role=debug>DR2</register>">
+<!ENTITY reg.dr3               "<register role=debug>DR3</register>">
+<!ENTITY reg.dr6               "<register role=debug>DR6</register>">
+<!ENTITY reg.dr7               "<register role=debug>DR7</register>">
+
+<!-- test -->
+<!ENTITY reg.tr3               "<register role=test>TR3</register>">
+<!ENTITY reg.tr4               "<register role=test>TR4</register>">
+<!ENTITY reg.tr5               "<register role=test>TR5</register>">
+<!ENTITY reg.tr6               "<register role=test>TR6</register>">
+<!ENTITY reg.tr7               "<register role=test>TR7</register>">
+
+<!-- flags -->
+<!ENTITY flag.id               "<register role=flag>ID</register>">
+<!ENTITY flag.vip              "<register role=flag>VIP</register>">
+<!ENTITY flag.vif              "<register role=flag>VIF</register>">
+<!ENTITY flag.ac               "<register role=flag>AC</register>">
+<!ENTITY flag.vm               "<register role=flag>VM</register>">
+<!ENTITY flag.rf               "<register role=flag>RF</register>">
+<!ENTITY flag.nt               "<register role=flag>NT</register>">
+<!ENTITY flag.iopl             "<register role=flag>IOPL</register>">
+<!ENTITY flag.of               "<register role=flag>OF</register>">
+<!ENTITY flag.df               "<register role=flag>DF</register>">
+<!ENTITY flag.if               "<register role=flag>IF</register>">
+<!ENTITY flag.tf               "<register role=flag>TF</register>">
+<!ENTITY flag.sf               "<register role=flag>SF</register>">
+<!ENTITY flag.zf               "<register role=flag>ZF</register>">
+<!ENTITY flag.af               "<register role=flag>AF</register>">
+<!ENTITY flag.pf               "<register role=flag>PF</register>">
+<!ENTITY flag.cf               "<register role=flag>CF</register>">
+
+<!ENTITY flag.ts               "<register role=flag>TS</register>">
+
