@@ -2,7 +2,7 @@
 <chapter id="coding-style">
  <title>Coding Style</title>
 
- <sect1 id="coding-stype-portability">
+ <sect1 id="coding-style.portability">
   <title>Portability</title>
 
   <para>For maximum portability, all code should conform to ANSI/ISO
@@ -35,7 +35,7 @@
    allocation.</para>
  </sect1>
 
- <sect1 id="coding-style-formatting">
+ <sect1 id="coding-style.formatting">
   <title>Formatting and Indentation</title>
 
   <para>An identation level of 4 spaces and 8 spaces to a tab should
