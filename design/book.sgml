@@ -1,0 +1,45 @@
+<!-- $IdPath$ -->
+<!DOCTYPE book PUBLIC "-//YASM//DTD DocBook V4.1-Based Extension//EN" [
+<!ENTITY % registers PUBLIC "-//YASM//ENTITIES DocBook Register Entities//EN"> %registers;
+<!ENTITY % chapters SYSTEM "chapters.ent"> %chapters;
+
+<!-- Chapter entities to allow building of individual chapters -->
+<!ENTITY % chap.introduction "IGNORE">
+<!ENTITY % chap.goals "IGNORE">
+<!ENTITY % chap.architecture "IGNORE">
+<!ENTITY % chap.coding-style "IGNORE">
+
+]>
+
+<book>
+ <bookinfo>
+  <title>The Design and Implementation of the YASM Modular
+   Assembler</title>
+
+  <authorgroup>
+   <author>
+    <firstname>Peter</firstname>
+    <surname>Johnson</surname>
+    <affiliation>
+     <address><email>yasm-doc@tortall.net</email></address>
+    </affiliation>
+   </author>
+  </authorgroup>
+ </bookinfo>
+
+ <![ %chap.introduction;   [ &chap.introduction;    ]]>
+ <![ %chap.goals;          [ &chap.goals;           ]]>
+ <![ %chap.architecture;   [ &chap.architecture;    ]]>
+ <![ %chap.coding-style;   [ &chap.coding-style;    ]]>
+</book>
+
+<!--
+     Local Variables:
+     mode: sgml
+     sgml-indent-data: t
+     sgml-indent-step: 1
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-local-catalogs: ("../share/sgml/catalog")
+     End:
+-->

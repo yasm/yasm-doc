@@ -1,0 +1,16 @@
+*.html
+*.log
+*.aux
+*.index
+index.sgml
+book.pdf
+book.ps
+book.dvi
+book.tex*
+book.out
+docbook.css
+HTML.manifest
+*.dia
+*.eps
+*.png
+*.pdf

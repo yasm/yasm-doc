@@ -1,0 +1,119 @@
+<!-- $IdPath$ -->
+<chapter id="architecture">
+ <title>Architecture</title>
+
+ <para>YASM is conceptually divided into a number of separable
+  modules.</para>
+
+ <para>Assuming that the programmatic interface of each module is
+  well-defined, it is easy to customize the different parts of the
+  assembler.  Contributors can write new parsers, new preprocessors,
+  new optimizers, and new object formats.  Multiple versions of each
+  module may be simultaneously compiled in and are user-selectable at
+  runtime via command-line or other configuration methods.</para>
+
+ <para><xref linkend="architecture-pipeline"> illustrates the 3-stage
+  pipeline architecture of the assembler, and where each particular
+  interface fits between the pipeline stages.  The data passed between
+  each stage is structured as a linked list of
+  <quote>bytecodes</quote> (an internal representation of a machine
+  instruction or assembler pseudo-instruction).  Two additional stages
+  are shown in <xref linkend="architecture-pipeline">, the
+  preprocessor and the debug format, which while being major
+  components of the overall architecture, execute in parallel with a
+  main pipeline stage.</para>
+
+ <note>
+  <para>Strictly speaking, YASM isn't a pipeline in the traditional
+   computer architecture sense of the word, as none of the stages
+   execute in parallel.</para>
+ </note>
+
+ <figure id="architecture-pipeline">
+  <title>Pipeline Architecture of YASM</title>
+
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="architecture/pipeline" format="eps">
+   </imageobject>
+
+   <textobject>
+    <screen></screen>
+    </textobject>
+  </mediaobject>
+ </figure>
+
+ <para>In addition to the main pipeline shown in <xref
+   linkend="architecture-pipeline">, a number of additional modules
+  are necessary in order to have a fully functional assembler.  Some
+  of these modules are called from multiple stages and thus must be
+  able to function under many different conditions.  <xref
+   linkend="architecture-modular"> shows how the pipeline interfaces
+  with these additional modules to create a complete assembler.</para>
+
+ <figure id="architecture-modular">
+  <title>Modular Architecture of YASM</title>
+
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="architecture/modular" format="eps">
+   </imageobject>
+
+   <textobject>
+    <screen></screen>
+   </textobject>
+  </mediaobject>
+ </figure>
+
+ <para>A variety of support modules provide basic data structures and
+  I/O functions.  Many of these modules are called or used in some
+  fashion by nearly every module shown in <xref
+   linkend="architecture-modular">.  <xref
+   linkend="architecture-support"> shows the relationships between
+  these support modules.</para>
+
+ <figure id="architecture-support">
+  <title>YASM Support Modules</title>
+
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="architecture/support" format="eps">
+   </imageobject>
+
+   <textobject>
+    <screen></screen>
+   </textobject>
+  </mediaobject>
+ </figure>
+
+ <para><xref linkend="architecture-multi"> shows an example of a
+  built-out assembler with multiple preprocessors, parsers, object
+  formats, etc, and how all the pieces fit together.
+ </para>
+
+ <figure id="architecture-multi">
+  <title>Built-out YASM (example)</title>
+
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="architecture/multi" format="eps">
+   </imageobject>
+
+   <textobject>
+    <screen></screen>
+   </textobject>
+  </mediaobject>
+ </figure>
+</chapter>
+
+<!--
+     Local Variables:
+     mode: sgml
+     sgml-declaration: "../chapter.decl"
+     sgml-indent-data: t
+     sgml-indent-step: 1
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-parent-document: ("../book.sgml" "part" "chapter")
+     End:
+-->

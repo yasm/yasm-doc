@@ -1,0 +1,65 @@
+<!-- $IdPath$ -->
+<chapter id="coding-style">
+ <title>Coding Style</title>
+
+ <sect1 id="coding-stype-portability">
+  <title>Portability</title>
+
+  <para>For maximum portability, all code should conform to ANSI/ISO
+   C89 (C99 is not yet well-supported enough to be portable).
+   Prototypes should always be provided for all functions (we don't
+   attempt to be friendly to pre-ANSI C compilers; there are just too
+   many unknowns).</para>
+
+  <para>Adding small platform-specific features (such as using
+   <function>abort</function> instead of <function>exit</function> on
+   fatal errors) is allowed, but the functionality should be checked
+   for using <application>autoconf</application>.  Major
+   platform-specific features should be avoided unless the
+   functionality can be emulated on all platforms.  Path and directory
+   searches for header files fall into this latter category.</para>
+
+  <para>Functions which are standard in some environments but not
+   strictly ANSI C (such as <function>strdup</function> and
+   <function>strcasecmp</function>) should be checked for using
+   <application>autoconf</application> and functionally identical
+   replacements included in the package.</para>
+
+  <para>A small set of allocation replacements are provided that do
+   internal allocation failure (NULL return) checks.  These are named
+   identically to the functions they replace, with a prepended
+   <quote>x</quote>.  E.g. <function>xstrdup</function>,
+   <function>xmalloc</function>, etc.  These functions should be used
+   instead of the corresponding standard C library functions in order
+   to maintain standardized error checking and messages for all memory
+   allocation.</para>
+ </sect1>
+
+ <sect1 id="coding-style-formatting">
+  <title>Formatting and Indentation</title>
+
+  <para>An identation level of 4 spaces and 8 spaces to a tab should
+   be maintained.  However, at the present time no other specific
+   style rules are required.  While any formatting style can be used,
+   it is highly recommended that new code match existing code,
+   especially when modifying existing files.  There is an
+   <filename>.indent.pro</filename> file in the <filename
+    class="directory">src/</filename> directory that specifies the
+   <quote>standard</quote> (existing) style in the configuration
+   format used by GNU <application>indent</application>.  Note that
+   this file contains a list of all the typedefs declared in the
+   source.  Please keep this list current with the code.</para>
+ </sect1>
+</chapter>
+
+<!--
+     Local Variables:
+     mode: sgml
+     sgml-declaration: "../chapter.decl"
+     sgml-indent-data: t
+     sgml-indent-step: 1
+     sgml-omittag: nil
+     sgml-always-quote-attributes: t
+     sgml-parent-document: ("../book.sgml" "part" "chapter")
+     End:
+-->
