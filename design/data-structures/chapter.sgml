@@ -36,6 +36,16 @@
    <listitem>
     <para>Detect error conditions such as undefined labels.</para>
    </listitem>
+
+   <listitem>
+    <para>Output symbolic debugging information and a list
+     file.</para>
+   </listitem>
+
+   <listitem>
+    <para>Calculate (and re-calculate) sizes and relative positions of
+     instructions and data.</para>
+   </listitem>
   </itemizedlist>
 
   <para>Most, if not all, other assemblers accomplish the above goals
@@ -74,6 +84,99 @@
     </listitem>
    </itemizedlist>
   </sect2>
+
+  <sect2 id="data-structures.bytecode.data">
+   <title>Bytecode Data</title>
+
+   <para>To satisfy the above requirements, a good deal of data must
+    be kept in the <literal>bytecode</literal> data structure.  The
+    main bytecode data structure contains such information as:</para>
+
+   <itemizedlist>
+    <listitem>
+     <para>The number of multiples of the bytecode.  In some cases,
+      it's desirable to have an instruction or set of data values
+      repeated a number of times.  Rather than storing multiple copies
+      of the bytecode in memory, it saves memory to store the
+      numerical multiple.  In addition, the number of multiples may be
+      a more complex expression, depending on the sizes and locations
+      of other bytecodes.</para>
+    </listitem>
+
+    <listitem>
+     <para>The virtual line number (TODO: add reference) describing
+      the source location of the bytecode.  Used for symbolic
+      debugging output, list files, and error messages.</para>
+    </listitem>
+
+    <listitem>
+     <para>The total calculated length of the bytecode's contents.
+      While it may seem that this is a waste of space or a simple
+      space/speed tradeoff (instead of recalculating, we save the
+      calculated value), this actually has a more complex reason for
+      being present.  See the discussion on optimization for details
+      (TODO: add reference).</para>
+    </listitem>
+
+    <listitem>
+     <para>The starting offset of the bytecode.  Used to speed up
+      relative offset lookups from expressions.</para>
+    </listitem>
+   </itemizedlist>
+
+   <para>Additional data describing the actual contents of the
+    bytecode is associated with the above data.  There are two broad
+    categories of this data: assembler pseudo-instructions, which are
+    available on all architectures, and architecture-specific
+    instructions.  Data values are treated as
+    pseudo-instructions.</para>
+
+   <sect3 id="data-structures.bytecode.data.pseudo">
+    <title>Assembler Pseudo-Instructions</title>
+
+    <para></para>
+   </sect3>
+  </sect2>
+ </sect1>
+
+ <sect1 id="data-structures.section">
+  <title>Sections</title>
+
+  <para>Object files (and entire programs) are commonly divided into
+   multiple segments or sections.  Often these divisions are made
+   based on what the data will be used for during execution of the
+   program: code and various types of data.  To save disk space, many
+   object formats offer a special section that reserves memory space
+   for data but does not actually store any data in the object file:
+   UNIX systems usually refer to this section as the
+   <quote><literal>.bss</literal></quote> section.  An object file
+   typically has many sections of various types, and may include
+   special sections for debugging and symbol information.</para>
+
+  <para>In YASM, each section (or segment) described in the input file
+   is stored into a <literal>section</literal> structure.  The most
+   important data kept in the <literal>section</literal> structure is
+   a linked list of bytecodes describing the section's contents.
+   Other per-section data is also stored, including:</para>
+
+  <itemizedlist>
+   <listitem>
+    <para>The starting address of the section contents.  This
+     determines the virtual starting offset of data within the
+     section.</para>
+   </listitem>
+
+   <listitem>
+    <para>The (unique) section name.</para>
+   </listitem>
+
+   <listitem>
+    <para>Object format specific data.  Object formats may define
+     extensions to the standard section options.  The gathered data is
+     kept with the section it pertains to, in an object format defined
+     data structure.</para>
+   </listitem>
+  </itemizedlist>
  </sect1>
 </chapter>
 
