@@ -1,0 +1,13 @@
+The following tools are necessary for building most output formats of the
+design document (and other DocBook documentation) from their SGML sources:
+- BSD make (not the 'pmake' package, but the 'bmake' package, based on NetBSD's
+  make implementation).
+- HTML Tidy
+- Modular DocBook Stylesheets (DSSSL)
+- DocBook 4.1 DTD
+- XHTML DTD
+- OpenJade (recommended) or Jade
+- JadeTeX
+
+For those fortunate enough (IMHO) to be using FreeBSD, just install the docproj
+port or package to get all the tools necessary for building ALL output formats.
