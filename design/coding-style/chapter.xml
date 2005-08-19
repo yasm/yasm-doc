@@ -1,3 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!-- $IdPath$ -->
 <chapter id="coding-style">
  <title>Coding Style</title>
@@ -51,15 +54,3 @@
    source.  Please keep this list current with the code.</para>
  </sect1>
 </chapter>
-
-<!--
-     Local Variables:
-     mode: sgml
-     sgml-declaration: "../chapter.decl"
-     sgml-indent-data: t
-     sgml-indent-step: 1
-     sgml-omittag: nil
-     sgml-always-quote-attributes: t
-     sgml-parent-document: ("../book.sgml" "part" "chapter")
-     End:
--->

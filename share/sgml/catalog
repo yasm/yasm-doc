@@ -1,8 +1,0 @@
--- ECE 291 SGML Public Identifiers --
--- $IdPath$ --
-
-PUBLIC "-//YASM//DTD DocBook V4.1-Based Extension//EN" "yasm.dtd"
-
-PUBLIC "-//YASM//DOCUMENT DocBook Stylesheet//EN" "yasm.dsl"
-
-PUBLIC "-//YASM//ENTITIES DocBook Register Entities//EN" "registers.ent"

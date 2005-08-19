@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % chapters SYSTEM "chapters.ent">
+%chapters;
+]>
+<!-- $IdPath$ -->
+<book>
+ <bookinfo>
+  <title>The Design and Implementation of the YASM Modular
+   Assembler</title>
+
+  <authorgroup>
+   <author>
+    <firstname>Peter</firstname>
+    <surname>Johnson</surname>
+    <affiliation>
+     <address><email>yasm-doc@tortall.net</email></address>
+    </affiliation>
+   </author>
+  </authorgroup>
+ </bookinfo>
+
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.introduction;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.goals;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.architecture;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.data-structures;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.coding-style;" />
+</book>

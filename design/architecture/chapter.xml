@@ -1,3 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!-- $IdPath$ -->
 <chapter id="architecture">
  <title>Architecture</title>
@@ -12,15 +15,15 @@
   module may be simultaneously compiled in and are user-selectable at
   runtime via command-line or other configuration methods.</para>
 
- <para><xref linkend="architecture-pipeline"> illustrates the 3-stage
+ <para><xref linkend="architecture-pipeline"/> illustrates the 3-stage
   pipeline architecture of the assembler, and where each particular
   interface fits between the pipeline stages.  The data passed between
   each stage is structured as a linked list of bytecodes (an internal
   representation of a machine instruction or assembler
   pseudo-instruction, see <xref
-   linkend="data-structures.bytecode"> for more information).  Two
+   linkend="data-structures.bytecode"/> for more information).  Two
   additional stages are shown in <xref
-   linkend="architecture-pipeline">, the preprocessor and the debug
+   linkend="architecture-pipeline"/>, the preprocessor and the debug
   format, which while being major components of the overall
   architecture, execute in parallel with a main pipeline stage.</para>
 
@@ -34,60 +37,57 @@
   <title>Pipeline Architecture of YASM</title>
 
   <mediaobject>
-   <imageobject>
-    <imagedata fileref="architecture/pipeline" format="eps">
+   <imageobject role="fo">
+    <imagedata fileref="pipeline.svg" format="SVG" />
    </imageobject>
-
-   <textobject>
-    <screen></screen>
-    </textobject>
+   <imageobject role="html">
+    <imagedata fileref="pipeline.png" format="PNG" />
+   </imageobject>
   </mediaobject>
  </figure>
 
  <para>In addition to the main pipeline shown in <xref
-   linkend="architecture-pipeline">, a number of additional modules
+   linkend="architecture-pipeline"/>, a number of additional modules
   are necessary in order to have a fully functional assembler.  Some
   of these modules are called from multiple stages and thus must be
   able to function under many different conditions.  <xref
-   linkend="architecture-modular"> shows how the pipeline interfaces
+   linkend="architecture-modular"/> shows how the pipeline interfaces
   with these additional modules to create a complete assembler.</para>
 
  <figure id="architecture-modular">
   <title>Modular Architecture of YASM</title>
 
   <mediaobject>
-   <imageobject>
-    <imagedata fileref="architecture/modular" format="eps">
+   <imageobject role="fo">
+    <imagedata fileref="modular.svg" format="SVG" />
    </imageobject>
-
-   <textobject>
-    <screen></screen>
-   </textobject>
+   <imageobject role="html">
+    <imagedata fileref="modular.png" format="PNG" />
+   </imageobject>
   </mediaobject>
  </figure>
 
  <para>A variety of support modules provide basic data structures and
   I/O functions.  Many of these modules are called or used in some
   fashion by nearly every module shown in <xref
-   linkend="architecture-modular">.  <xref
-   linkend="architecture-support"> shows the relationships between
+   linkend="architecture-modular"/>.  <xref
+   linkend="architecture-support"/> shows the relationships between
   these support modules.</para>
 
  <figure id="architecture-support">
   <title>YASM Support Modules</title>
 
   <mediaobject>
-   <imageobject>
-    <imagedata fileref="architecture/support" format="eps">
+   <imageobject role="fo">
+    <imagedata fileref="support.svg" format="SVG" />
    </imageobject>
-
-   <textobject>
-    <screen></screen>
-   </textobject>
+   <imageobject role="html">
+    <imagedata fileref="support.png" format="PNG" />
+   </imageobject>
   </mediaobject>
  </figure>
 
- <para><xref linkend="architecture-multi"> shows an example of a
+ <para><xref linkend="architecture-multi"/> shows an example of a
   built-out assembler with multiple preprocessors, parsers, object
   formats, etc, and how all the pieces fit together.
  </para>
@@ -96,25 +96,12 @@
   <title>Built-out YASM (example)</title>
 
   <mediaobject>
-   <imageobject>
-    <imagedata fileref="architecture/multi" format="eps">
+   <imageobject role="fo">
+    <imagedata fileref="multi.svg" format="SVG" />
    </imageobject>
-
-   <textobject>
-    <screen></screen>
-   </textobject>
+   <imageobject role="html">
+    <imagedata fileref="multi.png" format="PNG" />
+   </imageobject>
   </mediaobject>
  </figure>
 </chapter>
-
-<!--
-     Local Variables:
-     mode: sgml
-     sgml-declaration: "../chapter.decl"
-     sgml-indent-data: t
-     sgml-indent-step: 1
-     sgml-omittag: nil
-     sgml-always-quote-attributes: t
-     sgml-parent-document: ("../book.sgml" "part" "chapter")
-     End:
--->

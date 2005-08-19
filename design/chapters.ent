@@ -1,5 +1,5 @@
-<!ENTITY chap.introduction            SYSTEM "introduction/chapter.sgml">
-<!ENTITY chap.goals                   SYSTEM "goals/chapter.sgml">
-<!ENTITY chap.architecture            SYSTEM "architecture/chapter.sgml">
-<!ENTITY chap.data-structures         SYSTEM "data-structures/chapter.sgml">
-<!ENTITY chap.coding-style            SYSTEM "coding-style/chapter.sgml">
+<!ENTITY chap.introduction            "introduction/chapter.xml">
+<!ENTITY chap.goals                   "goals/chapter.xml">
+<!ENTITY chap.architecture            "architecture/chapter.xml">
+<!ENTITY chap.data-structures         "data-structures/chapter.xml">
+<!ENTITY chap.coding-style            "coding-style/chapter.xml">
