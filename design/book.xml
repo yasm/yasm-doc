@@ -4,11 +4,10 @@
 <!ENTITY % chapters SYSTEM "chapters.ent">
 %chapters;
 ]>
-<!-- $IdPath$ -->
+<!-- $Id$ -->
 <book>
  <bookinfo>
-  <title>The Design and Implementation of the YASM Modular
-   Assembler</title>
+  <title>The Design and Implementation of the Yasm Assembler</title>
 
   <authorgroup>
    <author>

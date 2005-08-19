@@ -1,73 +1,63 @@
 <?xml version="1.0"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $IdPath$ -->
+<!-- $Id$ -->
 <chapter id="goals">
  <title>Goals</title>
 
- <para>The goal of the YASM project is to write an assember that takes
-  over NASM's current and future user base.  The first release will
-  have all the major features of NASM, plus certain new features that
-  some NASM users have been wanting for some time.  In general, YASM
-  works like NASM, except where there's a compelling reason to be
-  different.  Later releases of YASM may provide all the major
-  features of (and support the syntax of) other assemblers such as
-  GAS, TASM, and MASM.  To allow these features to be added at a
-  future time, the assembler is structured in a very modular
-  fashion.</para>
+ <para>The goal of the yasm project is to write an assember that is a
+  more easily extendible version of NASM, ultimately allowing for
+  machine architectures other than x86 and multiple assembler syntaxes
+  (such as TASM and GAS in addition to NASM).  In general, yasm tries
+  to work like NASM, except where there's a compelling reason to be
+  different.  To allow these features, the yasm assembler is
+  structured in a very modular fashion.</para>
 
- <para>So what does YASM have that NASM doesn't?</para>
+ <sect1 id="goals.internal-features">
+  <title>Key Internal Features</title>
 
- <itemizedlist>
-  <listitem>
-   <para>Its parser and lexer are written in yacc and lex.  This
-    simplifies the source code and increases performance:
-    yacc-generated parsers are almost always faster than hand-written
-    ones.  Also, yacc and lex (and their GNU implementations, bison
-    and flex) both are extremely well-tested and well-documented
-    tools.</para>
-  </listitem>
+  <itemizedlist>
+   <listitem>
+    <para>A NASM syntax parser written in yacc. This simplifies the
+     source code and increases performance: yacc-generated parsers are
+     almost always faster than hand-written ones. Also, yacc (and its
+     GNU implementation, bison) is an extremely well-tested and
+     well-documented tool.</para>
+   </listitem>
 
-  <listitem>
-   <para>Ability to emulate other assemblers such as GAS, TASM, and
-    MASM (eventually).</para>
-  </listitem>
+   <listitem>
+    <para>Architecture-specific instruction parsers hand-written for
+     simplicity and size, as well as to make it easy to add additional
+     architectures while retaining the same front-end syntax. The
+     blend of yacc for syntax and a hand-written parser for
+     instructions strikes a great balance between the strengths and
+     weaknesses of each approach.</para>
+   </listitem>
 
-  <listitem>
-   <para>An optimizer module that allows for multiple levels and types
-    of optimization.  Everything from only minimal optimization (such
-    as in NASM) to multi-pass jump optimization is provided.</para>
-  </listitem>
+   <listitem>
+    <para>A NASM syntax lexer written in re2c. A highly efficient
+     scanner generator (almost always faster than lex/flex), it's also
+     very embeddable due to its code generation methodology, allowing
+     a number of re2c scanners to be used in various places in yasm
+     without any worries about naming conflicts.</para>
+   </listitem>
 
-  <listitem>
-   <para>Adjustable instruction set support via advanced CPU
-    directive.</para>
-  </listitem>
+   <listitem>
+    <para>Many of the modular interfaces at least superficially
+     finished. This is still an area that needs a lot of work.</para>
+   </listitem>
 
-  <listitem>
-   <para>AMD x86-64 support (enabled using the "BITS 64"
-    directive).</para>
-  </listitem>
+   <listitem>
+    <para>A small set of portable equivalants of useful functions that
+     are standard on some systems (detected via configure), such as
+     the queue(3) set of functions, strdup, strcasecmp, and
+     mergesort.</para>
+   </listitem>
 
-  <listitem>
-   <para>More debugging formats: notably COFF, ELF, and both Microsoft
-    and Borland OBJ.</para>
-  </listitem>
-
-  <listitem>
-   <para>Completely modularized: it is designed for multiple
-    preprocessors, parsers, optimizers, object formats, and debugging
-    formats.  Multiple instruction sets may be supported with some
-    additional effort.</para>
-  </listitem>
-
-  <listitem>
-   <para>Internationalization support for error and warning
-    messages.</para>
-  </listitem>
- </itemizedlist>
-
- <para>Some of these advantages are clear and require no further
-  discussion.  Others are not so obvious, and are explained in greater
-  detail below.</para>
+   <listitem>
+    <para>A decent (and growing) set of assembler test input files to
+     test the entire assembler as well as specific modules.</para>
+   </listitem>
+  </itemizedlist>
+ </sect1>
 </chapter>

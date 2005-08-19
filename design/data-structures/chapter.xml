@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $IdPath$ -->
+<!-- $Id$ -->
 <chapter id="data-structures">
  <title>Data Structures</title>
 
- <para>YASM, like other assemblers and compilers, is at its heart just
+ <para>Yasm, like other assemblers and compilers, is at its heart just
   a data processing application.  It transforms data from one form
   (ASCII source code) to another (binary object code).  Thus, the data
   structures used to keep track of the internal state of the assembler
   are the most important things for a coder working on the assembler
   to understand.  This chapter attempts to present reasoned
   explanations for the many decisions made while designing the most
-  important data structures in the YASM assembler.</para>
+  important data structures in the yasm assembler.</para>
 
  <sect1 id="data-structures.bytecode">
   <title>Bytecodes</title>
@@ -20,7 +20,7 @@
   <para>The use of <quote>bytecodes</quote> as the basic building
    block of the assembler was a fundamental requirement of both the
    goals (see <xref linkend="goals"/>) and the architecture (see <xref
-    linkend="architecture"/>) of YASM.  A bytecode is essentially
+    linkend="architecture"/>) of yasm.  A bytecode is essentially
    nothing more than a single machine instruction or assembler
    pseudo-instruction stored in an expanded format that keeps track of
    all the internal state information needed by the assembler
@@ -52,14 +52,14 @@
   </itemizedlist>
 
   <para>Most, if not all, other assemblers accomplish the above goals
-   by re-parsing the source code in multiple passes.  As YASM only
+   by re-parsing the source code in multiple passes.  As yasm only
    parses the code once, bytecodes are needed to store all the
    information for every parsed instruction and pseudo-instruction.
    This fundamental difference is a tradeoff choice between processing
    time and required memory space.  The bytecode method requires that
    the entire source file's content must be stored in memory at one
    time (its content in terms of assembler state, not the actual ASCII
-   source).  To minimize the memory space that must be used, the YASM
+   source).  To minimize the memory space that must be used, the yasm
    implementation tries to make the bytecode size as small as
    possible.</para>
 
@@ -156,7 +156,7 @@
    typically has many sections of various types, and may include
    special sections for debugging and symbol information.</para>
 
-  <para>In YASM, each section (or segment) described in the input file
+  <para>In yasm, each section (or segment) described in the input file
    is stored into a <literal>section</literal> structure.  The most
    important data kept in the <literal>section</literal> structure is
    a linked list of bytecodes describing the section's contents.

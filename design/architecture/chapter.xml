@@ -5,13 +5,13 @@
 <chapter id="architecture">
  <title>Architecture</title>
 
- <para>YASM is conceptually divided into a number of separable
+ <para>Yasm is conceptually divided into a number of separable
   modules.</para>
 
  <para>Assuming that the programmatic interface of each module is
   well-defined, it is easy to customize the different parts of the
   assembler.  Contributors can write new parsers, new preprocessors,
-  new optimizers, and new object formats.  Multiple versions of each
+  new optimizers, and new object formats.  Multiple types of each
   module may be simultaneously compiled in and are user-selectable at
   runtime via command-line or other configuration methods.</para>
 
@@ -20,21 +20,18 @@
   interface fits between the pipeline stages.  The data passed between
   each stage is structured as a linked list of bytecodes (an internal
   representation of a machine instruction or assembler
-  pseudo-instruction, see <xref
-   linkend="data-structures.bytecode"/> for more information).  Two
-  additional stages are shown in <xref
+  pseudo-instruction, see <xref linkend="data-structures.bytecode"/>
+  for more information).  Two additional stages are shown in <xref
    linkend="architecture-pipeline"/>, the preprocessor and the debug
   format, which while being major components of the overall
   architecture, execute in parallel with a main pipeline stage.</para>
 
- <note>
-  <para>Strictly speaking, YASM isn't a pipeline in the traditional
-   computer architecture sense of the word, as none of the stages
-   execute in parallel.</para>
- </note>
+ <para>However, yasm isn't a pipeline in the traditional computer
+  architecture sense of the word, as none of the stages execute in
+  parallel.</para>
 
  <figure id="architecture-pipeline">
-  <title>Pipeline Architecture of YASM</title>
+  <title>Pipeline Architecture of Yasm</title>
 
   <mediaobject>
    <imageobject role="fo">
@@ -55,7 +52,7 @@
   with these additional modules to create a complete assembler.</para>
 
  <figure id="architecture-modular">
-  <title>Modular Architecture of YASM</title>
+  <title>Modular Architecture of Yasm</title>
 
   <mediaobject>
    <imageobject role="fo">
@@ -75,7 +72,7 @@
   these support modules.</para>
 
  <figure id="architecture-support">
-  <title>YASM Support Modules</title>
+  <title>Yasm Support Modules</title>
 
   <mediaobject>
    <imageobject role="fo">
@@ -93,7 +90,7 @@
  </para>
 
  <figure id="architecture-multi">
-  <title>Built-out YASM (example)</title>
+  <title>Built-out Yasm (example)</title>
 
   <mediaobject>
    <imageobject role="fo">

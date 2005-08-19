@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $IdPath$ -->
+<!-- $Id$ -->
 <chapter id="coding-style">
  <title>Coding Style</title>
 
@@ -45,12 +45,6 @@
    be maintained.  However, at the present time no other specific
    style rules are required.  While any formatting style can be used,
    it is highly recommended that new code match existing code,
-   especially when modifying existing files.  There is an
-   <filename>.indent.pro</filename> file in the <filename
-    class="directory">src/</filename> directory that specifies the
-   <quote>standard</quote> (existing) style in the configuration
-   format used by GNU <application>indent</application>.  Note that
-   this file contains a list of all the typedefs declared in the
-   source.  Please keep this list current with the code.</para>
+   especially when modifying existing files.</para>
  </sect1>
 </chapter>
