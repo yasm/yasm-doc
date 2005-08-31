@@ -18,11 +18,49 @@
     </affiliation>
    </author>
   </authorgroup>
+
+  <pubdate>2005</pubdate>
+
+  <copyright>
+   <year>2001</year>
+   <year>2002</year>
+   <year>2005</year>
+   <holder>Peter Johnson</holder>
+  </copyright>
+
+  <abstract>
+   <para>This document describes the internals of the yasm assembler.
+    It is written by and for the developers of yasm, not for the
+    users.  It is not necessary to read or understand any part of this
+    document unless you are working with yasm's source code or are
+    just plain curious how yasm works internally.</para>
+
+   <para>Note that this design document may not always be in sync with
+    the source code, although we try to do our best to update this
+    document when changes are made to the source.  If you notice any
+    discrepencies, please feel free to fix them (or at least notify
+    the development group about it).</para>
+  </abstract>
  </bookinfo>
 
- <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.introduction;" />
- <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.goals;" />
- <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.architecture;" />
- <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.data-structures;" />
- <xi:include xmlns:xi="http://www.w3.org/2003/XInclude" href="&chap.coding-style;" />
+ <!-- Front matter -->
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="preface.xml" />
+
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="&chap.goals;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="&chap.architecture;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="&chap.data-structures;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="&chap.parsing;" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="&chap.coding-style;" />
+
+ <!-- Back matter -->
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="bibliography.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="glossary.xml" />
 </book>

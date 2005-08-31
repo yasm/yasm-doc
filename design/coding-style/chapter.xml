@@ -41,7 +41,7 @@
  <sect1 id="coding-style.formatting">
   <title>Formatting and Indentation</title>
 
-  <para>An identation level of 4 spaces and 8 spaces to a tab should
+  <para>An indentation level of 4 spaces and 8 spaces to a tab should
    be maintained.  However, at the present time no other specific
    style rules are required.  While any formatting style can be used,
    it is highly recommended that new code match existing code,

@@ -1,5 +1,5 @@
-<!ENTITY chap.introduction            "introduction/chapter.xml">
 <!ENTITY chap.goals                   "goals/chapter.xml">
 <!ENTITY chap.architecture            "architecture/chapter.xml">
 <!ENTITY chap.data-structures         "data-structures/chapter.xml">
+<!ENTITY chap.parsing                 "parsing/chapter.xml">
 <!ENTITY chap.coding-style            "coding-style/chapter.xml">

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<preface id="preface">
+ <title>Preface</title>
+
+ <para>Yasm, according to the classifications given by <biblioref
+   linkend="Saloman92" />, is a one-pass macro meta-assembler.  In
+  essence this jumble of words means that yasm reads the source file
+  once, supports macros, and can target many different instruction
+  sets.  However, yasm also falls outside the set of definitions given
+  by Saloman: while it is a one-pass assembler in that it only reads
+  the source file once, it performs many in-memory passes over the
+  source <emphasis>contents</emphasis> during assembly, and usually
+  performs a number of out-of-order passes as well.</para>
+
+ <para>Nearly all large assemblers prior to yasm were forced to make
+  multiple passes over the source code due to memory limitations.
+  Yasm was designed with the modern system in mind, in which the
+  amount of memory available in the system is vastly greater than the
+  size of an entire executable, and certainly greater than the size of
+  a single object file.</para>
+
+ <para>The design of yasm thus relies on the fundamental assumption
+  that the parse of the source file is only performed once, and the
+  entire source file contents are available in memory for use by later
+  stages of assembly.</para>
+
+ <simplesect>
+  <title>Material Covered in this Book</title>
+
+  <para>This book is about the <emphasis>internal</emphasis> structure
+   of the yasm assembler: how the core libyasm library, modules, and
+   frontend interoperate and the algorithms used in the process of
+   turning a source file into an object file.  While there will be
+   some mention of yasm's user interface, that is not the primary
+   focus of this book.</para>
+
+  <para>As yasm started out as an x86 architecture, NASM syntax
+   assembler, most examples in this book will use x86 instructions and
+   the NASM assembler syntax.  The concepts will generally apply to
+   all architectures and syntaxes supported by yasm, but these provide
+   a convenient point of reference.</para>
+
+ </simplesect>
+</preface>

@@ -5,8 +5,8 @@
 <chapter id="goals">
  <title>Goals</title>
 
- <para>The goal of the yasm project is to write an assember that is a
-  more easily extendible version of NASM, ultimately allowing for
+ <para>The goal of the yasm project is to write an assembler that is a
+  more easily extensible version of NASM, ultimately allowing for
   machine architectures other than x86 and multiple assembler syntaxes
   (such as TASM and GAS in addition to NASM).  In general, yasm tries
   to work like NASM, except where there's a compelling reason to be
@@ -18,9 +18,9 @@
 
   <itemizedlist>
    <listitem>
-    <para>A NASM syntax parser written in yacc. This simplifies the
-     source code and increases performance: yacc-generated parsers are
-     almost always faster than hand-written ones. Also, yacc (and its
+    <para>A NASM syntax parser written in Yacc. This simplifies the
+     source code and increases performance: Yacc-generated parsers are
+     almost always faster than hand-written ones. Also, Yacc (and its
      GNU implementation, bison) is an extremely well-tested and
      well-documented tool.</para>
    </listitem>
@@ -29,7 +29,7 @@
     <para>Architecture-specific instruction parsers hand-written for
      simplicity and size, as well as to make it easy to add additional
      architectures while retaining the same front-end syntax. The
-     blend of yacc for syntax and a hand-written parser for
+     blend of Yacc for syntax and a hand-written parser for
      instructions strikes a great balance between the strengths and
      weaknesses of each approach.</para>
    </listitem>
@@ -48,7 +48,7 @@
    </listitem>
 
    <listitem>
-    <para>A small set of portable equivalants of useful functions that
+    <para>A small set of portable equivalents of useful functions that
      are standard on some systems (detected via configure), such as
      the queue(3) set of functions, strdup, strcasecmp, and
      mergesort.</para>

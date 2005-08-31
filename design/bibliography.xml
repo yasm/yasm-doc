@@ -1,0 +1,52 @@
+<!DOCTYPE bibliography PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<bibliography>
+ <title>Bibliography</title>
+
+ <biblioentry id="AhoSethiUllman96">
+  <abbrev>AhoSethiUllman96</abbrev>
+  <authorgroup>
+   <author><firstname>Alfred V.</firstname><surname>Aho</surname></author>
+   <author><firstname>Ravi</firstname><surname>Sethi</surname></author>
+   <author><firstname>Jeffrey D.</firstname><surname>Ullman</surname></author>
+  </authorgroup>
+  <copyright>
+   <year>1996</year>
+   <holder>Bell Telephone Laboratories, Inc.</holder>
+  </copyright>
+  <editor><firstname>James T.</firstname><surname>DeWolf</surname></editor>
+  <isbn>0-201-10088-6</isbn>
+  <publisher>
+   <publishername>Addison-Wesley Publishing Company</publishername>
+  </publisher>
+  <title>Compilers, Principles, Techniques, and Tools</title>
+ </biblioentry>
+
+ <biblioentry id="Levine00">
+  <abbrev>Levine00</abbrev>
+  <author><firstname>John R.</firstname><surname>Levine</surname></author>
+  <copyright>
+   <year>2000</year>
+   <holder>Academic Press</holder>
+  </copyright>
+  <isbn>1-55860-496-0</isbn>
+  <publisher>
+   <publishername>Morgan Kaufmann Publishers</publishername>
+  </publisher>
+  <title>Linkers and Loaders</title>
+ </biblioentry>
+
+ <biblioentry id="Saloman92">
+  <abbrev>Saloman92</abbrev>
+  <author><firstname>David</firstname><surname>Saloman</surname></author>
+  <copyright>
+   <year>1992</year>
+   <holder>Ellis Horwood Limited</holder>
+  </copyright>
+  <isbn>0-13-052564-2</isbn>
+  <publisher>
+   <publishername>Ellis Horwood Limited</publishername>
+  </publisher>
+  <title>Assemblers and Loaders</title>
+ </biblioentry>
+</bibliography>

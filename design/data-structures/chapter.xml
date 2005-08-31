@@ -55,7 +55,7 @@
    by re-parsing the source code in multiple passes.  As yasm only
    parses the code once, bytecodes are needed to store all the
    information for every parsed instruction and pseudo-instruction.
-   This fundamental difference is a tradeoff choice between processing
+   This fundamental difference is a trade-off choice between processing
    time and required memory space.  The bytecode method requires that
    the entire source file's content must be stored in memory at one
    time (its content in terms of assembler state, not the actual ASCII
@@ -115,7 +115,7 @@
     <listitem>
      <para>The total calculated length of the bytecode's contents.
       While it may seem that this is a waste of space or a simple
-      space/speed tradeoff (instead of recalculating, we save the
+      space/speed trade-off (instead of recalculating, we save the
       calculated value), this actually has a more complex reason for
       being present.  See the discussion on optimization for details
       (TODO: add reference).</para>
