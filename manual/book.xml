@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY % chapters SYSTEM "chapters.ent">
+%chapters;
+]>
+<!-- $Id$ -->
+<book>
+ <bookinfo>
+  <title>Yasm User Manual</title>
+
+  <authorgroup>
+   <author>
+    <firstname>Peter</firstname>
+    <surname>Johnson</surname>
+    <affiliation>
+     <address><email>yasm-doc@tortall.net</email></address>
+    </affiliation>
+   </author>
+  </authorgroup>
+
+  <pubdate>2006</pubdate>
+
+  <copyright>
+   <year>2006</year>
+   <holder>Peter Johnson</holder>
+  </copyright>
+
+  <abstract>
+   <para>This document is the user manual for the Yasm assembler.  It
+    is intended as both an introduction and a general-purpose
+    reference for all Yasm users.</para>
+  </abstract>
+ </bookinfo>
+
+ <!-- Front matter -->
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="introduction.xml" />
+ <!--
+ <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+  href="&chap.running;" />
+
+ <part id="nasm">
+  <title>NASM Syntax</title>
+
+  <partintro>
+   <para>The chapters in this part of the book document the
+    NASM-compatible syntax accepted by the Yasm <quote>nasm</quote>
+    parser and preprocessor.</para>
+  </partintro>
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.nasm-language;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.nasm-preprocessor;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.nasm-directives;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.nasm-architectures;" />
+ </part>
+
+ <part id="gas">
+  <title>GAS Parser Syntax</title>
+
+  <partintro>
+   <para>The chapters in this part of the book document the
+    GAS-compatible syntax accepted by the Yasm <quote>gas</quote>
+    parser.</para>
+  </partintro>
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.gas-language;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.gas-directives;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.gas-architectures;" />
+ </part>
+
+ <part id="gas">
+  <title>Object Formats</title>
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.bin-objfmt;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.coff-objfmt;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.elf-objfmt;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.win32-objfmt;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.win64-objfmt;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.xdf-objfmt;" />
+ </part>
+
+ -->
+ <!-- Back matter -->
+</book>
