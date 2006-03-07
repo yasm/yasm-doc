@@ -9,13 +9,16 @@
 <!ENTITY chap.gas-directives          "gas-directives/chapter.xml">
 <!ENTITY chap.gas-architectures       "gas-architectures/chapter.xml">
 
-<!ENTITY chap.bin-objfmt              "bin-objfmt/chapter.xml">
-<!ENTITY chap.coff-objfmt             "coff-objfmt/chapter.xml">
-<!ENTITY chap.elf-objfmt              "elf-objfmt/chapter.xml">
-<!ENTITY chap.win32-objfmt            "win32-objfmt/chapter.xml">
-<!ENTITY chap.win64-objfmt            "win64-objfmt/chapter.xml">
-<!ENTITY chap.xdf-objfmt              "xdf-objfmt/chapter.xml">
+<!ENTITY chap.objfmt-bin              "objfmt-bin/chapter.xml">
+<!ENTITY chap.objfmt-coff             "objfmt-coff/chapter.xml">
+<!ENTITY chap.objfmt-elf              "objfmt-elf/chapter.xml">
+<!ENTITY chap.objfmt-win32            "objfmt-win32/chapter.xml">
+<!ENTITY chap.objfmt-win64            "objfmt-win64/chapter.xml">
+<!ENTITY chap.objfmt-xdf              "objfmt-xdf/chapter.xml">
 
-<!ENTITY chap.dwarf2-dbgfmt           "dwarf2-dbgfmt/chapter.xml">
-<!ENTITY chap.stabs-dbgfmt            "stabs-dbgfmt/chapter.xml">
+<!ENTITY chap.dbgfmt-dwarf2           "dbgfmt-dwarf2/chapter.xml">
+<!ENTITY chap.dbgfmt-stabs            "dbgfmt-stabs/chapter.xml">
+
+<!ENTITY chap.arch-lc3b               "arch-lc3b/chapter.xml">
+<!ENTITY chap.arch-x86                "arch-x86/chapter.xml">
 

@@ -8,6 +8,7 @@ DBLATEX?= dblatex
 
 SOURCES=  book.xml
 SOURCES+= introduction.xml
+SOURCES+= running/chapter.xml
 
 EPSIMAGES=
 
@@ -32,7 +33,7 @@ html-split: fullbook.xml ${PNGIMAGES}
 
 pdf: manual.pdf
 manual.pdf: fullbook.xml
-	${DBLATEX} -t pdf -T db2latex -o manual.pdf fullbook.xml
+	${DBLATEX} -t pdf -T db2latex -b pdftex -o manual.pdf fullbook.xml
 
 fullbook.xml: ${SOURCES}
 	${XMLLINT} --xinclude book.xml > fullbook.xml

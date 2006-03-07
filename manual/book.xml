@@ -36,7 +36,7 @@
  <!-- Front matter -->
  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
   href="introduction.xml" />
- <!--
+
  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
   href="&chap.running;" />
 
@@ -48,7 +48,7 @@
     NASM-compatible syntax accepted by the Yasm <quote>nasm</quote>
     parser and preprocessor.</para>
   </partintro>
-
+  <!--
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.nasm-language;" />
 
@@ -60,17 +60,18 @@
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.nasm-architectures;" />
+  -->
  </part>
 
  <part id="gas">
-  <title>GAS Parser Syntax</title>
+  <title>GAS Syntax</title>
 
   <partintro>
-   <para>The chapters in this part of the book document the
-    GAS-compatible syntax accepted by the Yasm <quote>gas</quote>
+   <para>The chapters in this part of the book document the GNU
+    AS-compatible syntax accepted by the Yasm <quote>gas</quote>
     parser.</para>
   </partintro>
-
+  <!--
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.gas-language;" />
 
@@ -79,40 +80,68 @@
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.gas-architectures;" />
+  -->
  </part>
 
  <part id="objfmts">
   <title>Object Formats</title>
 
+  <partintro>
+   <para>The chapters in this part of the book document Yasm's support
+    for various object file formats.</para>
+  </partintro>
+  <!--
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.bin-objfmt;" />
+   href="&chap.objfmt-bin;" />
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.coff-objfmt;" />
+   href="&chap.objfmt-coff;" />
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.elf-objfmt;" />
+   href="&chap.objfmt-elf;" />
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.win32-objfmt;" />
+   href="&chap.objfmt-win32;" />
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.win64-objfmt;" />
+   href="&chap.objfmt-win64;" />
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.xdf-objfmt;" />
+   href="&chap.objfmt-xdf;" />
+  -->
  </part>
 
  <part id="dbgfmts">
-  <title>Object Formats</title>
+  <title>Debugging Formats</title>
+
+  <partintro>
+   <para>The chapters in this part of the book document Yasm's support
+    for various debugging formats.</para>
+  </partintro>
+  <!--
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.dbgfmt-dwarf2;" />
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.dwarf2-dbgfmt;" />
-
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.stabs-dbgfmt;" />
+   href="&chap.dbgfmt-stabs;" />
+  -->
  </part>
 
- -->
+ <part id="architectures">
+  <title>Architectures</title>
+
+  <partintro>
+   <para>The chapters in this part of the book document Yasm's support
+    for various instruction set architectures.</para>
+  </partintro>
+  <!--
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.arch-lc3b;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.arch-x86;" />
+  -->
+ </part>
+
  <!-- Back matter -->
 </book>
