@@ -1,14 +1,21 @@
 <!ENTITY chap.running                 "running/chapter.xml">
+
 <!ENTITY chap.nasm-language           "nasm-language/chapter.xml">
 <!ENTITY chap.nasm-preprocessor       "nasm-preprocessor/chapter.xml">
 <!ENTITY chap.nasm-directives         "nasm-directives/chapter.xml">
 <!ENTITY chap.nasm-architectures      "nasm-architectures/chapter.xml">
+
 <!ENTITY chap.gas-language            "gas-language/chapter.xml">
 <!ENTITY chap.gas-directives          "gas-directives/chapter.xml">
 <!ENTITY chap.gas-architectures       "gas-architectures/chapter.xml">
+
 <!ENTITY chap.bin-objfmt              "bin-objfmt/chapter.xml">
 <!ENTITY chap.coff-objfmt             "coff-objfmt/chapter.xml">
 <!ENTITY chap.elf-objfmt              "elf-objfmt/chapter.xml">
 <!ENTITY chap.win32-objfmt            "win32-objfmt/chapter.xml">
 <!ENTITY chap.win64-objfmt            "win64-objfmt/chapter.xml">
 <!ENTITY chap.xdf-objfmt              "xdf-objfmt/chapter.xml">
+
+<!ENTITY chap.dwarf2-dbgfmt           "dwarf2-dbgfmt/chapter.xml">
+<!ENTITY chap.stabs-dbgfmt            "stabs-dbgfmt/chapter.xml">
+
