@@ -81,7 +81,7 @@
    href="&chap.gas-architectures;" />
  </part>
 
- <part id="gas">
+ <part id="objfmts">
   <title>Object Formats</title>
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
@@ -101,6 +101,16 @@
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.xdf-objfmt;" />
+ </part>
+
+ <part id="dbgfmts">
+  <title>Object Formats</title>
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.dwarf2-dbgfmt;" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+   href="&chap.stabs-dbgfmt;" />
  </part>
 
  -->

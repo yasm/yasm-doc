@@ -18,7 +18,7 @@
   <para>Yasm started life in 2001 as a rewrite of the NASM (Netwide)
    x86 assembler under the BSD license.  Since then, it has matched
    and exceeded NASM's capabilities, incorporating features such as
-   support for the 64-bit AMD64 architecture, parsing GNU AS syntax,
+   supporting the 64-bit AMD64 architecture, parsing GNU AS syntax,
    and generating STABS and DWARF2 debugging information.</para>
 
   <para>Yasm supports the following instruction set architectures
@@ -93,7 +93,7 @@
 
     <listitem>
      <para>The <quote>bin</quote> object format produces a
-      flat-format, non-relocable binary file.  It is appropriate for
+      flat-format, non-relocatable binary file.  It is appropriate for
       producing DOS .COM executables or things like boot blocks.  It
       supports only 3 sections and those sections are written in a
       predefined order to the output file.</para>
@@ -104,7 +104,7 @@
     <term>coff</term>
 
     <listitem>
-     <para>The COFF object format is an older relocateable object
+     <para>The COFF object format is an older relocatable object
       format used on older Unix and compatible systems, and also (more
       recently) on the DJGPP development system for DOS.</para>
     </listitem>
@@ -199,7 +199,7 @@
       compact descriptions of data structures, data variable movement,
       and complex language structures such as in C++.  The debugging
       information is stored in sections (just like normal program
-      sections) in the object file.  Yasm supports full passthrough of
+      sections) in the object file.  Yasm supports full pass-through of
       DWARF2 debugging information (e.g. from a C++ compiler), and can
       also generate assembly-level line number information.</para>
     </listitem>
