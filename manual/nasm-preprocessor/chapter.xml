@@ -1649,7 +1649,7 @@ fib_number equ ($-fibonacci)/2</programlisting>
   </indexterm>
 
   <para>Using, once again, a very similar syntax to the C
-   preprocessor, NASM's preprocessor lets you include other source
+   preprocessor, the NASM preprocessor lets you include other source
    files into your code. This is done by the use of the
    <literal>%include</literal> directive:</para>
 
@@ -1663,16 +1663,18 @@ fib_number equ ($-fibonacci)/2</programlisting>
    <primary>searching for include files</primary>
   </indexterm>
 
-  <para>Include files are searched for in the current directory (the
-   directory you're in when you run NASM, as opposed to the location
-   of the NASM executable or the location of the source file), plus
-   any directories specified on the Yasm command line using the
-   <literal>-I</literal> option (see <xref linkend="yasm-option-i"
-    />).</para>
+  <para>Include files are first searched for relative to the directory
+   containing the source file that is performing the inclusion, and
+   then relative to any directories specified on the Yasm command line
+   using the <literal>-I</literal> option (see <xref
+    linkend="yasm-option-i" />), in the order given on the command
+   line.  While this search strategy does not match traditional NASM
+   behavior, it does match the behavior of most C compilers and better
+   handles relative pathnames.</para>
 
   <para>The standard C idiom for preventing a file being included more
-   than once is just as applicable in NASM: if the file
-   <filename>macros.mac</filename> has the form</para>
+   than once is just as applicable in the NASM preprocessor: if the
+   file <filename>macros.mac</filename> has the form</para>
 
   <programlisting>%ifndef MACROS_MAC
     %define MACROS_MAC
