@@ -48,7 +48,7 @@
     NASM-compatible syntax accepted by the Yasm <quote>nasm</quote>
     parser and preprocessor.</para>
   </partintro>
-  <!--
+
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.nasm-language;" />
 
@@ -57,7 +57,7 @@
 
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.nasm-directives;" />
-
+  <!--
   <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
    href="&chap.nasm-architectures;" />
   -->

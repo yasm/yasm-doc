@@ -1,0 +1,470 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<chapter id="nasm-directives">
+ <chapterinfo>
+  <authorgroup>
+   <corpauthor>The NASM Development Team</corpauthor>
+
+   <author>
+    <firstname>Peter</firstname>
+    <surname>Johnson</surname>
+    <contrib>Updated for Yasm context by </contrib>
+   </author>
+  </authorgroup>
+ </chapterinfo>
+
+ <title>NASM Assembler Directives</title>
+
+ <indexterm>
+  <primary>Assembler Directives</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>user-level directives</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>primitive directives</primary>
+ </indexterm>
+
+ <para>NASM, though it attempts to avoid the bureaucracy of assemblers
+  like MASM and TASM, is nevertheless forced to support a
+  <emphasis>few</emphasis> directives. These are described in this
+  chapter.</para>
+
+ <para>NASM's directives come in two types:
+  <emphasis>user-level</emphasis> directives and
+  <emphasis>primitive</emphasis> directives. Typically, each directive
+  has a user-level form and a primitive form. In almost all cases, we
+  recommend that users use the user-level forms of the directives,
+  which are implemented as macros which call the primitive
+  forms.</para>
+
+ <para>Primitive directives are enclosed in square brackets;
+  user-level directives are not.</para>
+
+ <indexterm>
+  <primary>format-specific directives</primary>
+ </indexterm>
+
+ <para>In addition to the universal directives described in this
+  chapter, each object file format can optionally supply extra
+  directives in order to control particular features of that file
+  format. These <emphasis>format-specific</emphasis> directives are
+  documented along with the formats that implement them, in <xref
+   linkend="objfmts" />.</para>
+
+ <section id="nasm-directive-bits">
+  <title><literal>BITS</literal>: Specifying Target Processor
+   Mode</title>
+
+  <indexterm>
+   <primary><literal>BITS</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>Processor Mode</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>16-bit mode</primary>
+   <secondary>versus 32-bit mode</secondary>
+  </indexterm>
+
+  <para>The <literal>BITS</literal> directive specifies whether NASM
+   should generate code designed to run on a processor operating in
+   16-bit mode, or code designed to run on a processor operating in
+   32-bit mode. The syntax is <literal>BITS 16</literal> or
+   <literal>BITS 32</literal>.</para>
+
+  <para>In most cases, you should not need to use
+   <literal>BITS</literal> explicitly. The <literal>aout</literal>,
+   <literal>coff</literal>, <literal>elf</literal> and
+   <literal>win32</literal> object formats, which are designed for use
+   in 32-bit operating systems, all cause NASM to select 32-bit mode
+   by default. The <literal>obj</literal> object format allows you to
+   specify each segment you define as either <literal>USE16</literal>
+   or <literal>USE32</literal>, and NASM will set its operating mode
+   accordingly, so the use of the <literal>BITS</literal> directive is
+   once again unnecessary.</para>
+
+  <para>The most likely reason for using the <literal>BITS</literal>
+   directive is to write 32-bit code in a flat binary file; this is
+   because the <literal>bin</literal> output format defaults to 16-bit
+   mode in anticipation of it being used most frequently to write DOS
+   <literal>.COM</literal> programs, DOS <literal>.SYS</literal>
+   device drivers and boot loader software.</para>
+
+  <para>You do <emphasis>not</emphasis> need to specify <literal>BITS
+    32</literal> merely in order to use 32-bit instructions in a
+   16-bit DOS program; if you do, the assembler will generate
+   incorrect code because it will be writing code targeted at a 32-bit
+   platform, to be run on a 16-bit one.</para>
+
+  <para>When NASM is in <literal>BITS 16</literal> state, instructions
+   which use 32-bit data are prefixed with an 0x66 byte, and those
+   referring to 32-bit addresses have an 0x67 prefix. In <literal>BITS
+    32</literal> state, the reverse is true: 32-bit instructions
+   require no prefixes, whereas instructions using 16-bit data need an
+   0x66 and those working in 16-bit addresses need an 0x67.</para>
+
+  <para>The <literal>BITS</literal> directive has an exactly
+   equivalent primitive form, <literal>[BITS 16]</literal> and
+   <literal>[BITS 32]</literal>. The user-level form is a macro which
+   has no function other than to call the primitive form.</para>
+ </section>
+
+ <section id="nasm-directive-use16use32">
+  <title><literal>USE16</literal> and <literal>USE32</literal>:
+   Aliases for <literal>BITS</literal></title>
+
+  <indexterm>
+   <primary><literal>USE16</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>USE32</literal></primary>
+  </indexterm>
+
+  <para>The <literal>USE16</literal> and <literal>USE32</literal>
+   directives can be used in place of <literal>BITS 16</literal> and
+   <literal>BITS 32</literal> for compatibility with other
+   assemblers.</para>
+ </section>
+
+ <section id="nasm-directive-section">
+  <title><literal>SECTION</literal> or <literal>SEGMENT</literal>:
+   Changing and Defining Sections</title>
+
+  <indexterm>
+   <primary><literal>SECTION</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>SEGMENT</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>Defining Sections</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>changing sections</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>switching between sections</primary>
+  </indexterm>
+
+  <para>The <literal>SECTION</literal> directive
+   (<literal>SEGMENT</literal> is an exactly equivalent synonym)
+   changes which section of the output file the code you write will be
+   assembled into. In some object file formats, the number and names
+   of sections are fixed; in others, the user may make up as many as
+   they wish. Hence <literal>SECTION</literal> may sometimes give an
+   error message, or may define a new section, if you try to switch to
+   a section that does not (yet) exist.</para>
+
+  <indexterm>
+   <primary>standardized section names</primary>
+  </indexterm>
+
+  <para>The Unix object formats, and the <literal>bin</literal> object
+   format, all support the standardised section names
+   <literal>.text</literal>, <literal>.data</literal> and
+   <literal>.bss</literal> for the code, data and uninitialised-data
+   sections. The <literal>obj</literal> format, by contrast, does not
+   recognise these section names as being special, and indeed will
+   strip off the leading period of any section name that has
+   one.</para>
+
+  <section id="nasm-directive-section-macro">
+   <title>The <literal>__SECT__</literal> Macro</title>
+
+   <indexterm>
+    <primary><literal>__SECT__</literal></primary>
+   </indexterm>
+
+   <para>The <literal>SECTION</literal> directive is unusual in that
+    its user-level form functions differently from its primitive form.
+    The primitive form, <literal>[SECTION xyz]</literal>, simply
+    switches the current target section to the one given. The
+    user-level form, <literal>SECTION xyz</literal>, however, first
+    defines the single-line macro <literal>__SECT__</literal> to be
+    the primitive <literal>[SECTION]</literal> directive which it is
+    about to issue, and then issues it. So the user-level
+    directive</para>
+
+   <programlisting>        SECTION .text</programlisting>
+
+   <para>expands to the two lines</para>
+
+   <programlisting>%define __SECT__ [SECTION .text]
+        [SECTION .text]</programlisting>
+
+   <para>Users may find it useful to make use of this in their own
+    macros. For example, the <literal>writefile</literal> macro
+    defined in the NASM Manual can be usefully rewritten in the
+    following more sophisticated form:</para>
+
+   <programlisting>%macro writefile 2+
+        [section .data]
+%%str:  db %2
+%%endstr:
+        __SECT__
+        mov dx,%%str
+        mov cx,%%endstr-%%str
+        mov bx,%1
+        mov ah,0x40
+        int 0x21
+%endmacro</programlisting>
+
+   <para>This form of the macro, once passed a string to output, first
+    switches temporarily to the data section of the file, using the
+    primitive form of the <literal>SECTION</literal> directive so as
+    not to modify <literal>__SECT__</literal>. It then declares its
+    string in the data section, and then invokes
+    <literal>__SECT__</literal> to switch back to
+    <emphasis>whichever</emphasis> section the user was previously
+    working in. It thus avoids the need, in the previous version of
+    the macro, to include a <literal>JMP</literal> instruction to jump
+    over the data, and also does not fail if, in a complicated
+    <literal>OBJ</literal> format module, the user could potentially
+    be assembling the code in any of several separate code
+    sections.</para>
+  </section>
+ </section>
+
+ <section id="nasm-directive-absolute">
+  <title><literal>ABSOLUTE</literal>: Defining Absolute Labels</title>
+
+  <indexterm>
+   <primary><literal>ABSOLUTE</literal></primary>
+  </indexterm>
+
+  <para>The <literal>ABSOLUTE</literal> directive can be thought of as
+   an alternative form of <literal>SECTION</literal>: it causes the
+   subsequent code to be directed at no physical section, but at the
+   hypothetical section starting at the given absolute address.  The
+   only instructions you can use in this mode are the
+   <literal>RESB</literal> family.</para>
+
+  <para><literal>ABSOLUTE</literal> is used as follows:</para>
+
+  <programlisting>        ABSOLUTE 0x1A
+kbuf_chr        resw 1
+kbuf_free       resw 1
+kbuf            resw 16</programlisting>
+
+  <para>This example describes a section of the PC BIOS data area, at
+   segment address 0x40: the above code defines
+   <literal>kbuf_chr</literal> to be 0x1A,
+   <literal>kbuf_free</literal> to be 0x1C, and
+   <literal>kbuf</literal> to be 0x1E.</para>
+
+  <indexterm>
+   <primary><literal>__SECT__</literal></primary>
+  </indexterm>
+
+  <para>The user-level form of <literal>ABSOLUTE</literal>, like that
+   of <literal>SECTION</literal>, redefines the
+   <literal>__SECT__</literal> macro when it is invoked.</para>
+
+  <indexterm>
+   <primary><literal>STRUC</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>ENDSTRUC</literal></primary>
+  </indexterm>
+
+  <para><literal>STRUC</literal> and <literal>ENDSTRUC</literal> are
+   defined as macros which use <literal>ABSOLUTE</literal> (and also
+   <literal>__SECT__</literal>).</para>
+
+  <indexterm>
+   <primary>critical expression</primary>
+  </indexterm>
+
+  <para><literal>ABSOLUTE</literal> doesn't have to take an absolute
+   constant as an argument: it can take an expression (actually, a
+   critical expression: see <xref linkend="nasm-crit" />) and it can
+   be a value in a segment. For example, a TSR can re-use its setup
+   code as run-time BSS like this:</para>
+
+  <programlisting>        org 100h                ; it's a .COM program
+        jmp setup               ; setup code comes last
+        ; the resident part of the TSR goes here
+setup:  ; now write the code that installs the TSR here
+        absolute setup
+runtimevar1 resw 1
+runtimevar2 resd 20
+tsr_end:</programlisting>
+
+  <para>This defines some variables <quote>on top of</quote> the setup
+   code, so that after the setup has finished running, the space it
+   took up can be re-used as data storage for the running TSR. The
+   symbol <quote>tsr_end</quote> can be used to calculate the total
+   size of the part of the TSR that needs to be made resident.</para>
+ </section>
+
+ <section id="nasm-directive-extern">
+  <title><literal>EXTERN</literal>: Importing Symbols from Other
+   Modules</title>
+
+  <indexterm>
+   <primary><literal>EXTERN</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>Importing Symbols</primary>
+  </indexterm>
+
+  <para><literal>EXTERN</literal> is similar to the MASM directive
+   <literal>EXTRN</literal> and the C keyword
+   <literal>extern</literal>: it is used to declare a symbol which is
+   not defined anywhere in the module being assembled, but is assumed
+   to be defined in some other module and needs to be referred to by
+   this one. Not every object-file format can support external
+   variables: the <literal>bin</literal> format cannot.</para>
+
+  <para>The <literal>EXTERN</literal> directive takes as many
+   arguments as you like. Each argument is the name of a
+   symbol:</para>
+
+  <programlisting>        extern _printf
+        extern _sscanf, _fscanf</programlisting>
+
+  <para>Some object-file formats provide extra features to the
+   <literal>EXTERN</literal> directive. In all cases, the extra
+   features are used by suffixing a colon to the symbol name followed
+   by object-format specific text. For example, the
+   <literal>obj</literal> format allows you to declare that the
+   default segment base of an external should be the group
+   <literal>dgroup</literal> by means of the directive</para>
+
+  <programlisting>        extern _variable:wrt dgroup</programlisting>
+
+  <para>The primitive form of <literal>EXTERN</literal> differs from
+   the user-level form only in that it can take only one argument at a
+   time: the support for multiple arguments is implemented at the
+   preprocessor level.</para>
+
+  <para>You can declare the same variable as <literal>EXTERN</literal>
+   more than once: NASM will quietly ignore the second and later
+   redeclarations. You can't declare a variable as
+   <literal>EXTERN</literal> as well as something else, though.</para>
+ </section>
+
+ <section id="nasm-directive-global">
+  <title><literal>GLOBAL</literal>: Exporting Symbols to Other
+   Modules</title>
+
+  <indexterm>
+   <primary><literal>GLOBAL</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>Exporting Symbols</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>PUBLIC</literal></primary>
+  </indexterm>
+
+  <para><literal>GLOBAL</literal> is the other end of
+   <literal>EXTERN</literal>: if one module declares a symbol as
+   <literal>EXTERN</literal> and refers to it, then in order to
+   prevent linker errors, some other module must actually
+   <emphasis>define</emphasis> the symbol and declare it as
+   <literal>GLOBAL</literal>. Some assemblers use the name
+   <literal>PUBLIC</literal> for this purpose.</para>
+
+  <para>The <literal>GLOBAL</literal> directive applying to a symbol
+   must appear <emphasis>before</emphasis> the definition of the
+   symbol.</para>
+
+  <para><literal>GLOBAL</literal> uses the same syntax as
+   <literal>EXTERN</literal>, except that it must refer to symbols
+   which <emphasis>are</emphasis> defined in the same module as the
+   <literal>GLOBAL</literal> directive. For example:</para>
+
+  <programlisting>        global _main
+_main:  ; some code</programlisting>
+
+  <para><literal>GLOBAL</literal>, like <literal>EXTERN</literal>,
+   allows object formats to define private extensions by means of a
+   colon. The <literal>elf</literal> object format, for example, lets
+   you specify whether global data items are functions or data:</para>
+
+  <programlisting>        global hashlookup:function, hashtable:data</programlisting>
+
+  <para>Like <literal>EXTERN</literal>, the primitive form of
+   <literal>GLOBAL</literal> differs from the user-level form only in
+   that it can take only one argument at a time.</para>
+ </section>
+
+ <section id="nasm-directive-common">
+  <title><literal>COMMON</literal>: Defining Common Data Areas</title>
+
+  <indexterm>
+   <primary><literal>COMMON</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>common variables</primary>
+  </indexterm>
+
+  <para>The <literal>COMMON</literal> directive is used to declare
+   <emphasis>common variables</emphasis>. A common variable is much
+   like a global variable declared in the uninitialised data section,
+   so that</para>
+
+  <programlisting>        common intvar 4</programlisting>
+
+  <para>is similar in function to</para>
+
+  <programlisting>        global intvar
+        section .bss
+intvar  resd 1</programlisting>
+
+  <para>The difference is that if more than one module defines the
+   same common variable, then at link time those variables will be
+   <emphasis>merged</emphasis>, and references to
+   <literal>intvar</literal> in all modules will point at the same
+   piece of memory.</para>
+
+  <para>Like <literal>GLOBAL</literal> and <literal>EXTERN</literal>,
+   <literal>COMMON</literal> supports object-format specific
+   extensions. For example, the <literal>obj</literal> format allows
+   common variables to be NEAR or FAR, and the <literal>elf</literal>
+   format allows you to specify the alignment requirements of a common
+   variable:</para>
+
+  <programlisting>        common commvar 4:near   ; works in OBJ
+        common intarray 100:4   ; works in ELF: 4 byte aligned</programlisting>
+
+  <para>Once again, like <literal>EXTERN</literal> and
+   <literal>GLOBAL</literal>, the primitive form of
+   <literal>COMMON</literal> differs from the user-level form only in
+   that it can take only one argument at a time.</para>
+ </section>
+
+ <section id="nasm-directive-cpu">
+  <title><literal>CPU</literal>: Defining CPU Dependencies</title>
+
+  <indexterm>
+   <primary><literal>CPU</literal></primary>
+  </indexterm>
+
+  <para>The <literal>CPU</literal> directive restricts assembly to
+   those instructions which are available on the specified CPU.  See
+   <xref linkend="architectures" /> for <literal>CPU</literal> options
+   for various architectures.</para>
+
+  <para>All options are case insensitive.  Instructions will be
+   enabled only if they apply to the selected cpu or lower.</para>
+ </section>
+</chapter>

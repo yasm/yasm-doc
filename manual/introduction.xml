@@ -12,7 +12,7 @@
   architecture allows additional object formats, debug formats, and
   syntaxes to be added relatively easily.</para>
 
- <section>
+ <section id="feature-summary">
   <title>Feature Summary</title>
 
   <para>Yasm started life in 2001 as a rewrite of the NASM (Netwide)
@@ -207,7 +207,7 @@
   </variablelist>
  </section>
 
- <section>
+ <section id="license">
   <title>License</title>
 
   <para>Yasm is primarily licensed under the 2-clause and 3-clause
@@ -218,9 +218,16 @@
    triple-licensed under the Artistic license, GPL, and LGPL.  The
    full text of the licenses are provided in the Yasm source
    distribution.</para>
+
+  <para>This user manual is licensed under the 2-clause BSD license,
+   with the exception of <xref linkend="nasm-language" />, <xref
+    linkend="nasm-preprocessor" />, and <xref
+    linkend="nasm-directives" />, large portions of which are
+   copyrighted by the NASM Development Team and licensed under the
+   LGPL.</para>
  </section>
 
- <section>
+ <section id="material-covered">
   <title>Material Covered in this Book</title>
 
   <para>This book is intended to be a user's manual for Yasm, serving

@@ -9,6 +9,9 @@ DBLATEX?= dblatex
 SOURCES=  book.xml
 SOURCES+= introduction.xml
 SOURCES+= running/chapter.xml
+SOURCES+= nasm-language/chapter.xml
+SOURCES+= nasm-preprocessor/chapter.xml
+SOURCES+= nasm-directives/chapter.xml
 
 EPSIMAGES=
 
