@@ -1668,7 +1668,9 @@ fib_number equ ($-fibonacci)/2</programlisting>
    then relative to any directories specified on the Yasm command line
    using the <literal>-I</literal> option (see <xref
     linkend="yasm-option-i" />), in the order given on the command
-   line.  While this search strategy does not match traditional NASM
+   line (any relative paths on the Yasm command line are relative to
+   the current working directory, e.g. where Yasm is being run from).
+   While this search strategy does not match traditional NASM
    behavior, it does match the behavior of most C compilers and better
    handles relative pathnames.</para>
 
@@ -1720,8 +1722,8 @@ fib_number equ ($-fibonacci)/2</programlisting>
    <primary><literal>%pop</literal></primary>
   </indexterm>
 
-  <para>NASM provides this level of power by means of a
-   <emphasis>context stack</emphasis>.  The preprocessor maintains a
+  <para>The NASM preprocessor provides this level of power by means of
+   a <emphasis>context stack</emphasis>.  The preprocessor maintains a
    stack of <emphasis>contexts</emphasis>, each of which is
    characterised by a name.  You add a new context to the stack using
    the <literal>%push</literal> directive, and remove one using
@@ -1824,8 +1826,9 @@ fib_number equ ($-fibonacci)/2</programlisting>
     <primary>Context-Local Single-Line Macros</primary>
    </indexterm>
 
-   <para>NASM also allows you to define single-line macros which are
-    local to a particular context, in just the same way:</para>
+   <para>The NASM preprocessor also allows you to define single-line
+    macros which are local to a particular context, in just the same
+    way:</para>
 
    <programlisting>%define %$localmac 3</programlisting>
 
@@ -1855,10 +1858,11 @@ fib_number equ ($-fibonacci)/2</programlisting>
     labels and macros associated with the context that was just
     popped.</para>
 
-   <para>NASM provides the directive <literal>%repl</literal>, which
-    <emphasis>replaces</emphasis> a context with a different name,
-    without touching the associated macros and labels. So you could
-    replace the destructive code</para>
+   <para>The NASM preprocessor provides the directive
+    <literal>%repl</literal>, which <emphasis>replaces</emphasis> a
+    context with a different name, without touching the associated
+    macros and labels. So you could replace the destructive
+    code</para>
 
    <programlisting>%pop
 %push   newname</programlisting>
@@ -1986,48 +1990,83 @@ fib_number equ ($-fibonacci)/2</programlisting>
    <primary><literal>%clear</literal></primary>
   </indexterm>
 
-  <para>NASM defines a set of standard macros, which are already
-   defined when it starts to process any source file. If you really
-   need a program to be assembled with no pre-defined macros, you can
-   use the <literal>%clear</literal> directive to empty the
-   preprocessor of everything.</para>
+  <para>Yasm defines a set of standard macros in the NASM preprocessor
+   which are already defined when it starts to process any source
+   file. If you really need a program to be assembled with no
+   pre-defined macros, you can use the <literal>%clear</literal>
+   directive to empty the preprocessor of everything.</para>
 
   <indexterm>
    <primary>user-level assembler directives</primary>
   </indexterm>
 
-  <para>Most user-level assembler directives (see <xref
+  <para>Most user-level NASM syntax directives (see <xref
     linkend="nasm-directives" />) are implemented as macros which
    invoke primitive directives; these are described in <xref
-    linkend="nasm-directives" />. The rest of the standard macro set
+    linkend="nasm-directives" />.  The rest of the standard macro set
    is described here.</para>
 
   <section id="nasm-stdmac-version">
-   <title><literal>__NASM_MAJOR__</literal> and
-    <literal>__NASM_MINOR__</literal>: NASM Version</title>
+   <title><literal>__YASM_MAJOR__</literal>, etc: Yasm Version</title>
 
    <indexterm>
-    <primary><literal>__NASM_MAJOR__</literal></primary>
+    <primary><literal>__YASM_MAJOR__</literal></primary>
    </indexterm>
 
    <indexterm>
-    <primary><literal>__NASM_MINOR__</literal></primary>
+    <primary><literal>__YASM_MINOR__</literal></primary>
    </indexterm>
 
    <indexterm>
-    <primary>NASM Version</primary>
+    <primary><literal>__YASM_SUBMINOR__</literal></primary>
    </indexterm>
 
    <indexterm>
-    <primary>version number of NASM</primary>
+    <primary><literal>__YASM_BUILD__</literal></primary>
    </indexterm>
 
-   <para>The single-line macros <literal>__NASM_MAJOR__</literal> and
-    <literal>__NASM_MINOR__</literal> expand to the major and minor
-    parts of the version number of NASM being used. So, under NASM
-    0.96 for example, <literal>__NASM_MAJOR__</literal> would be
-    defined to be 0 and <literal>__NASM_MINOR__</literal> would be
-    defined as 96.</para>
+   <indexterm>
+    <primary><literal>__YASM_VERSION_ID__</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>__YASM_VER__</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>Yasm Version</primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>version number of Yasm</primary>
+   </indexterm>
+
+   <para>The single-line macros <literal>__YASM_MAJOR__</literal>,
+    <literal>__YASM_MINOR__</literal>, and
+    <literal>__YASM_SUBMINOR__</literal> expand to the major, minor,
+    and subminor parts of the version number of Yasm being used.  In
+    addition, <literal>__YASM_VER__</literal> expands to a string
+    representation of the Yasm version and
+    <literal>__YASM_VERSION_ID__</literal> expands to a 32-bit
+    BCD-encoded representation of the Yasm version, with the major
+    version in the most significant 8 bits, followed by the 8-bit
+    minor version and 8-bit subminor version, and 0 in the least
+    significant 8 bits.  For example, under Yasm 0.5.1,
+    <literal>__YASM_MAJOR__</literal> would be defined to be 0,
+    <literal>__YASM_MINOR__</literal> would be defined as 5,
+    <literal>__YASM_SUBMINOR__</literal> would be defined as 1,
+    <literal>__YASM_VER__</literal> would be defined as
+    <literal>"0.5.1"</literal>, and
+    <literal>__YASM_VERSION_ID__</literal> would be defined as
+    <literal>000050100h</literal>.</para>
+
+   <para>In addition, the single line macro
+    <literal>__YASM_BUILD__</literal> expands to the Yasm
+    <quote>build</quote> number, typically the Subversion changeset
+    number.  It should be seen as less significant than the subminor
+    version, and is generally only useful in discriminating between
+    Yasm nightly snapshots or pre-release (e.g. release candidate)
+    Yasm versions.</para>
   </section>
 
   <section id="nasm-stdmac-fileline">
@@ -2042,14 +2081,14 @@ fib_number equ ($-fibonacci)/2</programlisting>
     <primary><literal>__LINE__</literal></primary>
    </indexterm>
 
-   <para>Like the C preprocessor, NASM allows the user to find out the
-    file name and line number containing the current instruction. The
-    macro <literal>__FILE__</literal> expands to a string constant
-    giving the name of the current input file (which may change
-    through the course of assembly if <literal>%include</literal>
-    directives are used), and <literal>__LINE__</literal> expands to a
-    numeric constant giving the current line number in the input
-    file.</para>
+   <para>Like the C preprocessor, the NASM preprocessor allows the
+    user to find out the file name and line number containing the
+    current instruction. The macro <literal>__FILE__</literal> expands
+    to a string constant giving the name of the current input file
+    (which may change through the course of assembly if
+    <literal>%include</literal> directives are used), and
+    <literal>__LINE__</literal> expands to a numeric constant giving
+    the current line number in the input file.</para>
 
    <para>These macros could be used, for example, to communicate
     debugging information to a macro, since invoking
@@ -2091,11 +2130,10 @@ fib_number equ ($-fibonacci)/2</programlisting>
     <primary>Declaring Structure</primary>
    </indexterm>
 
-   <para>The core of NASM contains no intrinsic means of defining data
-    structures; instead, the preprocessor is sufficiently powerful
-    that data structures can be implemented as a set of macros. The
-    macros <literal>STRUC</literal> and <literal>ENDSTRUC</literal>
-    are used to define a structure data type.</para>
+   <para>The NASM preprocessor is sufficiently powerful that data
+    structures can be implemented as a set of macros. The macros
+    <literal>STRUC</literal> and <literal>ENDSTRUC</literal> are used
+    to define a structure data type.</para>
 
    <para><literal>STRUC</literal> takes one parameter, which is the
     name of the data type. This name is defined as a symbol with the
@@ -2143,7 +2181,7 @@ mt_str:         resb 32
     <literal>mytype.byte</literal> and
     <literal>mytype.str</literal>.</para>
 
-   <para>NASM, since it has no <emphasis>intrinsic</emphasis>
+   <para>Since NASM syntax has no <emphasis>intrinsic</emphasis>
     structure support, does not support any form of period notation to
     refer to the elements of a structure once you have one (except the
     above local-label notation), so code such as <literal>mov
@@ -2176,8 +2214,8 @@ mt_str:         resb 32
 
    <para>Having defined a structure type, the next thing you typically
     want to do is to declare instances of that structure in your data
-    segment. NASM provides an easy way to do this in the
-    <literal>ISTRUC</literal> mechanism. To declare a structure of
+    segment. The NASM preprocessor provides an easy way to do this in
+    the <literal>ISTRUC</literal> mechanism. To declare a structure of
     type <literal>mytype</literal> in a program, you code something
     like this:</para>
 
@@ -2224,13 +2262,14 @@ mt_str:         resb 32
    </indexterm>
 
    <para>The <literal>ALIGN</literal> and <literal>ALIGNB</literal>
-    macros provides a convenient way to align code or data on a word,
+    macros provide a convenient way to align code or data on a word,
     longword, paragraph or other boundary.  The syntax of the
     <literal>ALIGN</literal> and <literal>ALIGNB</literal> macros
     is</para>
 
    <programlisting>        align 4                 ; align on 4-byte boundary
         align 16                ; align on 16-byte boundary
+        align 16,nop            ; equivalent to previous line
         align 8,db 0            ; pad with 0s rather than NOPs
         align 4,resb 1          ; align to 4 in the BSS
         alignb 4                ; equivalent to previous line</programlisting>
@@ -2238,17 +2277,23 @@ mt_str:         resb 32
    <para>Both macros require their first argument to be a power of
     two; they both compute the number of additional bytes required to
     bring the length of the current section up to a multiple of that
-    power of two, and then apply the <literal>TIMES</literal> prefix
-    to their second argument to perform the alignment.</para>
+    power of two, and output either NOP fill or apply the
+    <literal>TIMES</literal> prefix to their second argument to
+    perform the alignment.</para>
 
    <para>If the second argument is not specified, the default for
     <literal>ALIGN</literal> is <literal>NOP</literal>, and the
     default for <literal>ALIGNB</literal> is <literal>RESB
-     1</literal>. So if the second argument is specified, the two
-    macros are equivalent. Normally, you can just use
-    <literal>ALIGN</literal> in code and data sections and
-    <literal>ALIGNB</literal> in BSS sections, and never need the
-    second argument except for special purposes.</para>
+     1</literal>.  <literal>ALIGN</literal> treats a
+    <literal>NOP</literal> argument specially by generating maximal
+    NOP fill instructions (not necessarily NOP opcodes) for the
+    current <literal>BITS</literal> setting, whereas
+    <literal>ALIGNB</literal> takes its second argument literally.
+    Otherwise, the two macros are equivalent when a second argument is
+    specified.  Normally, you can just use <literal>ALIGN</literal> in
+    code and data sections and <literal>ALIGNB</literal> in BSS
+    sections, and never need the second argument except for special
+    purposes.</para>
 
    <para><literal>ALIGN</literal> and <literal>ALIGNB</literal>, being
     simple macros, perform no error checking: they cannot warn you if
@@ -2272,15 +2317,16 @@ mt_str:         resb 32
    <para>This will ensure that the structure members are sensibly
     aligned relative to the base of the structure.</para>
 
-   <para>A final caveat: <literal>ALIGN</literal> and
-    <literal>ALIGNB</literal> work relative to the beginning of the
-    <emphasis>section</emphasis>, not the beginning of the address
-    space in the final executable. Aligning to a 16-byte boundary when
-    the section you're in is only guaranteed to be aligned to a 4-byte
-    boundary, for example, is a waste of effort. Again, NASM does not
-    check that the section's alignment characteristics are sensible
-    for the use of <literal>ALIGN</literal> or
-    <literal>ALIGNB</literal>.</para>
+   <para>A final caveat: <literal>ALIGNB</literal> works relative to
+    the beginning of the <emphasis>section</emphasis>, not the
+    beginning of the address space in the final executable. Aligning
+    to a 16-byte boundary when the section you're in is only
+    guaranteed to be aligned to a 4-byte boundary, for example, is a
+    waste of effort. Again, Yasm does not check that the section's
+    alignment characteristics are sensible for the use of
+    <literal>ALIGNB</literal>.  <literal>ALIGN</literal> is more
+    intelligent and <emphasis>does</emphasis> adjust the section
+    alignment to be the maximum specified alignment.</para>
   </section>
  </section>
 </chapter>
