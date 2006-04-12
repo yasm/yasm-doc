@@ -1,110 +1,186 @@
 <!--
-     Names of x86 registers
+     Names of registers
 
-     $IdPath$
+     $Id$
 -->
 
 <!-- 8 bit -->
-<!ENTITY reg.al                "<register role=reg8>AL</register>">
-<!ENTITY reg.bl                "<register role=reg8>BL</register>">
-<!ENTITY reg.cl                "<register role=reg8>CL</register>">
-<!ENTITY reg.dl                "<register role=reg8>DL</register>">
-<!ENTITY reg.ah                "<register role=reg8>AH</register>">
-<!ENTITY reg.bh                "<register role=reg8>BH</register>">
-<!ENTITY reg.ch                "<register role=reg8>CH</register>">
-<!ENTITY reg.dh                "<register role=reg8>DH</register>">
+<!ENTITY reg.x86.al            "<literal>AL</literal>">
+<!ENTITY reg.x86.bl            "<literal>BL</literal>">
+<!ENTITY reg.x86.cl            "<literal>CL</literal>">
+<!ENTITY reg.x86.dl            "<literal>DL</literal>">
+<!ENTITY reg.x86.ah            "<literal>AH</literal>">
+<!ENTITY reg.x86.bh            "<literal>BH</literal>">
+<!ENTITY reg.x86.ch            "<literal>CH</literal>">
+<!ENTITY reg.x86.dh            "<literal>DH</literal>">
+
+<!ENTITY reg.x86.r8b           "<literal>R8B</literal>">
+<!ENTITY reg.x86.r9b           "<literal>R9B</literal>">
+<!ENTITY reg.x86.r10b          "<literal>R10B</literal>">
+<!ENTITY reg.x86.r11b          "<literal>R11B</literal>">
+<!ENTITY reg.x86.r12b          "<literal>R12B</literal>">
+<!ENTITY reg.x86.r13b          "<literal>R13B</literal>">
+<!ENTITY reg.x86.r14b          "<literal>R14B</literal>">
+<!ENTITY reg.x86.r15b          "<literal>R15B</literal>">
+
+<!ENTITY reg.x86.sil           "<literal>SIL</literal>">
+<!ENTITY reg.x86.dil           "<literal>DIL</literal>">
+<!ENTITY reg.x86.bpl           "<literal>BPL</literal>">
+<!ENTITY reg.x86.spl           "<literal>SPL</literal>">
 
 <!-- 16 bit -->
-<!ENTITY reg.ax                "<register role=reg16>AX</register>">
-<!ENTITY reg.bx                "<register role=reg16>BX</register>">
-<!ENTITY reg.cx                "<register role=reg16>CX</register>">
-<!ENTITY reg.dx                "<register role=reg16>DX</register>">
-<!ENTITY reg.si                "<register role=reg16>SI</register>">
-<!ENTITY reg.di                "<register role=reg16>DI</register>">
-<!ENTITY reg.bp                "<register role=reg16>BP</register>">
-<!ENTITY reg.sp                "<register role=reg16>SP</register>">
+<!ENTITY reg.x86.ax            "<literal>AX</literal>">
+<!ENTITY reg.x86.bx            "<literal>BX</literal>">
+<!ENTITY reg.x86.cx            "<literal>CX</literal>">
+<!ENTITY reg.x86.dx            "<literal>DX</literal>">
+<!ENTITY reg.x86.si            "<literal>SI</literal>">
+<!ENTITY reg.x86.di            "<literal>DI</literal>">
+<!ENTITY reg.x86.bp            "<literal>BP</literal>">
+<!ENTITY reg.x86.sp            "<literal>SP</literal>">
 
-<!ENTITY reg.ip                "<register role=reg16>IP</register>">
-
-<!-- segment -->
-<!ENTITY reg.cs                "<register role=segment>CS</register>">
-<!ENTITY reg.ds                "<register role=segment>DS</register>">
-<!ENTITY reg.es                "<register role=segment>ES</register>">
-<!ENTITY reg.fs                "<register role=segment>FS</register>">
-<!ENTITY reg.gs                "<register role=segment>GS</register>">
-<!ENTITY reg.ss                "<register role=segment>SS</register>">
+<!ENTITY reg.x86.r8w           "<literal>R8W</literal>">
+<!ENTITY reg.x86.r9w           "<literal>R9W</literal>">
+<!ENTITY reg.x86.r10w          "<literal>R10W</literal>">
+<!ENTITY reg.x86.r11w          "<literal>R11W</literal>">
+<!ENTITY reg.x86.r12w          "<literal>R12W</literal>">
+<!ENTITY reg.x86.r13w          "<literal>R13W</literal>">
+<!ENTITY reg.x86.r14w          "<literal>R14W</literal>">
+<!ENTITY reg.x86.r15w          "<literal>R15W</literal>">
 
 <!-- 32 bit -->
-<!ENTITY reg.eax               "<register role=reg32>EAX</register>">
-<!ENTITY reg.ebx               "<register role=reg32>EBX</register>">
-<!ENTITY reg.ecx               "<register role=reg32>ECX</register>">
-<!ENTITY reg.edx               "<register role=reg32>EDX</register>">
-<!ENTITY reg.esi               "<register role=reg32>ESI</register>">
-<!ENTITY reg.edi               "<register role=reg32>EDI</register>">
-<!ENTITY reg.ebp               "<register role=reg32>EBP</register>">
-<!ENTITY reg.esp               "<register role=reg32>ESP</register>">
+<!ENTITY reg.x86.eax           "<literal>EAX</literal>">
+<!ENTITY reg.x86.ebx           "<literal>EBX</literal>">
+<!ENTITY reg.x86.ecx           "<literal>ECX</literal>">
+<!ENTITY reg.x86.edx           "<literal>EDX</literal>">
+<!ENTITY reg.x86.esi           "<literal>ESI</literal>">
+<!ENTITY reg.x86.edi           "<literal>EDI</literal>">
+<!ENTITY reg.x86.ebp           "<literal>EBP</literal>">
+<!ENTITY reg.x86.esp           "<literal>ESP</literal>">
 
-<!ENTITY reg.eip               "<register role=reg32>EIP</register>">
+<!ENTITY reg.x86.r8d           "<literal>R8D</literal>">
+<!ENTITY reg.x86.r9d           "<literal>R9D</literal>">
+<!ENTITY reg.x86.r10d          "<literal>R10D</literal>">
+<!ENTITY reg.x86.r11d          "<literal>R11D</literal>">
+<!ENTITY reg.x86.r12d          "<literal>R12D</literal>">
+<!ENTITY reg.x86.r13d          "<literal>R13D</literal>">
+<!ENTITY reg.x86.r14d          "<literal>R14D</literal>">
+<!ENTITY reg.x86.r15d          "<literal>R15D</literal>">
+
+<!-- 64 bit -->
+<!ENTITY reg.x86.rax           "<literal>RAX</literal>">
+<!ENTITY reg.x86.rbx           "<literal>RBX</literal>">
+<!ENTITY reg.x86.rcx           "<literal>RCX</literal>">
+<!ENTITY reg.x86.rdx           "<literal>RDX</literal>">
+<!ENTITY reg.x86.rsi           "<literal>RSI</literal>">
+<!ENTITY reg.x86.rdi           "<literal>RDI</literal>">
+<!ENTITY reg.x86.rbp           "<literal>RBP</literal>">
+<!ENTITY reg.x86.rsp           "<literal>RSP</literal>">
+
+<!ENTITY reg.x86.r8            "<literal>R8</literal>">
+<!ENTITY reg.x86.r9            "<literal>R9</literal>">
+<!ENTITY reg.x86.r10           "<literal>R10</literal>">
+<!ENTITY reg.x86.r11           "<literal>R11</literal>">
+<!ENTITY reg.x86.r12           "<literal>R12</literal>">
+<!ENTITY reg.x86.r13           "<literal>R13</literal>">
+<!ENTITY reg.x86.r14           "<literal>R14</literal>">
+<!ENTITY reg.x86.r15           "<literal>R15</literal>">
+
+<!-- instruction pointer -->
+<!ENTITY reg.x86.ip            "<literal>IP</literal>">
+<!ENTITY reg.x86.eip           "<literal>EIP</literal>">
+<!ENTITY reg.x86.rip           "<literal>RIP</literal>">
+
+<!-- segment -->
+<!ENTITY reg.x86.cs            "<literal>CS</literal>">
+<!ENTITY reg.x86.ds            "<literal>DS</literal>">
+<!ENTITY reg.x86.es            "<literal>ES</literal>">
+<!ENTITY reg.x86.fs            "<literal>FS</literal>">
+<!ENTITY reg.x86.gs            "<literal>GS</literal>">
+<!ENTITY reg.x86.ss            "<literal>SS</literal>">
 
 <!-- floating point -->
-<!ENTITY reg.st0               "<register role=floating-point>ST0</register>">
-<!ENTITY reg.st1               "<register role=floating-point>ST1</register>">
-<!ENTITY reg.st2               "<register role=floating-point>ST2</register>">
-<!ENTITY reg.st3               "<register role=floating-point>ST3</register>">
-<!ENTITY reg.st4               "<register role=floating-point>ST4</register>">
-<!ENTITY reg.st5               "<register role=floating-point>ST5</register>">
-<!ENTITY reg.st6               "<register role=floating-point>ST6</register>">
-<!ENTITY reg.st7               "<register role=floating-point>ST7</register>">
+<!ENTITY reg.x86.st0           "<literal>ST0</literal>">
+<!ENTITY reg.x86.st1           "<literal>ST1</literal>">
+<!ENTITY reg.x86.st2           "<literal>ST2</literal>">
+<!ENTITY reg.x86.st3           "<literal>ST3</literal>">
+<!ENTITY reg.x86.st4           "<literal>ST4</literal>">
+<!ENTITY reg.x86.st5           "<literal>ST5</literal>">
+<!ENTITY reg.x86.st6           "<literal>ST6</literal>">
+<!ENTITY reg.x86.st7           "<literal>ST7</literal>">
 
 <!-- MMX -->
-<!ENTITY reg.mm0               "<register role=mmx>MM0</register>">
-<!ENTITY reg.mm1               "<register role=mmx>MM1</register>">
-<!ENTITY reg.mm2               "<register role=mmx>MM2</register>">
-<!ENTITY reg.mm3               "<register role=mmx>MM3</register>">
-<!ENTITY reg.mm4               "<register role=mmx>MM4</register>">
-<!ENTITY reg.mm5               "<register role=mmx>MM5</register>">
-<!ENTITY reg.mm6               "<register role=mmx>MM6</register>">
-<!ENTITY reg.mm7               "<register role=mmx>MM7</register>">
+<!ENTITY reg.x86.mm0           "<literal>MM0</literal>">
+<!ENTITY reg.x86.mm1           "<literal>MM1</literal>">
+<!ENTITY reg.x86.mm2           "<literal>MM2</literal>">
+<!ENTITY reg.x86.mm3           "<literal>MM3</literal>">
+<!ENTITY reg.x86.mm4           "<literal>MM4</literal>">
+<!ENTITY reg.x86.mm5           "<literal>MM5</literal>">
+<!ENTITY reg.x86.mm6           "<literal>MM6</literal>">
+<!ENTITY reg.x86.mm7           "<literal>MM7</literal>">
+
+<!-- SIMD -->
+<!ENTITY reg.x86.xmm0          "<literal>XMM0</literal>">
+<!ENTITY reg.x86.xmm1          "<literal>XMM1</literal>">
+<!ENTITY reg.x86.xmm2          "<literal>XMM2</literal>">
+<!ENTITY reg.x86.xmm3          "<literal>XMM3</literal>">
+<!ENTITY reg.x86.xmm4          "<literal>XMM4</literal>">
+<!ENTITY reg.x86.xmm5          "<literal>XMM5</literal>">
+<!ENTITY reg.x86.xmm6          "<literal>XMM6</literal>">
+<!ENTITY reg.x86.xmm7          "<literal>XMM7</literal>">
+<!ENTITY reg.x86.xmm8          "<literal>XMM8</literal>">
+<!ENTITY reg.x86.xmm9          "<literal>XMM9</literal>">
+<!ENTITY reg.x86.xmm10         "<literal>XMM10</literal>">
+<!ENTITY reg.x86.xmm11         "<literal>XMM11</literal>">
+<!ENTITY reg.x86.xmm12         "<literal>XMM12</literal>">
+<!ENTITY reg.x86.xmm13         "<literal>XMM13</literal>">
+<!ENTITY reg.x86.xmm14         "<literal>XMM14</literal>">
+<!ENTITY reg.x86.xmm15         "<literal>XMM15</literal>">
 
 <!-- control -->
-<!ENTITY reg.cr0               "<register role=control>CR0</register>">
-<!ENTITY reg.cr2               "<register role=control>CR2</register>">
-<!ENTITY reg.cr3               "<register role=control>CR3</register>">
-<!ENTITY reg.cr4               "<register role=control>CR4</register>">
+<!ENTITY reg.x86.cr0           "<literal>CR0</literal>">
+<!ENTITY reg.x86.cr2           "<literal>CR2</literal>">
+<!ENTITY reg.x86.cr3           "<literal>CR3</literal>">
+<!ENTITY reg.x86.cr4           "<literal>CR4</literal>">
+<!ENTITY reg.x86.cr8           "<literal>CR8</literal>">
 
 <!-- debug -->
-<!ENTITY reg.dr0               "<register role=debug>DR0</register>">
-<!ENTITY reg.dr1               "<register role=debug>DR1</register>">
-<!ENTITY reg.dr2               "<register role=debug>DR2</register>">
-<!ENTITY reg.dr3               "<register role=debug>DR3</register>">
-<!ENTITY reg.dr6               "<register role=debug>DR6</register>">
-<!ENTITY reg.dr7               "<register role=debug>DR7</register>">
+<!ENTITY reg.x86.dr0           "<literal>DR0</literal>">
+<!ENTITY reg.x86.dr1           "<literal>DR1</literal>">
+<!ENTITY reg.x86.dr2           "<literal>DR2</literal>">
+<!ENTITY reg.x86.dr3           "<literal>DR3</literal>">
+<!ENTITY reg.x86.dr4           "<literal>DR4</literal>">
+<!ENTITY reg.x86.dr5           "<literal>DR5</literal>">
+<!ENTITY reg.x86.dr6           "<literal>DR6</literal>">
+<!ENTITY reg.x86.dr7           "<literal>DR7</literal>">
 
 <!-- test -->
-<!ENTITY reg.tr3               "<register role=test>TR3</register>">
-<!ENTITY reg.tr4               "<register role=test>TR4</register>">
-<!ENTITY reg.tr5               "<register role=test>TR5</register>">
-<!ENTITY reg.tr6               "<register role=test>TR6</register>">
-<!ENTITY reg.tr7               "<register role=test>TR7</register>">
+<!ENTITY reg.x86.tr0           "<literal>TR0</literal>">
+<!ENTITY reg.x86.tr1           "<literal>TR1</literal>">
+<!ENTITY reg.x86.tr2           "<literal>TR2</literal>">
+<!ENTITY reg.x86.tr3           "<literal>TR3</literal>">
+<!ENTITY reg.x86.tr4           "<literal>TR4</literal>">
+<!ENTITY reg.x86.tr5           "<literal>TR5</literal>">
+<!ENTITY reg.x86.tr6           "<literal>TR6</literal>">
+<!ENTITY reg.x86.tr7           "<literal>TR7</literal>">
 
 <!-- flags -->
-<!ENTITY flag.id               "<register role=flag>ID</register>">
-<!ENTITY flag.vip              "<register role=flag>VIP</register>">
-<!ENTITY flag.vif              "<register role=flag>VIF</register>">
-<!ENTITY flag.ac               "<register role=flag>AC</register>">
-<!ENTITY flag.vm               "<register role=flag>VM</register>">
-<!ENTITY flag.rf               "<register role=flag>RF</register>">
-<!ENTITY flag.nt               "<register role=flag>NT</register>">
-<!ENTITY flag.iopl             "<register role=flag>IOPL</register>">
-<!ENTITY flag.of               "<register role=flag>OF</register>">
-<!ENTITY flag.df               "<register role=flag>DF</register>">
-<!ENTITY flag.if               "<register role=flag>IF</register>">
-<!ENTITY flag.tf               "<register role=flag>TF</register>">
-<!ENTITY flag.sf               "<register role=flag>SF</register>">
-<!ENTITY flag.zf               "<register role=flag>ZF</register>">
-<!ENTITY flag.af               "<register role=flag>AF</register>">
-<!ENTITY flag.pf               "<register role=flag>PF</register>">
-<!ENTITY flag.cf               "<register role=flag>CF</register>">
+<!ENTITY flag.x86.id           "<literal>ID</literal>">
+<!ENTITY flag.x86.vip          "<literal>VIP</literal>">
+<!ENTITY flag.x86.vif          "<literal>VIF</literal>">
+<!ENTITY flag.x86.ac           "<literal>AC</literal>">
+<!ENTITY flag.x86.vm           "<literal>VM</literal>">
+<!ENTITY flag.x86.rf           "<literal>RF</literal>">
+<!ENTITY flag.x86.nt           "<literal>NT</literal>">
+<!ENTITY flag.x86.iopl         "<literal>IOPL</literal>">
+<!ENTITY flag.x86.of           "<literal>OF</literal>">
+<!ENTITY flag.x86.df           "<literal>DF</literal>">
+<!ENTITY flag.x86.if           "<literal>IF</literal>">
+<!ENTITY flag.x86.tf           "<literal>TF</literal>">
+<!ENTITY flag.x86.sf           "<literal>SF</literal>">
+<!ENTITY flag.x86.zf           "<literal>ZF</literal>">
+<!ENTITY flag.x86.af           "<literal>AF</literal>">
+<!ENTITY flag.x86.pf           "<literal>PF</literal>">
+<!ENTITY flag.x86.cf           "<literal>CF</literal>">
 
-<!ENTITY flag.ts               "<register role=flag>TS</register>">
+<!ENTITY flag.x86.ts           "<literal>TS</literal>">
 
