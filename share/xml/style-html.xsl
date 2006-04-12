@@ -5,5 +5,6 @@
  <xsl:import
   href="http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl" />
  <xsl:include href="style-common.xsl" />
+ <xsl:output method="html" encoding="UTF-8" />
 
 </xsl:stylesheet>

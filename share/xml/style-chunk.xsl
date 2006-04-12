@@ -7,5 +7,6 @@
  <xsl:include href="style-common.xsl" />
 
  <xsl:param name="use.id.as.filename">1</xsl:param>
+ <xsl:param name="chunker.output.encoding">UTF-8</xsl:param>
 
 </xsl:stylesheet>
