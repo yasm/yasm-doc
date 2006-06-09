@@ -2114,6 +2114,44 @@ fib_number equ ($-fibonacci)/2</programlisting>
     point.</para>
   </section>
 
+  <section id="nasm-stdmac-output-format">
+   <title><literal>__YASM_OBJFMT__</literal> and
+    <literal>__OUTPUT_FORMAT__</literal>: Output Object Format
+    Keyword</title>
+
+   <indexterm>
+    <primary><literal>__YASM_OBJFMT__</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>__OUTPUT_FORMAT__</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><option>-f</option></primary>
+   </indexterm>
+
+   <para><literal>__YASM_OBJFMT__</literal>, and its NASM-compatible
+    alias <literal>__OUTPUT_FORMAT__</literal>, expand to the object
+    format <replaceable>keyword</replaceable> specified on the command
+    line with <option>-f <replaceable>keyword</replaceable></option>
+    (see <xref linkend="yasm-option-oformat" />).  For example, if
+     <command>yasm</command> is invoked with <option>-f elf</option>,
+    <literal>__YASM_OBJFMT__</literal> expands to
+    <literal>elf</literal>.</para>
+
+   <para>These expansions match the option given on the command line
+    exactly, even when the object formats are equivalent.  For
+    example, <option>-f elf</option> and <option>-f elf32</option> are
+    equivalent specifiers for the 32-bit ELF format, and
+    <option>-f elf -m amd64</option> and <option>-f elf64</option> are
+    equivalent specifiers for the 64-bit ELF format, but
+    <literal>__YASM_OBJFMT__</literal> would expand to
+    <literal>elf</literal> and <literal>elf32</literal> for the first
+    two cases, and <literal>elf</literal> and <literal>elf64</literal>
+    for the second two cases.</para>
+  </section>
+
   <section id="nasm-stdmac-struc">
    <title><literal>STRUC</literal> and <literal>ENDSTRUC</literal>:
     Declaring Structure Data Types</title>
