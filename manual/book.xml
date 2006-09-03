@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-<!ENTITY % chapters SYSTEM "chapters.ent">
-%chapters;
-]>
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!-- $Id$ -->
 <book>
  <bookinfo>
@@ -34,112 +31,115 @@
  </bookinfo>
 
  <!-- Front matter -->
- <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="introduction.xml" />
 
- <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-  href="&chap.running;" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="running/chapter.xml" />
 
  <part id="nasm">
   <title>NASM Syntax</title>
 
-  <partintro>
+  <partintro id="nasm-intro">
    <para>The chapters in this part of the book document the
     NASM-compatible syntax accepted by the Yasm <quote>nasm</quote>
     parser and preprocessor.</para>
   </partintro>
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.nasm-language;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="nasm-language/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.nasm-preprocessor;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="nasm-preprocessor/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.nasm-directives;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="nasm-directives/chapter.xml" />
   <!--
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.nasm-architectures;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="nasm-architectures/chapter.xml" />
   -->
  </part>
 
  <part id="gas">
   <title>GAS Syntax</title>
 
-  <partintro>
+  <partintro id="gas-intro">
    <para>The chapters in this part of the book document the GNU
     AS-compatible syntax accepted by the Yasm <quote>gas</quote>
     parser.</para>
   </partintro>
   <!--
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.gas-language;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="gas-language/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.gas-directives;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="gas-directives/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.gas-architectures;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="gas-architectures/chapter.xml" />
   -->
  </part>
 
  <part id="objfmts">
   <title>Object Formats</title>
 
-  <partintro>
+  <partintro id="objfmts-intro">
    <para>The chapters in this part of the book document Yasm's support
     for various object file formats.</para>
   </partintro>
   <!--
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.objfmt-bin;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-bin/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.objfmt-coff;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-coff/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.objfmt-elf;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-elf/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.objfmt-win32;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-win32/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.objfmt-win64;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-win64/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.objfmt-xdf;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-xdf/chapter.xml" />
   -->
  </part>
 
  <part id="dbgfmts">
   <title>Debugging Formats</title>
 
-  <partintro>
+  <partintro id="dbgfmts-intro">
    <para>The chapters in this part of the book document Yasm's support
     for various debugging formats.</para>
   </partintro>
   <!--
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.dbgfmt-dwarf2;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="dbgfmt-codeview/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.dbgfmt-stabs;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="dbgfmt-dwarf2/chapter.xml" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="dbgfmt-stabs/chapter.xml" />
   -->
  </part>
 
  <part id="architectures">
   <title>Architectures</title>
 
-  <partintro>
+  <partintro id="architectures-intro">
    <para>The chapters in this part of the book document Yasm's support
     for various instruction set architectures.</para>
   </partintro>
   <!--
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.arch-lc3b;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="arch-lc3b/chapter.xml" />
 
-  <xi:include xmlns:xi="http://www.w3.org/2003/XInclude"
-   href="&chap.arch-x86;" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="arch-x86/chapter.xml" />
   -->
  </part>
 

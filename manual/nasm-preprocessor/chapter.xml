@@ -28,9 +28,9 @@
   with a <literal>%</literal> sign.</para>
 
  <para>The preprocessor collapses all lines which end with a backslash
-  (\\) character into a single line.  Thus:</para>
+  (\) character into a single line.  Thus:</para>
 
- <programlisting>%define THIS_VERY_LONG_MACRO_NAME_IS_DEFINED_TO \\
+ <programlisting>%define THIS_VERY_LONG_MACRO_NAME_IS_DEFINED_TO \
           THIS_VALUE</programlisting>
 
  <para>will work like a single-line macro without the backslash-newline
@@ -355,8 +355,7 @@ endstruc</programlisting>
  </section>
 
  <section id="nasm-strlen">
-  <title>String Handling in Macros: <literal>%strlen</literal> and
-   <literal>%substr</literal></title>
+  <title>String Handling in Macros</title>
 
   <indexterm>
    <primary>String Handling in Macros</primary>
@@ -437,7 +436,7 @@ endstruc</programlisting>
  </section>
 
  <section id="nasm-multi-line-macros">
-  <title>Multi-Line Macros: <literal>%macro</literal></title>
+  <title>Multi-Line Macros</title>
 
   <indexterm>
    <primary>Multi-Line Macros</primary>
@@ -1562,7 +1561,7 @@ keyposReturn    equ     $-keytab
  </section>
 
  <section id="nasm-macro-rep">
-  <title>Preprocessor Loops: <literal>%rep</literal></title>
+  <title>Preprocessor Loops</title>
 
   <indexterm>
    <primary>Preprocessor Loops</primary>

@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-<!ENTITY % registers SYSTEM "../../share/xml/registers.ent">
-%registers;
-]>
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!-- $Id$ -->
 <chapter id="nasm-language">
  <chapterinfo>
@@ -131,13 +128,16 @@
   </indexterm>
 
   <para>Instruction operands may take a number of forms: they can be
-   registers, described simply by the register name (e.g. &reg.x86.ax;,
-   &reg.x86.bp;, &reg.x86.ebx;, &reg.x86.cr0;: NASM does not use the
-   <literal>gas</literal>-style syntax in which register names must be
-   prefixed by a <literal>%</literal> sign), or they can be effective
-   addresses (see <xref linkend="nasm-effaddr" />), constants (<xref
-    linkend="nasm-const" />) or expressions (<xref linkend="nasm-expr"
-    />).</para>
+   registers, described simply by the register name (e.g. <literal
+    role="register">AX</literal>, <literal
+    role="register">BP</literal>, <literal
+    role="register">EBX</literal>, <literal
+    role="register">CR0</literal>: NASM does not use the
+   <application>gas</application>-style syntax in which register names
+   must be prefixed by a <literal>%</literal> sign), or they can be
+   effective addresses (see <xref linkend="nasm-effaddr" />),
+   constants (<xref linkend="nasm-const" />) or expressions (<xref
+    linkend="nasm-expr" />).</para>
 
   <indexterm>
    <primary>floating-point</primary>
@@ -537,7 +537,7 @@ msglen  equ $-message</programlisting>
 
   <para>Anything not conforming to this simple system is not a valid
    memory reference in NASM, for example
-   <literal>&reg.x86.es;:wordvar[&reg.x86.bx;]</literal>.</para>
+   <literal>es:wordvar[bx]</literal>.</para>
 
   <para>More complicated effective addresses, such as those involving
    more than one register, work in exactly the same way:</para>
@@ -559,18 +559,16 @@ msglen  equ $-message</programlisting>
   <para>Some forms of effective address have more than one assembled
    form; in most such cases NASM will generate the smallest form it
    can. For example, there are distinct assembled forms for the 32-bit
-   effective addresses <literal>[&reg.x86.eax;*2+0]</literal> and
-   <literal>[&reg.x86.eax;+&reg.x86.eax;]</literal>, and NASM will
-   generally generate the latter on the grounds that the former
-   requires four bytes to store a zero offset.</para>
+   effective addresses <literal>[eax*2+0]</literal> and
+   <literal>[eax+eax]</literal>, and NASM will generally generate the
+   latter on the grounds that the former requires four bytes to store
+   a zero offset.</para>
 
   <para>NASM has a hinting mechanism which will cause
-   <literal>[&reg.x86.eax;+&reg.x86.ebx;]</literal> and
-   <literal>[&reg.x86.ebx;+&reg.x86.eax;]</literal> to generate
-   different opcodes; this is occasionally useful because
-   <literal>[&reg.x86.esi;+&reg.x86.ebp;]</literal> and
-   <literal>[&reg.x86.ebp;+&reg.x86.esi;]</literal> have different
-   default segment registers.</para>
+   <literal>[eax+ebx]</literal> and <literal>[ebx+eax]</literal> to
+   generate different opcodes; this is occasionally useful because
+   <literal>[esi+ebp]</literal> and <literal>[ebp+esi]</literal> have
+   different default segment registers.</para>
 
   <indexterm>
    <primary><literal>NOSPLIT</literal></primary>
@@ -580,18 +578,17 @@ msglen  equ $-message</programlisting>
    in a particular form by the use of the keywords
    <literal>BYTE</literal>, <literal>WORD</literal>,
    <literal>DWORD</literal> and <literal>NOSPLIT</literal>. If you
-   need <literal>[&reg.x86.eax;+3]</literal> to be assembled using a
-   double-word offset field instead of the one byte NASM will normally
-   generate, you can code <literal>[dword &reg.x86.eax;+3]</literal>.
-   Similarly, you can force NASM to use a byte offset for a small
-   value which it hasn't seen on the first pass (see <xref
-    linkend="nasm-crit" /> for an example of such a code fragment) by
-   using <literal>[byte &reg.x86.eax;+offset]</literal>. As special
-   cases, <literal>[byte &reg.x86.eax;]</literal> will code
-   <literal>[&reg.x86.eax;+0]</literal> with a byte offset of zero,
-   and <literal>[dword &reg.x86.eax;]</literal> will code it with a
-   double-word offset of zero. The normal form,
-   <literal>[&reg.x86.eax;]</literal>, will be coded with no offset
+   need <literal>[eax+3]</literal> to be assembled using a double-word
+   offset field instead of the one byte NASM will normally generate,
+   you can code <literal>[dword eax+3]</literal>.  Similarly, you can
+   force NASM to use a byte offset for a small value which it hasn't
+   seen on the first pass (see <xref linkend="nasm-crit" /> for an
+   example of such a code fragment) by using <literal>[byte
+    eax+offset]</literal>. As special cases, <literal>[byte
+    eax]</literal> will code <literal>[eax+0]</literal> with a byte
+   offset of zero, and <literal>[dword eax]</literal> will code it
+   with a double-word offset of zero. The normal form,
+   <literal>[eax]</literal>, will be coded with no offset
    field.</para>
 
   <para>The form described in the previous paragraph is also useful if
@@ -602,17 +599,15 @@ msglen  equ $-message</programlisting>
    16-bit value, if you don't specify that it is a dword offset, NASM
    will cause the high word of the offset to be lost.</para>
 
-  <para>Similarly, NASM will split
-   <literal>[&reg.x86.eax;*2]</literal> into
-   <literal>[&reg.x86.eax;+&reg.x86.eax;]</literal> because that
-   allows the offset field to be absent and space to be saved; in
-   fact, it will also split
-   <literal>[&reg.x86.eax;*2+offset]</literal> into
-   <literal>[&reg.x86.eax;+&reg.x86.eax;+offset]</literal>. You can
-   combat this behaviour by the use of the <literal>NOSPLIT</literal>
-   keyword: <literal>[nosplit &reg.x86.eax;*2]</literal> will force
-   <literal>[&reg.x86.eax;*2+0]</literal> to be generated
-   literally.</para> </section>
+  <para>Similarly, NASM will split <literal>[eax*2]</literal> into
+   <literal>[eax+eax]</literal> because that allows the offset field
+   to be absent and space to be saved; in fact, it will also split
+   <literal>[eax*2+offset]</literal> into
+   <literal>[eax+eax+offset]</literal>. You can combat this behaviour
+   by the use of the <literal>NOSPLIT</literal> keyword:
+   <literal>[nosplit eax*2]</literal> will force
+   <literal>[eax*2+0]</literal> to be generated literally.</para>
+ </section>
 
  <section id="nasm-const">
   <title>Constants</title>
@@ -1123,8 +1118,8 @@ msglen  equ $-message</programlisting>
         mov es, ax
         mov bx, symbol</programlisting>
 
-  <para>will load <literal>&reg.x86.es;:&reg.x86.bx;</literal> with a
-   valid pointer to the symbol <literal>symbol</literal>.</para>
+  <para>will load <literal>es:bx</literal> with a valid pointer to the
+   symbol <literal>symbol</literal>.</para>
 
   <indexterm>
    <primary>groups</primary>
@@ -1144,8 +1139,8 @@ msglen  equ $-message</programlisting>
         mov es, ax
         mov bx, symbol wrt weird_seg</programlisting>
 
-  <para>to load <literal>&reg.x86.es;:&reg.x86.bx;</literal> with a
-   different, but functionally equivalent, pointer to the symbol
+  <para>to load <literal>es:bx</literal> with a different, but
+   functionally equivalent, pointer to the symbol
    <literal>symbol</literal>.</para>
 
   <para>NASM supports far (inter-segment) calls and jumps by means of

@@ -56,95 +56,114 @@
   documented along with the formats that implement them, in <xref
    linkend="objfmts" />.</para>
 
- <section id="nasm-directive-bits">
-  <title><literal>BITS</literal>: Specifying Target Processor
-   Mode</title>
-
-  <indexterm>
-   <primary><literal>BITS</literal></primary>
-  </indexterm>
+ <section id="nasm-directive-bits-top">
+  <title>Specifying Target Processor Mode</title>
 
   <indexterm>
    <primary>Processor Mode</primary>
   </indexterm>
 
-  <indexterm>
-   <primary>16-bit mode</primary>
-   <secondary>versus 32-bit mode</secondary>
-  </indexterm>
+  <section id="nasm-directive-bits">
+   <title><literal>BITS</literal></title>
 
-  <para>The <literal>BITS</literal> directive specifies whether NASM
-   should generate code designed to run on a processor operating in
-   16-bit mode, or code designed to run on a processor operating in
-   32-bit mode. The syntax is <literal>BITS 16</literal> or
-   <literal>BITS 32</literal>.</para>
+   <indexterm>
+    <primary><literal>BITS</literal></primary>
+   </indexterm>
 
-  <para>In most cases, you should not need to use
-   <literal>BITS</literal> explicitly. The <literal>aout</literal>,
-   <literal>coff</literal>, <literal>elf</literal> and
-   <literal>win32</literal> object formats, which are designed for use
-   in 32-bit operating systems, all cause NASM to select 32-bit mode
-   by default. The <literal>obj</literal> object format allows you to
-   specify each segment you define as either <literal>USE16</literal>
-   or <literal>USE32</literal>, and NASM will set its operating mode
-   accordingly, so the use of the <literal>BITS</literal> directive is
-   once again unnecessary.</para>
+   <indexterm>
+    <primary>16-bit mode</primary>
+    <secondary>versus 32-bit mode</secondary>
+   </indexterm>
 
-  <para>The most likely reason for using the <literal>BITS</literal>
-   directive is to write 32-bit code in a flat binary file; this is
-   because the <literal>bin</literal> output format defaults to 16-bit
-   mode in anticipation of it being used most frequently to write DOS
-   <literal>.COM</literal> programs, DOS <literal>.SYS</literal>
-   device drivers and boot loader software.</para>
+   <indexterm>
+    <primary>32-bit mode</primary>
+    <secondary>versus 64-bit mode</secondary>
+   </indexterm>
 
-  <para>You do <emphasis>not</emphasis> need to specify <literal>BITS
-    32</literal> merely in order to use 32-bit instructions in a
-   16-bit DOS program; if you do, the assembler will generate
-   incorrect code because it will be writing code targeted at a 32-bit
-   platform, to be run on a 16-bit one.</para>
+   <para>The <literal>BITS</literal> directive specifies whether Yasm
+    should generate code designed to run on a processor operating in
+    16-bit mode, 32-bit mode, or 64-bit mode. The syntax is
+    <literal>BITS 16</literal>, <literal>BITS 32</literal>, or
+    <literal>BITS 64</literal>.</para>
 
-  <para>When NASM is in <literal>BITS 16</literal> state, instructions
-   which use 32-bit data are prefixed with an 0x66 byte, and those
-   referring to 32-bit addresses have an 0x67 prefix. In <literal>BITS
-    32</literal> state, the reverse is true: 32-bit instructions
-   require no prefixes, whereas instructions using 16-bit data need an
-   0x66 and those working in 16-bit addresses need an 0x67.</para>
+   <para>In most cases, you should not need to use
+    <literal>BITS</literal> explicitly. The <literal>aout</literal>,
+    <literal>coff</literal>, <literal>elf32</literal> and
+    <literal>win32</literal> object formats, which are designed for
+    use in 32-bit operating systems, all cause Yasm to select 32-bit
+    mode by default. The <literal>elf64</literal> and
+    <literal>win64</literal> object formats, which are designed for
+    use in 64-bit operating systems, both cause Yasm to select 64-bit
+    mode by default. The <literal>obj</literal> object format allows
+    you to specify each segment you define as either
+    <literal>USE16</literal> or <literal>USE32</literal>, and Yasm
+    will set its operating mode accordingly, so the use of the
+    <literal>BITS</literal> directive is once again
+    unnecessary.</para>
 
-  <para>The <literal>BITS</literal> directive has an exactly
-   equivalent primitive form, <literal>[BITS 16]</literal> and
-   <literal>[BITS 32]</literal>. The user-level form is a macro which
-   has no function other than to call the primitive form.</para>
+   <para>The most likely reason for using the <literal>BITS</literal>
+    directive is to write 32-bit or 64-bit code in a flat binary file;
+    this is because the <literal>bin</literal> object format defaults
+    to 16-bit mode in anticipation of it being used most frequently to
+    write DOS <literal>.COM</literal> programs, DOS
+    <literal>.SYS</literal> device drivers and boot loader
+    software.</para>
+
+   <para>You do <emphasis>not</emphasis> need to specify <literal>BITS
+     32</literal> merely in order to use 32-bit instructions in a
+    16-bit DOS program; if you do, the assembler will generate
+    incorrect code because it will be writing code targeted at a
+    32-bit platform, to be run on a 16-bit one.  However, it
+    <emphasis>is</emphasis> necessary to specify <literal>BITS
+     64</literal> to use 64-bit instructions and registers; this is
+    done to allow use of those instruction and register names in
+    32-bit or 16-bit programs, although such use will generate a
+    warning.</para>
+
+   <para>When Yasm is in <literal>BITS 16</literal> mode, instructions
+    which use 32-bit data are prefixed with an 0x66 byte, and those
+    referring to 32-bit addresses have an 0x67 prefix. In
+    <literal>BITS 32</literal> mode, the reverse is true: 32-bit
+    instructions require no prefixes, whereas instructions using
+    16-bit data need an 0x66 and those working in 16-bit addresses
+    need an 0x67.  In <literal>BITS 64</literal> mode, 32-bit
+    instructions usually require no prefixes, and most uses of 64-bit
+    registers or data size requires a prefix between 0x40 and
+    0x4F.</para>
+
+   <para>The <literal>BITS</literal> directive has an exactly
+    equivalent primitive form, <literal>[BITS 16]</literal>,
+    <literal>[BITS 32]</literal>, and <literal>[BITS 64]</literal>.
+    The user-level form is a macro which has no function other than to
+    call the primitive form.</para>
+  </section>
+
+  <section id="nasm-directive-use16use32use64">
+   <title><literal>USE16</literal>, <literal>USE32</literal>, and
+    <literal>USE64</literal></title>
+
+   <indexterm>
+    <primary><literal>USE16</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>USE32</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>USE64</literal></primary>
+   </indexterm>
+
+   <para>The <literal>USE16</literal>, <literal>USE32</literal>, and
+    <literal>USE64</literal> directives can be used in place of
+    <literal>BITS 16</literal>, <literal>BITS 32</literal>, and
+    <literal>BITS 64</literal> respectively for compatibility with
+    other assemblers.</para>
+  </section>
  </section>
 
- <section id="nasm-directive-use16use32">
-  <title><literal>USE16</literal> and <literal>USE32</literal>:
-   Aliases for <literal>BITS</literal></title>
-
-  <indexterm>
-   <primary><literal>USE16</literal></primary>
-  </indexterm>
-
-  <indexterm>
-   <primary><literal>USE32</literal></primary>
-  </indexterm>
-
-  <para>The <literal>USE16</literal> and <literal>USE32</literal>
-   directives can be used in place of <literal>BITS 16</literal> and
-   <literal>BITS 32</literal> for compatibility with other
-   assemblers.</para>
- </section>
-
- <section id="nasm-directive-section">
-  <title><literal>SECTION</literal> or <literal>SEGMENT</literal>:
-   Changing and Defining Sections</title>
-
-  <indexterm>
-   <primary><literal>SECTION</literal></primary>
-  </indexterm>
-
-  <indexterm>
-   <primary><literal>SEGMENT</literal></primary>
-  </indexterm>
+ <section id="nasm-directive-section-top">
+  <title>Changing and Defining Sections</title>
 
   <indexterm>
    <primary>Defining Sections</primary>
@@ -158,27 +177,44 @@
    <primary>switching between sections</primary>
   </indexterm>
 
-  <para>The <literal>SECTION</literal> directive
-   (<literal>SEGMENT</literal> is an exactly equivalent synonym)
-   changes which section of the output file the code you write will be
-   assembled into. In some object file formats, the number and names
-   of sections are fixed; in others, the user may make up as many as
-   they wish. Hence <literal>SECTION</literal> may sometimes give an
-   error message, or may define a new section, if you try to switch to
-   a section that does not (yet) exist.</para>
+  <section id="nasm-directive-section">
+   <title><literal>SECTION</literal> and
+    <literal>SEGMENT</literal></title>
 
-  <indexterm>
-   <primary>standardized section names</primary>
-  </indexterm>
+   <indexterm>
+    <primary><literal>SECTION</literal></primary>
+   </indexterm>
 
-  <para>The Unix object formats, and the <literal>bin</literal> object
-   format, all support the standardised section names
-   <literal>.text</literal>, <literal>.data</literal> and
-   <literal>.bss</literal> for the code, data and uninitialised-data
-   sections. The <literal>obj</literal> format, by contrast, does not
-   recognise these section names as being special, and indeed will
-   strip off the leading period of any section name that has
-   one.</para>
+   <indexterm>
+    <primary><literal>SEGMENT</literal></primary>
+   </indexterm>
+
+   <para>The <literal>SECTION</literal> directive
+    (<literal>SEGMENT</literal> is an exactly equivalent synonym)
+    changes which section of the output file the code you write will
+    be assembled into. In some object file formats, the number and
+    names of sections are fixed; in others, the user may make up as
+    many as they wish. Hence <literal>SECTION</literal> may sometimes
+    give an error message, or may define a new section, if you try to
+    switch to a section that does not (yet) exist.</para>
+  </section>
+
+  <section id="nasm-directive-section-standard-name">
+   <title>Standardized Section Names</title>
+
+   <indexterm>
+    <primary>standardized section names</primary>
+   </indexterm>
+
+   <para>The Unix object formats, and the <literal>bin</literal>
+    object format, all support the standardised section names
+    <literal>.text</literal>, <literal>.data</literal> and
+    <literal>.bss</literal> for the code, data and uninitialised-data
+    sections. The <literal>obj</literal> format, by contrast, does not
+    recognise these section names as being special, and indeed will
+    strip off the leading period of any section name that has
+    one.</para>
+  </section>
 
   <section id="nasm-directive-section-macro">
    <title>The <literal>__SECT__</literal> Macro</title>
@@ -311,8 +347,7 @@ tsr_end:</programlisting>
  </section>
 
  <section id="nasm-directive-extern">
-  <title><literal>EXTERN</literal>: Importing Symbols from Other
-   Modules</title>
+  <title><literal>EXTERN</literal>: Importing Symbols</title>
 
   <indexterm>
    <primary><literal>EXTERN</literal></primary>
@@ -359,8 +394,7 @@ tsr_end:</programlisting>
  </section>
 
  <section id="nasm-directive-global">
-  <title><literal>GLOBAL</literal>: Exporting Symbols to Other
-   Modules</title>
+  <title><literal>GLOBAL</literal>: Exporting Symbols</title>
 
   <indexterm>
    <primary><literal>GLOBAL</literal></primary>

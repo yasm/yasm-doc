@@ -5,8 +5,8 @@
 <chapter id="running">
  <title>Running Yasm</title>
 
- <section>
-  <title>Synopsis</title>
+ <section id="yasm-synopsis">
+  <title><command>yasm</command> Synopsis</title>
 
   <cmdsynopsis>
    <command>yasm</command>
@@ -72,7 +72,8 @@
      derivatives and AMD64 instruction sets.  To print a list of
      available architectures to standard output, use
      <quote>help</quote> as <replaceable>arch</replaceable>.  See
-     <xref linkend="architectures" /> for more details.</para>
+     <xref linkend="running-arch" /> for a list of supported
+     architectures.</para>
    </section>
 
    <section id="yasm-option-oformat">
@@ -84,7 +85,9 @@
      is <quote>bin</quote>, which is a flat format binary with no
      relocation.  To print a list of available object formats to
      standard output, use <quote>help</quote> as
-     <replaceable>format</replaceable>.</para>
+     <replaceable>format</replaceable>.  See <xref
+      linkend="running-objfmt" /> for a list of supported object
+     formats.</para>
    </section>
 
    <section id="yasm-option-dformat">
@@ -100,7 +103,9 @@
      invalid combination is selected.  The default object format is
      selected by the object format.  To print a list of available
      debugging formats to standard output, use <quote>help</quote> as
-     <replaceable>debug</replaceable>.</para>
+     <replaceable>debug</replaceable>.  See <xref
+      linkend="running-dbgfmt" /> for a list of supported debugging
+     formats.</para>
    </section>
 
    <section id="yasm-option-help">
@@ -173,7 +178,9 @@
      the Netwide Assembler.  Another available parser is
      <quote>gas</quote>, which emulates the syntax of GNU AS.  To
      print a list of available parsers to standard output, use
-     <quote>help</quote> as <replaceable>parser</replaceable>.</para>
+     <quote>help</quote> as <replaceable>parser</replaceable>.  See
+     <xref linkend="running-parser" /> for a list of supported
+     parsers.</para>
    </section>
 
    <section id="yasm-option-preproc">
@@ -327,6 +334,226 @@
       />).</para>
    </section>
   </section>
+ </section>
+
+ <section id="running-arch">
+  <title>Supported Target Architectures</title>
+
+  <para>Yasm supports the following instruction set architectures
+   (ISAs).  For more details see <xref linkend="architectures"
+    />.</para>
+
+  <variablelist>
+   <varlistentry>
+    <term>lc3b</term>
+
+    <listitem>
+     <para>The <quote>lc3b</quote> architecture supports the LC-3b ISA
+      as used in the ECE 411 (formerly ECE 312) course at the
+      University of Illinois, Urbana-Champaign, as well as other
+      university courses.  See <ulink
+       url="http://courses.ece.uiuc.edu/ece411/"/> for more details
+      and example code.  The <quote>lc3b</quote> architecture consists
+      of only one machine: <quote>lc3b</quote>.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>x86</term>
+
+    <listitem>
+     <para>The <quote>x86</quote> architecture supports the IA-32
+      instruction set and derivatives (including 16-bit and non-Intel
+      instructions) and the AMD64 instruction set.  It consists of two
+      machines: <quote>x86</quote> (for the IA-32 and derivatives) and
+      <quote>amd64</quote> (for the AMD64 and derivatives).  The
+      default machine for the <quote>x86</quote> architecture is the
+      <quote>x86</quote> machine.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+ </section>
+
+ <section id="running-parser">
+  <title>Supported Parsers (Syntaxes)</title>
+
+  <para>Yasm parses the following assembler syntaxes:</para>
+
+  <variablelist>
+   <varlistentry>
+    <term>nasm</term>
+
+    <listitem>
+     <para>NASM syntax is the most full-featured syntax supported by
+      Yasm.  Yasm is nearly 100% compatible with NASM for 16-bit and
+      32-bit x86 code.  Yasm additionally supports 64-bit AMD64 code
+      with Yasm extensions to the NASM syntax.  For more details see
+      <xref linkend="nasm" />.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>gas</term>
+
+    <listitem>
+     <para>The GNU Assembler (GAS) is the de-facto cross-platform
+      assembler for modern Unix systems, and is used as the backend
+      for the GCC compiler.  Yasm's support for GAS syntax is
+      moderately good, although immature: not all directives are
+      supported, and only 32-bit x86 and AMD64 architectures are
+      supported.  There is also no support for the GAS preprocessor.
+      Despite these limitations, Yasm's GAS syntax support is good
+      enough to handle essentially all x86 and AMD64 GCC compiler
+      output.  For more details see <xref linkend="gas" />.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+ </section>
+
+ <section id="running-objfmt">
+  <title>Supported Object Formats</title>
+
+  <para>Yasm supports the following object formats.  More details can
+   be found in <xref linkend="objfmts" />.</para>
+
+  <variablelist>
+   <varlistentry>
+    <term>bin</term>
+
+    <listitem>
+     <para>The <quote>bin</quote> object format produces a
+      flat-format, non-relocatable binary file.  It is appropriate for
+      producing DOS .COM executables or things like boot blocks.  It
+      supports only 3 sections and those sections are written in a
+      predefined order to the output file.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>coff</term>
+
+    <listitem>
+     <para>The COFF object format is an older relocatable object
+      format used on older Unix and compatible systems, and also (more
+      recently) on the DJGPP development system for DOS.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>dbg</term>
+
+    <listitem>
+     <para>The <quote>dbg</quote> object format is not a
+      <quote>real</quote> object format; the output file it creates
+      simply describes the sequence of calls made to it by Yasm and
+      the final object and symbol table information in a
+      human-readable text format (that in a normal object format would
+      get processed into that object format's particular binary
+      representation).  This object format is not intended for real
+      use, but rather for debugging Yasm's internals.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>elf</term>
+
+    <listitem>
+     <para>The ELF object format really comes in two flavors:
+      <quote>elf32</quote> (for 32-bit targets) and
+      <quote>elf64</quote> (for 64-bit targets).  ELF is a standard
+      object format in common use on modern Unix and compatible
+      systems (e.g. Linux, FreeBSD).  ELF has complex support for
+      relocatable and shared objects.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>win32</term>
+
+    <listitem>
+     <para>The Win32 object format produces object files compatible
+      with Microsoft compilers (such as Visual C++) that target the
+      32-bit x86 Windows platform.  The object format itself is an
+      extended version of COFF.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>win64</term>
+
+    <listitem>
+     <para>The Win64 object format produces object files compatible
+      with Microsoft compilers that target the 64-bit
+      <quote>x64</quote> Windows platform.  This format is very
+      similar to the win32 object format, but produces 64-bit
+      objects.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>xdf</term>
+
+    <listitem>
+     <para>The XDF object format is essentially a simplified version
+      of COFF.  It's a multi-section relocatable format that supports
+      64-bit physical and virtual addresses.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+ </section>
+
+ <section id="running-dbgfmt">
+  <title>Supported Debugging Formats</title>
+
+  <para>Yasm supports generation of source-level debugging information
+   in the following formats.  More details can be found in <xref
+    linkend="dbgfmts" />.</para>
+
+  <variablelist>
+   <varlistentry>
+    <term>cv8</term>
+
+    <listitem>
+     <para>The CV8 debug format is used by Microsoft Visual Studio
+      2005 (version 8.0) and is completely undocumented, although it
+      bears strong similarities to earlier CodeView formats.  Yasm's
+      support for the CV8 debug format is currently limited to
+      generating assembly-level line number information (to allow some
+      level of source-level debugging).  The CV8 debug information is
+      stored in the .debug$S and .debug$T sections of the Win64 object
+      file.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>dwarf2</term>
+
+    <listitem>
+     <para>The DWARF 2 debug format is a complex, well-documented
+      standard for debugging information.  It was created to overcome
+      shortcomings in STABS, allowing for much more detailed and
+      compact descriptions of data structures, data variable movement,
+      and complex language structures such as in C++.  The debugging
+      information is stored in sections (just like normal program
+      sections) in the object file.  Yasm supports full pass-through of
+      DWARF2 debugging information (e.g. from a C++ compiler), and can
+      also generate assembly-level line number information.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>stabs</term>
+
+    <listitem>
+     <para>The STABS debug format is a poorly documented,
+      semi-standard format for debugging information in COFF and ELF
+      object files.  The debugging information is stored as part of
+      the object file's symbol table and thus is limited in complexity
+      and scope.  Despite this, STABS is a common debugging format on
+      older Unix and compatible systems, as well as DJGPP.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
  </section>
 
  <section id="running-examples">
