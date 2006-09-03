@@ -99,15 +99,15 @@
    <literal>REPNE</literal>/<literal>REPNZ</literal>, in the usual
    way. Explicit address-size and operand-size prefixes
    <literal>A16</literal>, <literal>A32</literal>,
-   <literal>O16</literal> and <literal>O32</literal> are
-   provided&mdash;. You can also use the name of a segment register as
-   an instruction prefix: coding <literal>es mov [bx],ax</literal> is
-   equivalent to coding <literal>mov [es:bx],ax</literal>. We
-   recommend the latter syntax, since it is consistent with other
-   syntactic features of the language, but for instructions such as
-   <literal>LODSB</literal>, which has no operands and yet can require
-   a segment override, there is no clean syntactic way to proceed
-   apart from <literal>es lodsb</literal>.</para>
+   <literal>O16</literal> and <literal>O32</literal> are provided. You
+   can also use the name of a segment register as an instruction
+   prefix: coding <literal>es mov [bx],ax</literal> is equivalent to
+   coding <literal>mov [es:bx],ax</literal>. We recommend the latter
+   syntax, since it is consistent with other syntactic features of the
+   language, but for instructions such as <literal>LODSB</literal>,
+   which has no operands and yet can require a segment override, there
+   is no clean syntactic way to proceed apart from <literal>es
+    lodsb</literal>.</para>
 
   <para>An instruction is not required to use a prefix: prefixes such
    as <literal>CS</literal>, <literal>A32</literal>,
