@@ -144,4 +144,5 @@
  </part>
 
  <!-- Back matter -->
+ <index id="book-index" />
 </book>
