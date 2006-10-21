@@ -23,7 +23,7 @@
     <option><replaceable>other options</replaceable></option>
    </arg>
 
-   <arg choice="opt"><replaceable>infile</replaceable></arg>
+   <arg choice="req"><replaceable>infile</replaceable></arg>
   </cmdsynopsis>
  </section>
 
@@ -40,9 +40,10 @@
    removing all extensions for a raw binary file.  Failing that, the
    output file name will be <filename>yasm.out</filename>.</para>
 
-  <para>If called without an <replaceable>infile</replaceable>,
-   <command>yasm</command> assembles the standard input and directs
-   output to the file <replaceable>outfile</replaceable>, or
+  <para>If called with an <replaceable>infile</replaceable> of
+   <quote>-</quote>, <command>yasm</command> assembles the standard
+   input and directs output to the file
+   <replaceable>outfile</replaceable>, or
    <filename>yasm.out</filename> if no
    <replaceable>outfile</replaceable> is specified.</para>
 
