@@ -469,6 +469,19 @@
    </varlistentry>
 
    <varlistentry>
+    <term>rdf</term>
+
+    <listitem>
+     <para>The RDOFF2 object format is a simple multi-section format
+      originally designed for NASM.  It supports segment references
+      but not WRT references.  It was designed primarily for
+      simplicity and has minimalistic headers for ease of loading and
+      linking.  A complete toolchain (linker, librarian, and loader)
+      is distributed with NASM.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
     <term>win32</term>
 
     <listitem>
@@ -539,6 +552,15 @@
       sections) in the object file.  Yasm supports full pass-through of
       DWARF2 debugging information (e.g. from a C++ compiler), and can
       also generate assembly-level line number information.</para>
+    </listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term>null</term>
+
+    <listitem>
+     <para>The <quote>null</quote> debug format is a placeholder; it
+      adds no debugging information to the output file.</para>
     </listitem>
    </varlistentry>
 
