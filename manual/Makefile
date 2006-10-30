@@ -1,6 +1,9 @@
 # $Id$
 #
-# Requires xsltproc, xmllint, and dblatex (and dependencies) for PDF output.
+# Requires:
+# - xsltproc (usually part of libxslt package)
+# - xmllint (usually part of libxml2 package)
+# - dblatex (and dependencies) for PDF output
 
 XSLTPROC?= xsltproc
 XMLLINT?= xmllint
