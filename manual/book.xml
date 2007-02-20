@@ -99,10 +99,10 @@
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="objfmt-win32/chapter.xml" />
-
+  -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="objfmt-win64/chapter.xml" />
-
+  <!--
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="objfmt-xdf/chapter.xml" />
   -->
