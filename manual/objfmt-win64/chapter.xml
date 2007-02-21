@@ -59,35 +59,36 @@
   </indexterm>
 
   <para>Any x64 functions that make use of the stack in Windows must
-   support exception handling even if they themselves make no internal
-   use of such facilities.  The reason is that when an exception is
+   support exception handling even if they make no internal use of
+   such facilities.  The reason for this is that when an exception is
    raised the system must be able to identify the function in which it
-   occurred and then use this information to find and establish an
-   execution context for an appropriate exception handler.  This
-   requires an analysis of the chain of functions in the execution
-   path prior to the point at which the exception occurs.  This
-   analysis has to work backwards through the chain of function calls
-   to determine whether functions have appropriate exception handlers
-   or non-volatile registers have been saved and need to be restored
-   to establish the execution context for the next higher function in
-   the chain.  This process, which is called stack unwinding, depends
-   on compilers and assemblers providing <quote>unwind data</quote>
-   for nearly all functions.</para>
+   occurred and then use this information to find an appropriate
+   exception handler and establish an execution context for it.  This
+   is done by working backwards through the chain of function calls
+   prior to the exception to determine: (a) whether these functions
+   have appropriate exception handlers, or (b) whether they have saved
+   non-volatile registers that would need to be restored in order to
+   establish the execution context for the next higher function in the
+   chain.  This process, which is called stack unwinding, depends on
+   compilers and assemblers providing <quote>unwind data</quote> for
+   functions that use the stack.</para>
 
   <para>The following sections give the details of the mechanisms that
-   are used in Yasm to meet these needs and hence provide compliant
-   assembler code functions for the 64 bit versions of Windows.</para>
+   are available in Yasm to meet these needs and hence provide
+   compliant assembler code functions for the 64 bit versions of
+   Windows.  Yasm facilities are very similar to those provided by
+   MASM.</para>
 
   <section id="objfmt-win64-calling-convention">
    <title>x64 Stack, Register and Function Parameter
     Conventions</title>
 
    <para><xref linkend="win64-calling-convention"/> shows how the
-    stack will typically be used in a series of function calls.  After
-    a function is entered the first step is to allocate space to save
-    any non-volatile registers that the function uses.  Space is then
-    allocated for local variables.  If needed a frame pointer will
-    typically be set at this point.</para>
+    stack will typically be used in a series of function calls.  When
+    a function is entered the first step is to allocate space for
+    saving any non-volatile registers that the function uses.
+    Additional space may be allocated for local variables and a frame
+    pointer register will be set if one is needed.</para>
 
    <figure id="win64-calling-convention">
     <title>x64 Calling Convention</title>
@@ -106,15 +107,15 @@
    <para>The first four integer parameters for functions are passed
     (in left to right order) in the registers RCX, RDX, R8 and R9.
     Further integer parameters are passed on the stack by pushing them
-    in right to left order so that parameters to the left are closer
-    on the stack to the called function.  As shown in <xref
+    in right to left order (so that parameters to the left are closer
+    on the stack to the called function).  As shown in <xref
      linkend="win64-calling-convention"/>, <quote>shadow space</quote>
-    is allocated for the four register parameters but the parameter
-    values are not stored here by the calling function.  The called
-    function hence has to store its parameters here if necessary; it
-    can also use this space for other purposes and the called function
-    cannot assume it will be unchanged on return.  Register parameters
-    are passed in the least significant ends of registers.</para>
+    is allocated for the four register parameters but their values are
+    not stored by the calling function.  The called function must
+    hence store its parameters here if necessary but it can also use
+    this space for other purposes; the called function cannot assume
+    this area will be unchanged on return.  Register parameters occupy
+    the least significant ends of registers.</para>
 
    <para>The first four floating point parameters are passed in XMM0
     to XMM3 with the corresponding integer registers not being used.
@@ -129,14 +130,15 @@
     function.</para>
 
    <para>The registers RAX, RCX, RDX, R8, R9, R10, R11 are volatile
-    and can be used by a called function as necessary without
-    preserving their values (note, however, that some are used to pass
-    integer parameters).  A calling function cannot rely on their
-    value being preserved across function calls.</para>
+    and can be freely used by a called function without preserving
+    their values (note, however, that some are used to pass integer
+    parameters).  A calling function cannot rely on their value being
+    preserved across function calls.</para>
 
    <para>The registers RBX, RBP, RSI, RDI, R12, R13, R14, and R15 are
     non-volatile and must be saved and restored by any function that
-    uses them.  XMM6 to XMM15 are also non-volatile.</para>
+    uses them.  XMM6 to XMM15 are also non-volatile and must also be
+    saved if a function uses them.</para>
 
    <para>Function return values that fit in 64 bits are returned in
     RAX except for floating point values, which are returned in XMM0.
@@ -145,7 +147,7 @@
     pointed to by an additional function parameter.  This becomes the
     first parameter and pushes all other parameters to the right.
     This pointer value must also be passed back to the calling program
-    when the called program returns.</para>
+    in RAX when the called program returns.</para>
   </section>
 
   <section id="objfmt-win64-function-structure">
@@ -157,22 +159,22 @@
     functions must have a defined prologue that saves register
     parameters in their shadow locations if necessary, saves any
     non-volatile registers that are used, allocates stack space for
-    local variables, and possibly establishes a frame pointer.  They
-    must also have one or more defined epilogues that restore the
-    non-volatile registers before returning to the calling function.
-    If a frame function calls other functions it must maintain the 16
-    byte alignment of the stack except within its prologue and
-    epilogue code. Other frame functions and leaf functions do not
-    need to maintain this stack alignment. In general, unless dynamic
-    space is being used, the stack pointer will not be changed between
-    the end of the prologue and entry into an epilogue.  If it does
-    change after the prologue it is then essential that the prologue
-    establishes a frame register to address the fixed part of the
-    stack.</para>
+    local variables, and possibly establishes a register as a frame
+    pointer.  They must also have one or more defined epilogues that
+    restore the non-volatile registers before returning to the calling
+    function.  If a frame function calls other functions it must
+    maintain the 16 byte alignment of the stack except within its
+    prologue and epilogue code. Other frame functions and leaf
+    functions do not need to maintain this stack alignment. In
+    general, unless dynamic space is being used, a function will not
+    change the stack pointer between its prologue and its epilogue
+    code.  If it is changed it is then essential that the prologue
+    assigns a register as a frame pointer to identify the fixed part
+    of the stack.</para>
 
-   <para>A typical prologue will have the form:</para>
+   <para>A typical function prologue will have the form:</para>
 
-   <programlisting>    mov     [rsp+8],rcx         ; store 1st parameter in its shadow space
+   <programlisting>    mov     [rsp+8],rcx         ; store the first parameter in its shadow space
     push    r14                 ; save a non-volatile register
     push    r13                 ; save a non-volatile register
     sub     rsp,size            ; allocate stack space for local variables
@@ -181,7 +183,7 @@
    <para>If a large amount of stack space is used it is also necessary
     to call <literal>__chkstk</literal> with size in RAX prior to
     allocating this stack space in order to add memory pages to the
-    stack if necessary.  The matching form of the epilogue is:</para>
+    stack if needed.  The matching form of the epilogue is:</para>
 
    <programlisting>    lea     rsp,[r13-128]       ; not part of epilogue
     add     rsp,size            ; epilogue starts here
@@ -197,47 +199,47 @@
     ret</programlisting>
 
    <para>These are the only two forms of epilogue allowed: it must
-    consist of either an <literal>add rsp,const</literal> or
-    <literal>lea rsp,[frame pointer register+const]</literal> followed
-    by zero or more 8 byte register pops and then a return instruction
-    (the final instruction can also be one of a limited set of jump
-    instructions instead of the return).  Epilogue forms are
-    restricted because this allows the exception dispatch code to
-    locate them without the need for unwind data in addition to that
-    for the prologue.</para>
+    consist of either an <literal>add rsp,const</literal> or an
+    <literal>lea rsp,[frame pointer register+const]</literal>
+    instruction followed by zero or more 8 byte register pops and then
+    a return instruction (the final instruction can also be one of a
+    limited set of jump instructions instead of the return).  Epilogue
+    forms are restricted because this allows the exception dispatch
+    code to locate them without the need for unwind data in addition
+    to that for the prologue.</para>
 
    <para>All frame functions require prologues and epilogues.  They
     can allocate stack space dynamically provided that they employ a
-    frame pointer register to identify the fixed part of their stack
-    frame.  A frame function without a frame pointer must maintain a
-    16 byte alignment of the stack pointer outside its prologue and
-    epilogue code.  Leaf functions and frame functions that use frame
-    pointer registers do not need to maintain 16 byte stack alignment
-    but the latter need to re-establish such an alignment if and when
-    they call other functions.</para>
+    register as a frame pointer to identify the fixed part of their
+    stack frame.  A frame function without a frame pointer must
+    maintain a 16 byte alignment of the stack pointer outside its
+    prologue and epilogue code.  Leaf functions and frame functions
+    that use frame pointer registers do not need to maintain 16 byte
+    stack alignment but the latter need to re-establish such a stack
+    alignment if and when they call other functions.</para>
  
    <para>The data on the location and length of each function prologue
-    and that on the preserved non-volatile registers is recorded in
-    special sections in the object code.  Yasm provides a set of
-    macros to create this data (called unwind data) which will now be
-    described with examples of the way they are used.</para>
+    and on the preserved non-volatile registers is recorded in special
+    sections in the object code.  Yasm provides a set of macros to
+    create this data (called unwind data) that will now be described
+    with examples of the way they are used.</para>
   </section>
 
   <section id="objfmt-win64-frame-details">
    <title>Further Stack Frame Details</title>
 
-   <para>There are two types of stack frames that need to be
-    considered in compiling unwind data.</para>
+   <para>There are two types of stack frame that need to be
+    considered in creating unwind data.</para>
 
-   <para>The first, which is shown in <xref
+   <para>The first, shown at left in <xref
      linkend="win64-stack-frame-detailed"/>, involves only a fixed
     allocation of space on the stack and results in a stack pointer
     that remains fixed in value within a function between the end of
-    its prologue and the start of any of its epilogues (except in
-    calls to other functions).  In this type of stack frame the stack
-    pointer value at the end of the prologue is used as the base for
-    the offsets used in unwind data when recording register save
-    positions.</para>
+    its prologue and the start of any of its epilogues except in calls
+    to other functions.  In this type of stack frame the stack pointer
+    value at the end of the prologue is used as the base for the
+    offsets used in unwind data to record the position of register
+    save data.</para>
 
    <figure id="win64-stack-frame-detailed">
     <title>x64 Detailed Stack Frame</title>
@@ -253,31 +255,32 @@
     </mediaobject>
    </figure>
 
-   <para>In the second type of frame, shown in <xref
+   <para>In the second type of frame, shown at right in <xref
      linkend="win64-stack-frame-detailed"/>, space is dynamically
     allocated on the stack and this means that the value of the stack
     pointer cannot be used as a basis for unwind offsets.  In this
-    situation a frame register must be used to allow the unwind code
-    to determine register save positions on the stack.  In this case
-    the base for unwind offsets is the lower end of the fixed
-    allocation area and is usually the value of the stack pointer when
-    the frame register value is assigned. In order to allow single
-    byte offsets (-128 to +127) from the frame register to access the
-    maximum amount of data it is normal to offset its value from this
-    base address towards the centre of the allocated area on the stack
-    as shown.  This offset, which must be a multiple of 16 bytes, is
-    recorded in the unwind data along with the number of the frame
-    register and this allows the offset base address to be calculated.
-    When a frame register is used, a function is free to change the
-    stack pointer although it must realign it to a 16 byte boundary if
-    it calls other functions.</para>
+    situation a frame pointer register must be used to allow the
+    unwind code to determine offsets on the stack.  Here the base for
+    unwind offsets is the lower end of the fixed allocation area,
+    which is usually the value of the stack pointer when the frame
+    register value is assigned (which must occur before unwind macros
+    with offsets are used).  In order to allow the maximum amount of
+    data to be accessed with single byte offsets (-128 to +127) from
+    the frame register, it is normal to bias its value from this base
+    address towards the centre of the allocated area on the stack.
+    The identity of this frame register and offset, which must be a
+    multiple of 16 bytes, is recorded in the unwind data and this
+    allows the offset base address to be calculated.  When a frame
+    register is used, a function is free to change the stack pointer
+    but it must align it to a 16 byte boundary if and when it calls
+    other functions.</para>
   </section>
 
   <section id="objfmt-win64-unwind-low-level">
-   <title>Low Level Primitives for Unwind Operations</title>
+   <title>Low Level Yasm Primitives for Unwind Operations</title>
 
-   <para>Here are the low level facilities used to generate unwind
-    data with an example of their use.</para>
+   <para>Here are the low level facilities Yasm provides to create unwind
+    data.</para>
 
    <variablelist>
     <varlistentry>
@@ -374,44 +377,42 @@
      <term><literal>endproc_frame</literal></term>
 
      <listitem>
-      <para>Used at the end of funtions started with
-       proc_frame.</para>
+      <para>Used at the end of functions started with
+       <literal>proc_frame</literal>.</para>
      </listitem>
     </varlistentry>
    </variablelist>
 
+   <para>Here is an example of how they are used (based on a Microsoft
+    example with MASM).</para>
+
    <programlisting>PROC_FRAME      sample   
-    db 0x48     ; emit a REX prefix to enable hot-patching
+    db          0x48            ; emit a REX prefix to enable hot-patching
     push        rbp
-    [pushreg    rbp]
+    [pushreg    rbp]            ; create unwind data for an rbp register push
     sub         rsp,0x40
-    [allocstack 0x40]
+    [allocstack 0x40]           ; create unwind data for stack allocation
     lea         rbp,[rsp+0x20]
-    [setframe   rbp,0x20]
-    movdqa      [rbp],xmm7      ; the offset is from the base of the frame
-    [savexmm128 xmm7, 0x20]     ; not from the frame register value 
+    [setframe   rbp,0x20]       ; create unwind data for a frame register in rbp
+    movdqa      [rbp],xmm7
+    [savexmm128 xmm7, 0x20]     ; create unwind data for an XMM register save
     mov         [rbp+0x18],rsi
-    [savereg    rsi,0x38]
+    [savereg    rsi,0x38]       ; create unwind data for a save of rsi
     mov         [rsp+0x10],rdi
-    [savereg    rdi, 0x10]      ; you can still use RSP as the base of the
-                                ; frame or any other register you choose
+    [savereg    rdi, 0x10]      ; create unwind data for a save of rdi
 END_PROLOGUE
 
-    ; you can modify the stack pointer outside of the prologue (similar
-    ; to alloca) because we have a frame pointer. If we didn't have
-    ; a frame pointer, this would be illegal; if we didn't make this
-    ; modification, there would be no need for a frame pointer
+    ; We can change the stack pointer outside of the prologue because we
+    ; have a frame pointer.  If we didn't have one this would be illegal.
+    ; A frame pointer is needed because of this stack pointer modification.
 
-    sub         rsp,0x60
+    sub         rsp,0x60        ; we are free to modify the stack pointer
     mov         rax,0           ; we can unwind this access violation 
-    mov         rax,[rax]       ; because of the frame pointer
+    mov         rax,[rax]
 
-    ; restore the registers that weren't saved with a push; this isn't
-    ; part of the official epilog
-
-    movdqa      xmm7,[rbp]
-    mov         rsi,[rbp+0x18]
-    mov         rdi,[rbp-0x10]
+    movdqa      xmm7,[rbp]      ; restore the registers that weren't saved
+    mov         rsi,[rbp+0x18]  ; with a push; this isn't part of the
+    mov         rdi,[rbp-0x10]  ; official epilog
 
     lea         rsp,[rbp-0x20]  ; This is the official epilog
     pop         rbp
@@ -422,11 +423,11 @@ ENDPROC_FRAME</programlisting>
   <section id="objfmt-win64-unwind-high-level">
    <title>High Level Macros for Unwind Operations</title>
 
-   <para>It can be seen that there is a close association between the
-    stack operations and the related unwind macros, which allows
-    higher level macros to be used to combine these operation into
+   <para>It can be seen that there is a close association between
+    stack operations and the related unwind macros and this allows
+    higher level macros to be used to combine these operations into
     single macro instructions.  The following macros all perform
-    operations and then issue the related unwind data.</para>
+    operations and create the related unwind data.</para>
 
    <variablelist>
     <varlistentry>
@@ -550,7 +551,7 @@ ENDPROC_FRAME</programlisting>
     </varlistentry>
    </variablelist>
 
-   <para>Here is the prevoius example using these higher level
+   <para>Here is the previous example using these higher level
     macros.</para>
 
    <programlisting>PROC_FRAME       sample         ; start the prologue
@@ -561,15 +562,15 @@ ENDPROC_FRAME</programlisting>
     save_reg     rsi, 0x38      ; the unwind base address is [rsp on entry - 72]
     save_reg     rdi, 0x10      ; the frame register is [rsp on entry - 40]
 END_PROLOGUE
-    sub          rsp,0x60       ; we can now change the stack pointer
-    mov          rax,0          ; we can also unwind this access violation 
+    sub          rsp,0x60       ; we can change the stack pointer
+    mov          rax,0          ; and unwind this access violation 
     mov          rax,[rax]      ; because we have a frame pointer
 
     movdqa       xmm7,[rbp]     ; restore the registers that weren't saved with
     mov          rsi,[rbp+0x18] ; a push (not a part of the official epilog)
     mov          rdi,[rbp-0x10]
 
-    lea          rsp,[rbp-0x20] ; This is the official epilogue
+    lea          rsp,[rbp-0x20] ; the official epilogue
     pop          rbp
     ret
 ENDPROC_FRAME</programlisting>
