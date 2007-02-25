@@ -59,7 +59,10 @@ html-split: fullbook.xml ${PNGIMAGES}
 
 pdf: manual.pdf
 manual.pdf: fullbook.xml ${EPSIMAGES}
-	${DBLATEX} -t pdf -T db2latex -b pdftex -o manual.pdf fullbook.xml
+	${DBLATEX} -t pdf -S ../share/dblatex/yasm.specs -b pdftex \
+		-o manual.pdf \
+		-P doc.lot.show="figure,table,equation" \
+		fullbook.xml
 
 fullbook.xml: ${SOURCES}
 	${XMLLINT} --xinclude book.xml > fullbook.xml
