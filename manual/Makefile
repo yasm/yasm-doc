@@ -47,15 +47,17 @@ PNGIMAGES+= objfmt-win64/stack-frame-detailed.png
 all: html html-split pdf
 
 install: all
+	mkdir -p ${DESTDIR}
 	cp manual.pdf ${DESTDIR}
+	mkdir -p ${DESTDIR}/html
 	for html in *.html; do \
-	    cp $$html ${DESTDIR}; \
+	    cp $$html ${DESTDIR}/html; \
 	done
 	for pngdir in $(dir ${PNGIMAGES}); do \
-	    mkdir -p ${DESTDIR}/$$pngdir; \
+	    mkdir -p ${DESTDIR}/html/$$pngdir; \
 	done
 	for png in ${PNGIMAGES}; do \
-	    cp $$png ${DESTDIR}/$$png; \
+	    cp $$png ${DESTDIR}/html/$$png; \
 	done
 
 html: manual.html
