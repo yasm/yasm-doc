@@ -5,6 +5,8 @@
 # - xmllint (usually part of libxml2 package)
 # - dblatex (and dependencies) for PDF output
 
+DESTDIR?=	.
+
 XSLTPROC?=	xsltproc
 XMLLINT?=	xmllint
 DBLATEX?=	dblatex
@@ -24,7 +26,7 @@ PNMTOPNG?=	pnmtopng
 # low for the typical monitor in use today. The resolution of 100 looks
 # much better on these monitors without making the image too large for
 # a 640x480 monitor.
-EPS2PNM_RES?=	100
+EPS2PNM_RES?=	120
 
 SOURCES=  book.xml
 SOURCES+= introduction.xml
@@ -40,7 +42,21 @@ EPSIMAGES+= objfmt-win64/stack-frame-detailed.eps
 PNGIMAGES=  objfmt-win64/calling-convention.png
 PNGIMAGES+= objfmt-win64/stack-frame-detailed.png
 
+.PHONY: all install html html-split pdf
+
 all: html html-split pdf
+
+install: all
+	cp manual.pdf ${DESTDIR}
+	for html in *.html; do \
+	    cp $$html ${DESTDIR}; \
+	done
+	for pngdir in $(dir ${PNGIMAGES}); do \
+	    mkdir -p ${DESTDIR}/$$pngdir; \
+	done
+	for png in ${PNGIMAGES}; do \
+	    cp $$png ${DESTDIR}/$$png; \
+	done
 
 html: manual.html
 manual.html: fullbook.xml ${PNGIMAGES}
