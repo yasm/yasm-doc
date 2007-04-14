@@ -533,7 +533,7 @@
     [savereg    rsi,0x38]       ; create unwind data for a save of rsi
     mov         [rsp+0x10],rdi  ; save rdi
     [savereg    rdi, 0x10]      ; create unwind data for a save of rdi
-END_PROLOGUE
+[endprolog]
 
     ; We can change the stack pointer outside of the prologue because we
     ; have a frame pointer.  If we didn't have one this would be illegal.
@@ -668,7 +668,8 @@ ENDPROC_FRAME</programlisting>
     </varlistentry>
 
     <varlistentry>
-     <term><literal>end_prologue</literal></term>
+     <term><literal>end_prologue</literal>,
+      <literal>end_prolog</literal></term>
 
      <listitem>
       <para>Ends the function prologue (this is an alternative to
