@@ -2,110 +2,50 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version='1.0'>
 
 <xsl:template match="book">
-  <xsl:value-of select="$latex.book.preamblestart"/>
-  <xsl:call-template name="user.params.set"/>
-
-  <!-- Load babel before the style (bug #babel/3875) -->
-  <xsl:call-template name="babel.setup"/>
-  <xsl:text>\usepackage[hyperlink]{</xsl:text>
-  <xsl:value-of select="$latex.style"/>
-  <xsl:text>}&#10;</xsl:text>
-
-  <xsl:call-template name="font.setup"/>
-  <xsl:call-template name="citation.setup"/>
-  <xsl:call-template name="lang.setup"/>
-  <xsl:call-template name="biblio.setup"/>
-  <xsl:call-template name="annotation.setup"/>
-  <xsl:call-template name="user.params.set2"/>
-  <xsl:apply-templates select="bookinfo|info" mode="docinfo"/>
-
-  <!-- Override the infos if specified here -->
-  <xsl:if test="subtitle">
-    <xsl:text>\renewcommand{\DBKsubtitle}{</xsl:text>
-    <xsl:call-template name="normalize-scape">
-      <xsl:with-param name="string" select="subtitle"/>
+  <xsl:variable name="info" select="bookinfo|articleinfo|artheader|info"/>
+  <xsl:variable name="lang">
+    <xsl:call-template name="l10n.language">
+      <xsl:with-param name="target" select="(/set|/book|/article)[1]"/>
+      <xsl:with-param name="xref-context" select="true()"/>
     </xsl:call-template>
-    <xsl:text>}&#10;</xsl:text>
-  </xsl:if>
-
-  <xsl:text>\title{</xsl:text>
-    <xsl:call-template name="normalize-scape">
-      <xsl:with-param name="string">
-        <xsl:choose>
-        <xsl:when test="title">
-          <xsl:value-of select="title"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="bookinfo/title"/>
-        </xsl:otherwise>
-        </xsl:choose>
-      </xsl:with-param>
-    </xsl:call-template>
-  <xsl:text>}&#10;</xsl:text>
-
-  <!-- Get the Author -->
-  <xsl:variable name="author">
-    <xsl:choose>
-      <xsl:when test="bookinfo/authorgroup/author">
-        <xsl:apply-templates select="bookinfo/authorgroup"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:apply-templates select="bookinfo/author"/>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:variable>
 
-  <xsl:text>\author{</xsl:text>
-  <xsl:value-of select="$author"/>
-  <xsl:text>}&#10;</xsl:text>
+  <!-- Latex preamble -->
+  <xsl:apply-templates select="." mode="preamble">
+    <xsl:with-param name="lang" select="$lang"/>
+  </xsl:apply-templates>
 
-<!-- Set the indexation table -->
-% ------------------
-% Table d'Indexation
-% ------------------
-\renewcommand{\DBKindexation}{
-\begin{DBKindtable}
-\DBKinditem{\writtenby}{<xsl:value-of select="$author"/>}
-<xsl:apply-templates select=".//othercredit"/>
-\end{DBKindtable}
-}
+  <xsl:value-of select="$latex.begindocument"/>
+  <xsl:call-template name="lang.document.begin">
+    <xsl:with-param name="lang" select="$lang"/>
+  </xsl:call-template>
+  <xsl:text>\frontmatter&#10;</xsl:text>
 
-  <xsl:value-of select="$latex.book.afterauthor"/>
-  <xsl:text>&#10;\setcounter{tocdepth}{</xsl:text>
-  <xsl:value-of select="$toc.section.depth"/>
-  <xsl:text>}&#10;</xsl:text>
-  <xsl:text>&#10;\setcounter{secnumdepth}{</xsl:text>
-  <xsl:value-of select="$doc.section.depth"/>
-  <xsl:text>}&#10;</xsl:text>
-
-  <!-- Apply the revision history here -->
-  <xsl:apply-templates select="bookinfo/revhistory"/>
-
-  <!-- Apply the legalnotices here -->
+  <!-- Apply the legalnotices here, when language is active -->
   <xsl:call-template name="print.legalnotice">
-    <xsl:with-param name="nodes" select="bookinfo/legalnotice"/>
+    <xsl:with-param name="nodes" select="$info/legalnotice"/>
   </xsl:call-template>
 
-  <xsl:value-of select="$latex.book.begindocument"/>
-  <xsl:text>\frontmatter&#10;</xsl:text>
-  <xsl:text>\long\def\hyper@section@backref#1#2#3{%&#10;</xsl:text>
-  <xsl:text>\typeout{BACK REF #1 / #2 / #3}%&#10;</xsl:text>
-  <xsl:text>\hyperlink{#3}{#2}}&#10;</xsl:text>
-  <xsl:text>&#10;</xsl:text>
   <xsl:text>\maketitle&#10;</xsl:text>
 
   <!-- Print the TOC/LOTs -->
   <xsl:apply-templates select="." mode="toc_lots"/>
   <xsl:call-template name="label.id"/>
 
+  <!-- Print the abstract -->
+  <!--<xsl:apply-templates select="(abstract|$info/abstract)[1]"/>-->
+
   <xsl:text>\mainmatter&#10;</xsl:text>
 
-  <!-- Apply templates -->
-  <xsl:apply-templates/>
+  <!-- Body content -->
+  <xsl:apply-templates select="*[not(self::abstract)]"/>
   <xsl:if test="*//indexterm|*//keyword">
-   <xsl:text>\printindex&#10;</xsl:text>
+    <xsl:text>\printindex&#10;</xsl:text>
   </xsl:if>
-  <xsl:value-of select="$latex.book.end"/>
+  <xsl:call-template name="lang.document.end">
+    <xsl:with-param name="lang" select="$lang"/>
+  </xsl:call-template>
+  <xsl:value-of select="$latex.enddocument"/>
 </xsl:template>
 
 </xsl:stylesheet>
