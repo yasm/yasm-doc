@@ -41,7 +41,7 @@ PS2EPSOPTS?=	-q -dNOPAUSE -dSAFER -dDELAYSAFER \
 # low for the typical monitor in use today. The resolution of 100 looks
 # much better on these monitors without making the image too large for
 # a 640x480 monitor.
-EPS2PNM_RES?=	120
+EPS2PNM_RES?=	100
 
 _IMAGES_PNG= $(filter %.png,${IMAGES})
 _IMAGES_EPS= $(filter %.eps,${IMAGES})
