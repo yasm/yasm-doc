@@ -21,7 +21,7 @@ SOURCES+= objfmt-win64/chapter.xml
 SOURCES+= arch-x86/chapter.xml
 
 IMAGES=  objfmt-win64/calling-convention.pic
-IMAGES+= objfmt-win64/stack-frame-detailed.eps
+IMAGES+= objfmt-win64/stack-frame-detailed.pic
 IMAGES+= arch-x86/x86-registers.pic
 
 .PHONY: all install html html-split pdf
