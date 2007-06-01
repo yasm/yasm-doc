@@ -101,7 +101,8 @@
        format="EPS" />
      </imageobject>
      <imageobject role="html">
-      <imagedata fileref="calling-convention.png" format="PNG" />
+      <imagedata fileref="objfmt-win64/calling-convention.png"
+       format="PNG" />
      </imageobject>
     </mediaobject>
    </figure>
@@ -382,7 +383,8 @@
        format="EPS" />
      </imageobject>
      <imageobject role="html">
-      <imagedata fileref="stack-frame-detailed.png" format="PNG" />
+      <imagedata fileref="objfmt-win64/stack-frame-detailed.png"
+       format="PNG" />
      </imageobject>
     </mediaobject>
    </figure>
