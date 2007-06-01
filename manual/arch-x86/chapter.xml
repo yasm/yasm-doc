@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<chapter id="arch-x86">
+ <title>x86 Architecture</title>
+
+ <indexterm>
+  <primary>x86</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>amd64</primary>
+ </indexterm>
+
+ <para>The x86 architecture is the generic name for a multi-vendor
+  16-bit, 32-bit, and most recently 64-bit architecture.  It was
+  originally developed by Intel in the 8086 series of CPU, extended to
+  32-bit by Intel in the 80386 CPU, and extended by AMD to 64 bits in
+  the Opteron and Athlon 64 CPU lines.  While as of 2007, Intel and
+  AMD are the highest volume manufacturers of x86 CPUs, many other
+  vendors have also manufactured x86 CPUs.  Generally the
+  manufacturers have cross-licensed (or copied) major improvements to
+  the architecture, but there are some unique features present in many
+  of the implementations.</para>
+
+ <section id="arch-x86-instructions">
+  <title>Instructions</title>
+
+  <para>The x86 architecture has a variable instruction size that
+   allows for moderate code compression while also allowing for very
+   complex operand combinations as well as a very large instruction
+   set size with many extensions.  Instructions generally vary from
+   zero to three operands with only a single memory operand
+   allowed.</para>
+ </section>
+
+ <section id="arch-x86-modes">
+  <title>Execution Modes and Extensions</title>
+
+  <para>The x86 has been extended in many ways throughout its history,
+   remaining mostly backwards compatible while adding execution modes
+   and large extensions to the instruction set.  A modern x86
+   processor can operate in one of four major modes: 16-bit real mode,
+   16-bit protected mode, 32-bit protected mode, and 64-bit long mode.
+   The primary difference between real and protected mode is in the
+   handling of segments: in real mode the segments directly address
+   memory as 16-byte pages, whereas in protected mode the segments are
+   instead indexes into a descriptor table that contains the physical
+   base and size of the segment.  32-bit protected mode allows paging
+   and virtual memory as well as a 32-bit rather than a 16-bit
+   offset.</para>
+
+  <para>The 16-bit and 32-bit operating modes both allow for use of
+   both 16-bit and 32-bit registers via instruction prefixes that set
+   the operation and address size to either 16-bit or 32-bit, with the
+   active operating mode setting the default operation size and the
+   <quote>other</quote> size being flagged with a prefix.  These
+   operation and address sizes also affect the size of immediate
+   operands: for example, an instruction with a 32-bit operation size
+   with an immediate operand will have a 32-bit value in the encoded
+   instruction, excepting optimizations such as sign-extended 8-bit
+   values.</para>
+
+  <para>Unlike the 16-bit and 32-bit modes, 64-bit long mode is more
+   of a break from the <quote>legacy</quote> modes.  Long mode
+   obsoletes several instructions.  It is also the only mode in which
+   64-bit registers are available; 64-bit registers cannot be accessed
+   from either 16-bit or 32-bit mode.  Also, unlike the other modes,
+   most encoded values in long mode are limited to 32 bits in size.  A
+   small subset of the <literal>MOV</literal> instructions allow 64
+   bit encoded values, but values greater than 32 bits in other
+   instructions must come from a register.  Partly due to this
+   limitation, but also due to the wide use of relocatable shared
+   libraries, long mode also adds a new addressing mode:
+   <literal>RIP</literal>-relative.</para>
+ </section>
+
+ <section id="arch-x86-registers">
+  <title>Registers</title>
+
+  <para>The 64-bit x86 register set consists of 16 general purpose
+   registers, only 8 of which are available in 16-bit and 32-bit mode.
+   The core eight 16-bit registers are <literal>AX</literal>,
+   <literal>BX</literal>, <literal>CX</literal>,
+   <literal>DX</literal>, <literal>SI</literal>,
+   <literal>DI</literal>, <literal>BP</literal>, and
+   <literal>SP</literal>.  The least significant 8 bits of the first
+   four of these registers are accessible via the
+   <literal>AL</literal>, <literal>BL</literal>,
+   <literal>CL</literal>, and <literal>DL</literal> in all execution
+   modes.  In 64-bit mode, the least significant 8 bits of the other
+   four of these registers are also accessible; these are named
+   <literal>SIL</literal>, <literal>DIL</literal>,
+   <literal>SPL</literal>, and <literal>BPL</literal>.  The most
+   significant 8 bits of the first four 16-bit registers are also
+   available, although there are some restrictions on when they can be
+   used in 64-bit mode; these are named <literal>AH</literal>,
+   <literal>BH</literal>, <literal>CH</literal>, and
+   <literal>DH</literal>.</para>
+
+  <para>The 80386 extended these registers to 32 bits while retaining
+   all of the 16-bit and 8-bit names that were available in 16-bit
+   mode.  The new extended registers are denoted by adding a
+   <emphasis>E</emphasis> prefix; thus the core eight 32-bit registers
+   are named <literal>EAX</literal>, <literal>EBX</literal>,
+   <literal>ECX</literal>, <literal>EDX</literal>,
+   <literal>ESI</literal>, <literal>EDI</literal>,
+   <literal>EBP</literal>, and <literal>ESP</literal>.  The original
+   8-bit and 16-bit register names map into the least significant
+   portion of the 32-bit registers.</para>
+
+  <para>64-bit long mode further extended these registers to 64 bits
+   in size by adding a <emphasis>R</emphasis> prefix to the 16-bit
+   name; thus the base eight 64-bit registers are named
+   <literal>RAX</literal>, <literal>RBX</literal>, etc.  Long mode
+   also added eight extra registers named numerically
+   <literal>r8</literal> through <literal>r15</literal>.  The least
+   significant 32 bits of these registers are available via a
+   <emphasis>d</emphasis> suffix (<literal>r8d</literal> through
+   <literal>r15d</literal>), the least significant 16 bits via a
+   <emphasis>w</emphasis> suffix (<literal>r8w</literal> through
+   <literal>r15w</literal>), and the least significant 8 bits via a
+   <emphasis>b</emphasis> suffix (<literal>r8b</literal> through
+   <literal>r15b</literal>).</para>
+
+  <para><xref linkend="x86-registers"/> summarizes the full 64-bit x86
+   general purpose register set.</para>
+
+  <figure id="x86-registers">
+   <title>x86 General Purpose Registers</title>
+
+   <mediaobject>
+    <imageobject role="pdf">
+     <imagedata fileref="arch-x86/x86-registers.eps" format="EPS" />
+    </imageobject>
+    <imageobject role="html">
+     <imagedata fileref="arch-x86/x86-registers.png" format="PNG" />
+    </imageobject>
+   </mediaobject>
+  </figure>
+
+ </section>
+
+ <section id="arch-x86-segmentation">
+  <title>Segmentation</title>
+
+  <para></para>
+ </section>
+
+</chapter>

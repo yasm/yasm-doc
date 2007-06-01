@@ -10,23 +10,6 @@ DESTDIR?=	.
 XSLTPROC?=	xsltproc
 XMLLINT?=	xmllint
 DBLATEX?=	dblatex
-#
-# epsgeom is a perl script for 1) extracting geometry information
-# from a .eps file and 2) arrange it for ghostscript's pnm driver.
-#
-EPSGEOM?=	perl ../share/misc/epsgeom
-EPSGEOMOPTS?=	${EPS2PNM_RES} ${EPS2PNM_RES}
-EPS2PNM?=	gs
-EPS2PNMOPTS?=	-q -dBATCH -dGraphicsAlphaBits=4 -dTextAlphaBits=4 \
-		-dEPSCrop -r${EPS2PNM_RES}x${EPS2PNM_RES} \
-		-dNOPAUSE -dSAFER -sDEVICE=pnm -sOutputFile=-
-PNMTOPNG?=	pnmtopng
-
-# The default resolution eps2png (82) assumes a 640x480 monitor, and is too
-# low for the typical monitor in use today. The resolution of 100 looks
-# much better on these monitors without making the image too large for
-# a 640x480 monitor.
-EPS2PNM_RES?=	120
 
 SOURCES=  book.xml
 SOURCES+= introduction.xml
@@ -35,16 +18,17 @@ SOURCES+= nasm-language/chapter.xml
 SOURCES+= nasm-preprocessor/chapter.xml
 SOURCES+= nasm-directives/chapter.xml
 SOURCES+= objfmt-win64/chapter.xml
+SOURCES+= arch-x86/chapter.xml
 
-EPSIMAGES=  objfmt-win64/calling-convention.eps
-EPSIMAGES+= objfmt-win64/stack-frame-detailed.eps
-
-PNGIMAGES=  objfmt-win64/calling-convention.png
-PNGIMAGES+= objfmt-win64/stack-frame-detailed.png
+IMAGES=  objfmt-win64/calling-convention.eps
+IMAGES+= objfmt-win64/stack-frame-detailed.eps
+IMAGES+= arch-x86/x86-registers.pic
 
 .PHONY: all install html html-split pdf
 
 all: html html-split pdf
+
+include ../share/mk/doc.images.mk
 
 install: all
 	mkdir -p ${DESTDIR}
@@ -53,22 +37,22 @@ install: all
 	for html in *.html; do \
 	    cp $$html ${DESTDIR}/html; \
 	done
-	for pngdir in $(dir ${PNGIMAGES}); do \
+	for pngdir in $(dir ${IMAGES_PNG}); do \
 	    mkdir -p ${DESTDIR}/html/$$pngdir; \
 	done
-	for png in ${PNGIMAGES}; do \
+	for png in ${IMAGES_PNG}; do \
 	    cp $$png ${DESTDIR}/html/$$png; \
 	done
 
 html: manual.html
-manual.html: fullbook.xml ${PNGIMAGES}
+manual.html: fullbook.xml ${IMAGES_PNG}
 	env XML_CATALOG_FILES="../share/xml/catalog.xml" ${XSLTPROC} \
 		--output manual.html \
 		--stringparam use.extensions 0 \
 		../share/xml/style-html.xsl \
 		fullbook.xml
 
-html-split: fullbook.xml ${PNGIMAGES}
+html-split: fullbook.xml ${IMAGES_PNG}
 	env XML_CATALOG_FILES="../share/xml/catalog.xml" ${XSLTPROC} \
 		--output manual.html \
 		--stringparam use.extensions 0 \
@@ -76,7 +60,7 @@ html-split: fullbook.xml ${PNGIMAGES}
 		fullbook.xml
 
 pdf: manual.pdf
-manual.pdf: fullbook.xml ${EPSIMAGES}
+manual.pdf: fullbook.xml ${IMAGES_EPS}
 	${DBLATEX} -t pdf -S ../share/dblatex/yasm.specs -b pdftex \
 		-o manual.pdf \
 		-P doc.lot.show="figure,table,equation" \
@@ -84,10 +68,4 @@ manual.pdf: fullbook.xml ${EPSIMAGES}
 
 fullbook.xml: ${SOURCES}
 	${XMLLINT} --xinclude book.xml > fullbook.xml
-
-%.png: %.eps
-	${EPSGEOM} -offset ${EPSGEOMOPTS} $< \
-		| ${EPS2PNM} ${EPS2PNMOPTS} \
-		-g`${EPSGEOM} -geom ${EPSGEOMOPTS} $<` - \
-		| ${PNMTOPNG} > $@
 

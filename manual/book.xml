@@ -137,10 +137,9 @@
   <!--
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="arch-lc3b/chapter.xml" />
-
+  -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="arch-x86/chapter.xml" />
-  -->
  </part>
 
  <!-- Back matter -->
