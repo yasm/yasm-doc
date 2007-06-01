@@ -59,6 +59,8 @@ IMAGES_SCR_TXT= $(_IMAGES_SCR:.scr=.txt)
 IMAGES_PIC_PNG= $(_IMAGES_PIC:.pic=.png)
 IMAGES_PIC_EPS= $(_IMAGES_PIC:.pic=.eps)
 IMAGES_PIC_PDF= $(_IMAGES_PIC:.pic=.pdf)
+
+IMAGES_GEN_PNG+= ${IMAGES_PIC_PNG}
 IMAGES_GEN_PDF+= ${IMAGES_PIC_PDF} ${IMAGES_SCR_PDF}
 
 CLEANFILES+= ${IMAGES_GEN_PNG} ${IMAGES_GEN_EPS} ${IMAGES_GEN_PDF}
@@ -92,14 +94,8 @@ endif
 # The .txt files need to have any trailing spaces trimmed from
 # each line, which is why the output from ${SCR2TXT} is run
 # through ${SED}
-.txt: %.scr
+%.txt: %.scr
 	${SCR2TXT} ${SCR2TXTOPTS} < $< | ${SED} -E -e 's/ +$$//' > $@
-
-%.png: %.pic %.eps
-	${EPSGEOM} -offset ${EPSGEOMOPTS} $*.eps \
-		| ${EPS2PNM} ${EPS2PNMOPTS} \
-		-g`${EPSGEOM} -geom ${EPSGEOMOPTS} $*.eps` - \
-		| ${PNMTOPNG} > $@
 
 %.ps: %.pic
 	${PIC2PS} $< > $@
@@ -133,24 +129,24 @@ endif
 # the targets on the fly.
 
 define genpng_template
-${1}: $$(${1}:.png=.eps)
-	${EPSGEOM} -offset ${EPSGEOMOPTS} $< \
+${1}: $(1:.png=.eps)
+	${EPSGEOM} -offset ${EPSGEOMOPTS} $(1:.png=.eps) \
 		| ${EPS2PNM} ${EPS2PNMOPTS} \
-		-g`${EPSGEOM} -geom ${EPSGEOMOPTS} $<` - \
-		| ${PNMTOPNG} > $@
+		-g`${EPSGEOM} -geom ${EPSGEOMOPTS} $(1:.png=.eps)` - \
+		| ${PNMTOPNG} > ${1}
 endef
 $(foreach image,${IMAGES_GEN_PNG},$(eval $(call genpng_template,$(image))))
 
 define geneps_template
-${1}: $$(${1}:.eps=.png)
-	${PNGTOPNM} ${PNGTOPNMOPTS} $< | \
-		${PNMTOPS} ${PNMTOPSOPTS} > $@
+${1}: $(1:.eps=.png)
+	${PNGTOPNM} ${PNGTOPNMOPTS} $(1:.eps=.png) | \
+		${PNMTOPS} ${PNMTOPSOPTS} > ${1}
 endef
 $(foreach image,${IMAGES_GEN_EPS},$(eval $(call geneps_template,$(image))))
 
 define genpdf_template
-${1}: $$(${1}:.pdf=.eps)
-	${EPSTOPDF} ${EPSTOPDFOPTS} --outfile=$@ $<
+${1}: $(1:.pdf=.eps)
+	${EPSTOPDF} ${EPSTOPDFOPTS} --outfile=${1} $(1:.pdf=.eps)
 endef
 $(foreach image,${IMAGES_GEN_PDF},$(eval $(call genpdf_template,$(image))))
 
