@@ -20,7 +20,7 @@ SOURCES+= nasm-directives/chapter.xml
 SOURCES+= objfmt-win64/chapter.xml
 SOURCES+= arch-x86/chapter.xml
 
-IMAGES=  objfmt-win64/calling-convention.eps
+IMAGES=  objfmt-win64/calling-convention.pic
 IMAGES+= objfmt-win64/stack-frame-detailed.eps
 IMAGES+= arch-x86/x86-registers.pic
 
