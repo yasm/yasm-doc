@@ -46,14 +46,14 @@ down;
 ]
 
 # Registers
-register(0,AH*,AL,AX,EAX,RAX);
-register(3,BH*,BL,BX,EBX,RBX);
-register(1,CH*,CL,CX,ECX,RCX);
-register(2,DH*,DL,DX,EDX,RDX);
-register(6,"",SIL**,SI,ESI,RSI);
-register(7,"",DIL**,DI,EDI,RDI);
-register(5,"",BPL**,BP,EBP,RBP);
-register(4,"",SPL**,SP,ESP,RSP);
+register(0,AH\[dg],AL,AX,EAX,RAX);
+register(3,BH\[dg],BL,BX,EBX,RBX);
+register(1,CH\[dg],CL,CX,ECX,RCX);
+register(2,DH\[dg],DL,DX,EDX,RDX);
+register(6,"",SIL\[dd],SI,ESI,RSI);
+register(7,"",DIL\[dd],DI,EDI,RDI);
+register(5,"",BPL\[dd],BP,EBP,RBP);
+register(4,"",SPL\[dd],SP,ESP,RSP);
 register(8,"",R8B,R8W,R8D,R8);
 register(9,"",R9B,R9W,R9D,R9);
 register(10,"",R10B,R10W,R10D,R10);
@@ -85,8 +85,8 @@ register(15,"",R15B,R15W,R15D,R15);
 
 [
   right;
-  box invis wid 3 ht 0.2 "* Not legal with REX prefix";
-  box invis wid 3 ht 0.2 "** Requires REX prefix";
+  box invis wid 3 ht 0.2 "\[dg] Not legal with REX prefix";
+  box invis wid 3 ht 0.2 "\[dd] Requires REX prefix";
 ]
 
 .PE
