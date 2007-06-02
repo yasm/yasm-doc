@@ -74,6 +74,424 @@
    limitation, but also due to the wide use of relocatable shared
    libraries, long mode also adds a new addressing mode:
    <literal>RIP</literal>-relative.</para>
+
+  <section id="arch-x86-cpu">
+   <title>CPU Options</title>
+
+   <para>The NASM parser allows setting what subsets of instructions
+    and operands are accepted by Yasm via use of the
+    <literal>CPU</literal> directive (see <xref
+     linkend="nasm-directive-cpu" />).  As the x86 architecture has a
+    very large number of extensions, both specific feature flags such
+    as <quote>SSE3</quote> and CPU names such as <quote>P4</quote> can
+    be specified.  The feature flags have both normal and
+    <quote>no</quote>-prefixed versions to turn on and off a single
+    feature, while the CPU names turn on only the features listed,
+    turning off all other features.  <xref linkend="x86-cpu-features"
+     /> lists the feature flags, and <xref linkend="x86-cpus" /> lists
+    the CPU names Yasm supports.  Having both feature flags and CPU
+    names allows for combinations such as <literal>CPU P3
+     nofpu</literal>.  Both feature flags and CPU names are case
+    insensitive.</para>
+
+   <table id="x86-cpu-features">
+    <title>x86 CPU Feature Flags</title>
+
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+     <colspec colname="name" />
+     <colspec colname="description" />
+
+     <thead>
+      <row>
+       <entry>Name</entry>
+       <entry>Description</entry>
+      </row>
+     </thead>
+
+     <tbody>
+      <row>
+       <entry><literal>FPU</literal></entry>
+       <entry>Floating Point Unit (FPU) instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>MMX</literal></entry>
+       <entry>MMX SIMD instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSE</literal></entry>
+       <entry>Streaming SIMD Extensions (SSE) instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSE2</literal></entry>
+       <entry>Streaming SIMD Extensions 2 instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSE3</literal></entry>
+       <entry>Streaming SIMD Extensions 3 instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSSE3</literal></entry>
+       <entry>Supplemental Streaming SIMD Extensions 3
+        instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSE4.1</literal></entry>
+       <entry>Streaming SIMD Extensions 4, Penryn subset (47
+        instructions)</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSE4.2</literal></entry>
+       <entry>Streaming SIMD Extensions 4, Nehalem subset (7
+        instructions)</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSE4</literal></entry>
+       <entry>All Streaming SIMD Extensions 4 instructions (both
+       SSE4.1 and SSE4.2)</entry>
+      </row>
+
+      <row>
+       <entry><literal>3DNow</literal></entry>
+       <entry>3DNow! instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>Cyrix</literal></entry>
+       <entry>Cyrix-specific instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>AMD</literal></entry>
+       <entry>AMD-specific instructions (older than K6)</entry>
+      </row>
+
+      <row>
+       <entry><literal>SMM</literal></entry>
+       <entry>System Management Mode instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>Prot</literal>,
+        <literal>Protected</literal></entry>
+       <entry>Protected mode only instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>Undoc</literal>,
+        <literal>Undocumented</literal></entry>
+       <entry>Undocumented instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>Obs</literal>,
+        <literal>Obsolete</literal></entry>
+       <entry>Obsolete instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>Priv</literal>,
+        <literal>Privileged</literal></entry>
+       <entry>Privileged instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>SVM</literal></entry>
+       <entry>Secure Virtual Machine instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>PadLock</literal></entry>
+       <entry>VIA PadLock instructions</entry>
+      </row>
+
+      <row>
+       <entry><literal>EM64T</literal></entry>
+       <entry>Intel EM64T or better instructions (not necessarily
+        64-bit only)</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+
+   <table id="x86-cpus">
+    <title>x86 CPU Names</title>
+
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+     <colspec colname="name" />
+     <colspec colname="description" />
+
+     <thead>
+      <row>
+       <entry>Name</entry>
+       <entry>Feature Flags</entry>
+       <entry>Description</entry>
+      </row>
+     </thead>
+
+     <tbody>
+      <row>
+       <entry><literal>8086</literal></entry>
+
+       <entry><literal>Priv</literal></entry>
+
+       <entry>Only the original set of 16-bit instructions available
+        on the Intel 8086 processor, including privileged
+        instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>186</literal>, <literal>80186</literal>,
+        <literal>i186</literal></entry>
+
+       <entry><literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel 80186
+        processor.</entry>
+      </row>
+
+      <row>
+       <entry><literal>286</literal>, <literal>80286</literal>,
+        <literal>i286</literal></entry>
+
+       <entry><literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel 80286
+        processor.</entry>
+      </row>
+
+      <row>
+       <entry><literal>386</literal>, <literal>80386</literal>,
+        <literal>i386</literal></entry>
+
+       <entry><literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel 80386 processor,
+        including protected mode and SMM instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>486</literal>, <literal>80486</literal>,
+        <literal>i486</literal></entry>
+
+       <entry><literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel 80486 processor,
+        including FPU instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>586</literal>, <literal>i586</literal>,
+        <literal>Pentium</literal>, <literal>P5</literal></entry>
+
+       <entry><literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel Pentium
+        processor.</entry>
+      </row>
+
+      <row>
+       <entry><literal>686</literal>, <literal>i686</literal>,
+        <literal>P6</literal>, <literal>PPro</literal>,
+        <literal>PentiumPro</literal></entry>
+
+       <entry><literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel Pentium Pro
+        processor.</entry>
+      </row>
+
+      <row>
+       <entry><literal>P2</literal>, <literal>Pentium2</literal>,
+        <literal>Pentium-2</literal>, <literal>PentiumII</literal>,
+        <literal>Pentium-II</literal></entry>
+
+       <entry><literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel Pentium II
+        processor, including MMX instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>P3</literal>, <literal>Pentium3</literal>,
+        <literal>Pentium-3</literal>, <literal>PentiumIII</literal>,
+        <literal>Pentium-III</literal>,
+        <literal>Katmai</literal></entry>
+
+       <entry><literal>SSE</literal>, <literal>MMX</literal>,
+        <literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel Pentium III
+        processor, including SSE instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>P4</literal>, <literal>Pentium4</literal>,
+        <literal>Pentium-4</literal>, <literal>PentiumIV</literal>,
+        <literal>Pentium-IV</literal>,
+        <literal>Williamette</literal></entry>
+
+       <entry><literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel Pentium 4
+        processor, including SSE2 instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>IA64</literal>, <literal>IA-64</literal>,
+        <literal>Itanium</literal></entry>
+
+       <entry><literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel Itanium
+        processor, including IA-64 specific x86 mode
+        instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>K6</literal></entry>
+
+       <entry><literal>3DNow</literal>, <literal>MMX</literal>,
+        <literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the AMD K6 processor,
+        including 3DNow! instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Athlon</literal>, <literal>K7</literal></entry>
+
+       <entry><literal>SSE</literal>, <literal>3DNow</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the AMD Athlon processor,
+        including SSE instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Hammer</literal>,
+        <literal>Sledgehammer</literal>, <literal>Opteron</literal>,
+        <literal>Athlon64</literal>,
+        <literal>Athlon-64</literal></entry>
+
+       <entry><literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>3DNow</literal>, <literal>MMX</literal>,
+        <literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the AMD Athlon64 and
+        Opteron processors, including SSE2 and 64-bit
+        instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Prescott</literal></entry>
+
+       <entry><literal>SSE3</literal>, <literal>SSE2</literal>,
+        <literal>SSE</literal> <literal>MMX</literal>,
+        <literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel codename
+        Prescott processor, including SSE3 and 64-bit
+        instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Conroe</literal></entry>
+
+       <entry><literal>SSSE3</literal>, <literal>SSE3</literal>,
+        <literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel codename
+        Conroe processor, including SSSE3 and 64-bit
+        instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Conroe</literal></entry>
+
+       <entry><literal>SSSE3</literal>, <literal>SSE3</literal>,
+        <literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel codename
+        Conroe processor, including SSSE3 and 64-bit
+        instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Penryn</literal></entry>
+
+       <entry><literal>SSE4.1</literal>, <literal>SSSE3</literal>,
+        <literal>SSE3</literal>, <literal>SSE2</literal>,
+        <literal>SSE</literal>, <literal>MMX</literal>,
+        <literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel codename
+        Conroe processor, including SSE4.1 and 64-bit
+        instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Nehalem</literal></entry>
+
+       <entry><literal>SSE4.2</literal>, <literal>SSE4.1</literal>,
+        <literal>SSSE3</literal>, <literal>SSE3</literal>,
+        <literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel codename
+        Nehalem processor, including SSE4.2 and 64-bit
+        instructions.</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+
+   <para>In order to have access to 64-bit instructions,
+    <emphasis>both</emphasis> a 64-bit capable CPU must be selected,
+    and 64-bit assembly mode must be set (in NASM syntax) by either
+    using <literal>BITS 64</literal> (see <xref
+     linkend="nasm-directive-bits-top" />) or targetting a 64-bit
+    object format such as <literal>elf64</literal>.</para>
+
+   <para>The default CPU setting is for the latest processor and all
+    feature flags to be enabled; e.g. all x86 instructions for any
+    processor, including all instruction set extensions and 64-bit
+    instructions.</para>
+  </section>
  </section>
 
  <section id="arch-x86-registers">
@@ -147,5 +565,4 @@
 
   <para></para>
  </section>
-
 </chapter>
