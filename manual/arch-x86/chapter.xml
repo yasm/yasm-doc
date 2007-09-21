@@ -159,6 +159,16 @@
       </row>
 
       <row>
+       <entry><literal>SSE4a</literal></entry>
+       <entry>Streaming SIMD Extensions 4a (AMD)</entry>
+      </row>
+
+      <row>
+       <entry><literal>SSE5</literal></entry>
+       <entry>Streaming SIMD Extensions 5</entry>
+      </row>
+
+      <row>
        <entry><literal>3DNow</literal></entry>
        <entry>3DNow! instructions</entry>
       </row>
@@ -393,7 +403,7 @@
 
       <row>
        <entry><literal>Hammer</literal>,
-        <literal>Sledgehammer</literal>, <literal>Opteron</literal>,
+        <literal>Clawhammer</literal>, <literal>Opteron</literal>,
         <literal>Athlon64</literal>,
         <literal>Athlon-64</literal></entry>
 
@@ -421,21 +431,8 @@
       </row>
 
       <row>
-       <entry><literal>Conroe</literal></entry>
-
-       <entry><literal>SSSE3</literal>, <literal>SSE3</literal>,
-        <literal>SSE2</literal>, <literal>SSE</literal>,
-        <literal>MMX</literal>, <literal>FPU</literal>,
-        <literal>SMM</literal>, <literal>Prot</literal>,
-        <literal>Priv</literal></entry>
-
-       <entry>All instructions available on the Intel codename
-        Conroe processor, including SSSE3 and 64-bit
-        instructions.</entry>
-      </row>
-
-      <row>
-       <entry><literal>Conroe</literal></entry>
+       <entry><literal>Conroe</literal>,
+        <literal>Core2</literal></entry>
 
        <entry><literal>SSSE3</literal>, <literal>SSE3</literal>,
         <literal>SSE2</literal>, <literal>SSE</literal>,
@@ -475,6 +472,33 @@
        <entry>All instructions available on the Intel codename
         Nehalem processor, including SSE4.2 and 64-bit
         instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Venice</literal></entry>
+
+       <entry><literal>SSE4a</literal>, <literal>SSE3</literal>,
+        <literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>3DNow</literal>, <literal>MMX</literal>,
+        <literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the AMD codename Venice
+        processor, including SSE3 and SSE4a instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>K10</literal></entry>
+
+       <entry><literal>SSE5</literal>, <literal>SSE4a</literal>,
+        <literal>SSE3</literal>, <literal>SSE2</literal>,
+        <literal>SSE</literal>, <literal>3DNow</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the AMD codename K10
+        processor, including SSE5 instructions.</entry>
       </row>
      </tbody>
     </tgroup>
