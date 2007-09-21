@@ -167,12 +167,21 @@
   </indexterm>
 
   <indexterm>
+   <primary><literal>DDQWORD</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>OWORD</literal></primary>
+  </indexterm>
+
+  <indexterm>
    <primary>memory operand</primary>
   </indexterm>
 
   <para>Almost any floating-point instruction that references memory
    must use one of the prefixes <literal>DWORD</literal>,
-   <literal>QWORD</literal> or <literal>TWORD</literal> to indicate
+   <literal>QWORD</literal>, <literal>TWORD</literal>,
+   <literal>DDQWORD</literal>, or <literal>OWORD</literal> to indicate
    what size of memory operand it refers to.</para>
  </section>
 
@@ -200,6 +209,14 @@
   </indexterm>
 
   <indexterm>
+   <primary><literal>DDQ</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>DO</literal></primary>
+  </indexterm>
+
+  <indexterm>
    <primary>uninitialized</primary>
   </indexterm>
 
@@ -224,6 +241,14 @@
   </indexterm>
 
   <indexterm>
+   <primary><literal>RESDDQ</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>RESO</literal></primary>
+  </indexterm>
+
+  <indexterm>
    <primary><literal>INCBIN</literal></primary>
   </indexterm>
 
@@ -240,10 +265,12 @@
    because that's the most convenient place to put them. The current
    pseudo-instructions are <literal>DB</literal>,
    <literal>DW</literal>, <literal>DD</literal>, <literal>DQ</literal>
-   and <literal>DT</literal>, their uninitialized counterparts
+   <literal>DT</literal>, <literal>DDQ</literal>,
+   <literal>DO</literal>, their uninitialized counterparts
    <literal>RESB</literal>, <literal>RESW</literal>,
-   <literal>RESD</literal>, <literal>RESQ</literal> and
-   <literal>REST</literal>, the <literal>INCBIN</literal> command, the
+   <literal>RESD</literal>, <literal>RESQ</literal>,
+   <literal>REST</literal>, <literal>RESDDQ</literal>, and
+   <literal>RESO</literal>, the <literal>INCBIN</literal> command, the
    <literal>EQU</literal> command, and the <literal>TIMES</literal>
    prefix.</para>
 
@@ -276,6 +303,14 @@
    </indexterm>
 
    <indexterm>
+    <primary><literal>DDQ</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>DO</literal></primary>
+   </indexterm>
+
+   <indexterm>
     <primary>floating-point</primary>
    </indexterm>
 
@@ -288,8 +323,9 @@
    </indexterm>
 
    <para><literal>DB</literal>, <literal>DW</literal>,
-    <literal>DD</literal>, <literal>DQ</literal> and
-    <literal>DT</literal> are used to declare initialized data in the
+    <literal>DD</literal>, <literal>DQ</literal>,
+    <literal>DT</literal>, <literal>DDQ</literal>, and
+    <literal>DO</literal> are used to declare initialized data in the
     output file.  They can be invoked in a wide range of ways:</para>
 
    <programlisting>        db      0x55                ; just the byte 0x55
@@ -301,6 +337,11 @@
         dw      'ab'                ; 0x41 0x42 (character constant)
         dw      'abc'               ; 0x41 0x42 0x43 0x00 (string)
         dd      0x12345678          ; 0x78 0x56 0x34 0x12
+        dq      0x1122334455667788  ; 0x88 0x77 0x66 0x55 0x44 0x33 0x22 0x11
+        ddq     0x112233445566778899aabbccddeeff00
+        ; 0x00 0xff 0xee 0xdd 0xcc 0xbb 0xaa 0x99
+        ; 0x88 0x77 0x66 0x55 0x44 0x33 0x22 0x11
+        do     0x112233445566778899aabbccddeeff00 ; same as previous
         dd      1.234567e20         ; floating-point constant
         dq      1.234567e20         ; double-precision float
         dt      1.234567e20         ; extended-precision float</programlisting>
@@ -309,8 +350,10 @@
     <primary>numeric constant</primary>
    </indexterm>
 
-   <para><literal>DQ</literal> and <literal>DT</literal> do not accept
-    numeric constants or string constants as operands.</para>
+   <para><literal>DT</literal> does not accept numeric constants as
+    operands, and <literal>DDQ</literal> does not accept float
+    constants as operands.  Any size larger than <literal>DD</literal>
+    does not accept strings as operands.</para>
   </section>
 
   <section id="nasm-pseudop-resb">
@@ -342,6 +385,14 @@
    </indexterm>
 
    <indexterm>
+    <primary><literal>RESDQ</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>RESO</literal></primary>
+   </indexterm>
+
+   <indexterm>
     <primary><literal>?</literal></primary>
    </indexterm>
 
@@ -350,8 +401,9 @@
    </indexterm>
 
    <para><literal>RESB</literal>, <literal>RESW</literal>,
-    <literal>RESD</literal>, <literal>RESQ</literal> and
-    <literal>REST</literal> are designed to be used in the BSS section
+    <literal>RESD</literal>, <literal>RESQ</literal>,
+    <literal>REST</literal>, <literal>RESDQ</literal>, and
+    <literal>RESO</literal> are designed to be used in the BSS section
     of a module: they declare <emphasis>uninitialised</emphasis>
     storage space. Each takes a single operand, which is the number of
     bytes, words, doublewords or whatever to reserve.  NASM does not
@@ -607,6 +659,169 @@ msglen  equ $-message</programlisting>
    by the use of the <literal>NOSPLIT</literal> keyword:
    <literal>[nosplit eax*2]</literal> will force
    <literal>[eax*2+0]</literal> to be generated literally.</para>
+
+  <section id="nasm-effaddr-disp64">
+   <title>64-bit Displacements</title>
+
+   <para>In <literal>BITS 64</literal> mode, displacements, for the
+    most part, remain 32 bits and are sign extended prior to use.  The
+    exception is one restricted form of the mov instruction: between
+    an <literal>AL</literal>, <literal>AX</literal>,
+    <literal>EAX</literal>, or <literal>RAX</literal> register and a
+    64-bit absolute address (no registers are allowed in the effective
+    address, and the address cannot be RIP-relative).  In NASM syntax,
+    use of the 64-bit absolute form requires <literal>QWORD</literal>.
+    Examples in NASM syntax:</para>
+
+   <programlisting>        mov eax, [1]    ; 32 bit, with sign extension
+        mov al, [rax-1] ; 32 bit, with sign extension
+        mov al, [qword 0x1122334455667788] ; 64-bit absolute
+        mov al, [0x1122334455667788] ; truncated to 32-bit (warning)</programlisting>
+  </section>
+
+  <section id="nasm-effaddr-riprel">
+   <title><literal>RIP</literal> Relative Addressing</title>
+
+   <indexterm>
+    <primary><literal>RIP</literal></primary>
+   </indexterm>
+
+   <para>In 64-bit mode, a new form of effective addressing is
+    available to make it easier to write position-independent code.
+    Any memory reference may be made <literal>RIP</literal> relative
+    (<literal>RIP</literal> is the instruction pointer register, which
+    contains the address of the location immediately following the
+    current instruction).</para>
+
+   <para>In NASM syntax, there are two ways to specify RIP-relative
+    addressing:</para>
+
+   <screen>mov dword [rip+10], 1</screen>
+
+   <para>stores the value 1 ten bytes after the end of the
+    instruction.  <userinput>10</userinput> can also be a symbolic
+    constant, and will be treated the same way.  On the other
+    hand,</para>
+
+   <screen>mov dword [symb wrt rip], 1</screen>
+
+   <para>stores the value 1 into the address of symbol
+    <userinput>symb</userinput>.  This is distinctly different than
+    the behavior of:</para>
+
+   <screen>mov dword [symb+rip], 1</screen>
+
+   <para>which takes the address of the end of the instruction, adds
+    the address of <userinput>symb</userinput> to it, then stores the
+    value 1 there.  If <userinput>symb</userinput> is a variable,
+    this will <emphasis>not</emphasis> store the value 1 into the
+    <userinput>symb</userinput> variable!</para>
+
+   <indexterm>
+    <primary><literal>REL</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>ABS</literal></primary>
+   </indexterm>
+
+   <para>Yasm also supports the following syntax for RIP-relative
+    addressing.  The <literal>REL</literal> keyword makes it produce
+    <literal>RIP</literal>-relative addresses, while the
+    <literal>ABS</literal> keyword makes it produce
+    non-<literal>RIP</literal>-relative addresses:</para>
+
+   <programlisting>        mov [rel sym], rax  ; RIP-relative
+        mov [abs sym], rax  ; not RIP-relative</programlisting>
+
+   <para>The behavior of <literal>mov [sym], rax</literal> depends on
+    a mode set by the <literal>DEFAULT</literal> directive (see <xref
+     linkend="nasm-directive-default" />), as follows.  The default
+    mode at Yasm start-up is always <literal>ABS</literal>, and in
+    <literal>REL</literal> mode, use of registers, a
+    <literal>FS</literal> or <literal>GS</literal> segment override,
+    or an explicit <literal>ABS</literal> override will result in a
+    non-RIP-relative effective address.</para>
+ 
+   <programlisting>default rel
+        mov [sym], rbx      ; RIP-relative
+        mov [abs sym], rbx  ; not RIP-relative (explicit override)
+        mov [rbx+1], rbx    ; not RIP-relative (register use)
+        mov [fs:sym], rbx   ; not RIP-relative (fs or gs use)
+        mov [ds:sym], rbx   ; RIP-relative (segment, but not fs or gs)
+        mov [rel sym], rbx  ; RIP-relative (redundant override)
+
+default abs
+        mov [sym], rbx      ; not RIP-relative
+        mov [abs sym], rbx  ; not RIP-relative
+        mov [rbx+1], rbx    ; not RIP-relative
+        mov [fs:sym], rbx   ; not RIP-relative
+        mov [ds:sym], rbx   ; not RIP-relative
+        mov [rel sym], rbx  ; RIP-relative (explicit override)</programlisting>
+  </section>
+ </section>
+
+ <section id="nasm-immediate">
+  <title>Immediate Operands</title>
+
+  <indexterm>
+   <primary>Immediates</primary>
+  </indexterm>
+
+  <para>Immediate operands in NASM may be 8 bits, 16 bits, 32 bits,
+   and even 64 bits in size.  The immediate size can be directly
+   specified through the use of the <literal>BYTE</literal>,
+   <literal>WORD</literal>, or <literal>DWORD</literal> keywords,
+   respectively.</para>
+  
+  <para>64 bit immediate operands are limited to direct 64-bit
+   register move instructions in <literal>BITS 64</literal> mode.  For
+   all other instructions in 64-bit mode, immediate values remain 32
+   bits; their value is sign-extended into the upper 32 bits of the
+   target register prior to being used.  The exception is the mov
+   instruction, which can take a 64-bit immediate when the destination
+   is a 64-bit register.</para>
+
+  <para>All unsized immediate values in <literal>BITS 64</literal> in
+   Yasm default to 32-bit size for consistency.  In order to get a
+   64-bit immediate with a label, specify the size explicitly with the
+   <literal>QWORD</literal> keyword.  For ease of use, Yasm will also
+   try to recognize 64-bit values and change the size to 64 bits
+   automatically for these cases.</para>
+  
+  <para>Examples in NASM syntax:</para>
+
+  <programlisting>        add rax, 1           ; optimized down to signed 8-bit
+        add rax, dword 1     ; force size to 32-bit
+        add rax, 0xffffffff  ; sign-extended 32-bit
+        add rax, -1          ; same as above
+        add rax, 0xffffffffffffffff ; truncated to 32-bit (warning)
+        mov eax, 1           ; 5 byte
+        mov rax, 1           ; 5 byte (optimized to signed 32-bit)
+        mov rax, qword 1     ; 10 byte (forced 64-bit)
+        mov rbx, 0x1234567890abcdef ; 10 byte
+        mov rcx, 0xffffffff  ; 10 byte (does not fit in signed 32-bit)
+        mov ecx, -1          ; 5 byte, equivalent to above
+        mov rcx, sym         ; 5 byte, 32-bit size default for symbols
+        mov rcx, qword sym   ; 10 byte, override default size</programlisting>
+
+  <para>A caution for users using both Yasm and NASM 2.x: the handling
+   of mov reg64, unsized immediate is different between Yasm and NASM
+   2.x; YASM follows the above behavior, while NASM 2.x does the
+   following:</para>
+
+  <programlisting>        add rax, 0xffffffff  ; sign-extended 32-bit immediate
+        add rax, -1          ; same as above
+        add rax, 0xffffffffffffffff ; truncated 32-bit (warning)
+        add rax, sym         ; sign-extended 32-bit immediate
+        mov eax, 1           ; 5 byte (32-bit immediate)
+        mov rax, 1           ; 10 byte (64-bit immediate)
+        mov rbx, 0x1234567890abcdef ; 10 byte instruction
+        mov rcx, 0xffffffff  ; 10 byte instruction
+        mov ecx, -1          ; 5 byte, equivalent to above
+        mov ecx, sym         ; 5 byte (32-bit immediate)
+        mov rcx, sym         ; 10 byte (64-bit immediate)
+        mov rcx, qword sym   ; 10 byte, same as above</programlisting>
  </section>
 
  <section id="nasm-const">
@@ -724,10 +939,6 @@ msglen  equ $-message</programlisting>
    </indexterm>
 
    <indexterm>
-    <primary><literal>DT</literal></primary>
-   </indexterm>
-
-   <indexterm>
     <primary><literal>INCBIN</literal></primary>
    </indexterm>
 
@@ -767,6 +978,10 @@ msglen  equ $-message</programlisting>
    </indexterm>
 
    <indexterm>
+    <primary><literal>DW</literal></primary>
+   </indexterm>
+
+   <indexterm>
     <primary><literal>DD</literal></primary>
    </indexterm>
 
@@ -779,18 +994,19 @@ msglen  equ $-message</programlisting>
    </indexterm>
 
    <para>Floating-point constants are acceptable only as arguments to
-    <literal>DD</literal>, <literal>DQ</literal> and
-    <literal>DT</literal>. They are expressed in the traditional form:
-    digits, then a period, then optionally more digits, then
-    optionally an <literal>E</literal> followed by an exponent. The
-    period is mandatory, so that NASM can distinguish between
-    <literal>dd 1</literal>, which declares an integer constant, and
-    <literal>dd 1.0</literal> which declares a floating-point
-    constant.</para>
+    <literal>DW</literal>, <literal>DD</literal>,
+    <literal>DQ</literal> and <literal>DT</literal>. They are
+    expressed in the traditional form: digits, then a period, then
+    optionally more digits, then optionally an <literal>E</literal>
+    followed by an exponent. The period is mandatory, so that NASM can
+    distinguish between <literal>dd 1</literal>, which declares an
+    integer constant, and <literal>dd 1.0</literal> which declares a
+    floating-point constant.</para>
 
    <para>Some examples:</para>
 
-   <programlisting>        dd 1.2                  ; an easy one
+   <programlisting>        dw -0.5                 ; IEEE half precision
+        dd 1.2                  ; an easy one
         dq 1.e10                ; 10,000,000,000
         dq 1.e+10               ; synonymous with 1.e10
         dq 1.e-10               ; 0.000 000 000 1

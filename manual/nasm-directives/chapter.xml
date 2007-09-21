@@ -80,6 +80,10 @@
     <secondary>versus 64-bit mode</secondary>
    </indexterm>
 
+   <indexterm>
+    <primary>REX</primary>
+   </indexterm>
+
    <para>The <literal>BITS</literal> directive specifies whether Yasm
     should generate code designed to run on a processor operating in
     16-bit mode, 32-bit mode, or 64-bit mode. The syntax is
@@ -87,16 +91,17 @@
     <literal>BITS 64</literal>.</para>
 
    <para>In most cases, you should not need to use
-    <literal>BITS</literal> explicitly. The <literal>aout</literal>,
-    <literal>coff</literal>, <literal>elf32</literal> and
+    <literal>BITS</literal> explicitly. The <literal>coff</literal>,
+    <literal>elf32</literal>, <literal>macho32</literal>, and
     <literal>win32</literal> object formats, which are designed for
     use in 32-bit operating systems, all cause Yasm to select 32-bit
-    mode by default. The <literal>elf64</literal> and
-    <literal>win64</literal> object formats, which are designed for
-    use in 64-bit operating systems, both cause Yasm to select 64-bit
-    mode by default. The <literal>obj</literal> object format allows
-    you to specify each segment you define as either
-    <literal>USE16</literal> or <literal>USE32</literal>, and Yasm
+    mode by default. The <literal>elf64</literal>,
+    <literal>macho64</literal>, and <literal>win64</literal> object
+    formats, which are designed for use in 64-bit operating systems,
+    both cause Yasm to select 64-bit mode by default.  The
+    <literal>xdf</literal> object format allows you to specify each
+    segment you define as <literal>USE16</literal>,
+    <literal>USE32</literal>, or <literal>USE64</literal>, and Yasm
     will set its operating mode accordingly, so the use of the
     <literal>BITS</literal> directive is once again
     unnecessary.</para>
@@ -126,10 +131,29 @@
     <literal>BITS 32</literal> mode, the reverse is true: 32-bit
     instructions require no prefixes, whereas instructions using
     16-bit data need an 0x66 and those working in 16-bit addresses
-    need an 0x67.  In <literal>BITS 64</literal> mode, 32-bit
+    need an 0x67.</para>
+
+   <para>When Yasm is in <literal>BITS 64</literal> mode, 32-bit
     instructions usually require no prefixes, and most uses of 64-bit
-    registers or data size requires a prefix between 0x40 and
-    0x4F.</para>
+    registers or data size requires a REX prefix.  Yasm automatically
+    inserts REX prefixes where necessary.  There are also 8 more
+    general and SSE registers, and 16-bit addressing is no longer
+    supported.  The default address size is 64 bits; 32-bit addressing
+    can be selected with the 0x67 prefix.  The default operand size is
+    still 32 bits, however, and the 0x66 prefix selects 16-bit operand
+    size.  The REX prefix is used both to select 64-bit operand size,
+    and to access the new registers.  A few instructions have a
+    default 64-bit operand size.</para>
+
+   <para>When the REX prefix is used, the processor does not know how
+    to address the <literal>AH</literal>, <literal>BH</literal>,
+    <literal>CH</literal> or <literal>DH</literal> (high 8-bit legacy)
+    registers.  Instead, it is possible to access the the low 8-bits
+    of the <literal>SP</literal>, <literal>BP</literal>
+    <literal>SI</literal>, and <literal>DI</literal> registers as
+    <literal>SPL</literal>, <literal>BPL</literal>,
+    <literal>SIL</literal>, and <literal>DIL</literal>, respectively;
+    but only when the REX prefix is used.</para>
 
    <para>The <literal>BITS</literal> directive has an exactly
     equivalent primitive form, <literal>[BITS 16]</literal>,
@@ -160,6 +184,54 @@
     <literal>BITS 64</literal> respectively for compatibility with
     other assemblers.</para>
   </section>
+ </section>
+
+ <section id="nasm-directive-default">
+  <title><literal>DEFAULT</literal>: Change the assembler
+   defaults</title>
+
+  <indexterm>
+   <primary><literal>DEFAULT</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>REL</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>ABS</literal></primary>
+  </indexterm>
+
+  <para>The <literal>DEFAULT</literal> directive changes the assembler
+   defaults.  Normally, Yasm defaults to a mode where the programmer
+   is expected to explicitly specify most features directly.  However,
+   sometimes this is not desirable if a certain behavior is very
+   commmonly used.</para>
+
+  <para>Currently, the only <literal>DEFAULT</literal> that is
+   settable is whether or not registerless effective addresses in
+   64-bit mode are <literal>RIP</literal>-relative or not.  By
+   default, they are absolute unless overridden with the
+   <literal>REL</literal> specifier (see <xref linkend="nasm-effaddr"
+    />).  However, if <literal>DEFAULT REL</literal> is specified,
+   <literal>REL</literal> is default, unless overridden with the
+   <literal>ABS</literal> specifier, a <literal>FS</literal> or
+   <literal>GS</literal> segment override is used, or another register
+   is part of the effective address.</para>
+
+  <para>The special handling of <literal>FS</literal> and
+   <literal>GS</literal> overrides are due to the fact that these
+   segments are the only segments which can have non-0 base addresses
+   in 64-bit mode, and thus are generally used as thread pointers or
+   other special functions.  With a non-zero base address, generating
+   <literal>RIP</literal>-relative addresses for these forms would be
+   extremely confusing.  Other segment registers such as
+   <literal>DS</literal> always have a base address of 0, so
+   RIP-relative access still makes sense.</para>
+
+  <para><literal>DEFAULT REL</literal> is disabled with
+   <literal>DEFAULT ABS</literal>.  The default mode of the assembler
+   at start-up is <literal>DEFAULT ABS</literal>.</para>
  </section>
 
  <section id="nasm-directive-section-top">
