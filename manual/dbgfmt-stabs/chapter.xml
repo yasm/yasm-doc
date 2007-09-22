@@ -10,11 +10,12 @@
  </indexterm>
 
  <indexterm>
-  <primary>STAB</primary>
+  <primary>COFF</primary>
+  <secondary>debugging</secondary>
  </indexterm>
 
  <indexterm>
-  <primary>COFF</primary>
+  <primary>ELF</primary>
   <secondary>debugging</secondary>
  </indexterm>
 

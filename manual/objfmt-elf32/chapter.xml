@@ -28,5 +28,546 @@
   <primary>UnixWare</primary>
  </indexterm>
 
- <para></para>
+ <indexterm>
+  <primary>FreeBSD</primary>
+ </indexterm>
+
+ <para>The Executable and Linkable Object Format is the primary object
+  format for many operating systems including FreeBSD or GNU/Linux. It
+  appears in three forms:</para>
+
+ <itemizedlist>
+  <listitem>Shared object files (.so)</listitem>
+  <listitem>Relocatable object files (.o)</listitem>
+  <listitem>Executable files (no convention)</listitem>
+ </itemizedlist>
+
+ <para>Yasm only directly supports relocatable object files. Other
+  tools, such as the GNU Linker <command>ld</command>, help turn
+  relocatable object files into the other formats.  Yasm supports
+  generation of both 32-bit and 64-bit ELF files, called
+  <literal>elf32</literal> and <literal>elf64</literal>.  A generic
+  interface to both is also provided, <literal>elf</literal>, which
+  selects between <literal>elf32</literal> and
+  <literal>elf64</literal> based on the target machine architecture
+  (see <xref linkend="yasm-option-machine" />).</para>
+
+ <section id="objfmt-elf-dbgfmts">
+  <title>Debugging Format Support</title>
+
+  <para>ELF supports two debugging formats: <literal>stabs</literal>
+   (see <xref linkend="dbgfmt-stabs" />) and <literal>dwarf2</literal>
+   (see <xref linkend="dbgfmt-dwarf2" />).  Different debuggers
+   understand these different formats; the newer debug format is
+   <literal>dwarf2</literal>, so try that first.</para>
+ </section>
+
+ <section id="objfmt-elf-section">
+  <title>ELF Sections</title>
+
+  <indexterm>
+   <primary><literal>elf</literal></primary>
+   <secondary>SECTION</secondary>
+  </indexterm>
+
+  <para>ELF's section-based output supports attributes on a
+   per-section basis.  These attributes include
+   <literal>alloc</literal>, <literal>exec</literal>,
+   <literal>write</literal>, <literal>progbits</literal>, and
+   <literal>align</literal>. Except for align, they can each be
+   negated in NASM syntax by prepending <quote>no</quote>, e.g.,
+   <quote>noexec</quote>.  The attributes are later read by the
+   operating system to select the proper behavior for each section,
+   with the meanings shown in <xref linkend="elf-section-attributes"
+    />.</para>
+
+  <table id="elf-section-attributes">
+   <title>ELF Section Attributes</title>
+
+   <tgroup cols="2" colsep="1" rowsep="1">
+    <colspec colname="attribute" align="center" />
+    <colspec colname="action" align="left" />
+
+    <thead>
+     <row>
+      <entry>Attribute</entry>
+      <entry>Indicates the section</entry>
+     </row>
+    </thead>
+
+    <tbody>
+     <row>
+      <entry><literal>alloc</literal></entry>
+
+      <entry><para>is loaded into memory at runtime. This is true for
+        code and data sections, and false for metadata
+        sections.</para></entry>
+     </row>
+
+     <row>
+      <entry><literal>exec</literal></entry>
+      
+      <entry>has permission to be run as executable code.</entry>
+     </row>
+
+     <row>
+      <entry><literal>write</literal></entry>
+
+      <entry>is writable at runtime.</entry>
+     </row>
+
+     <row>
+      <entry><literal>progbits</literal></entry>
+
+      <entry><para>is stored in the disk image, as opposed to allocated
+        and initialized at load.</para></entry>
+     </row>
+
+     <row>
+      <entry><literal>align=<replaceable>n</replaceable></literal></entry>
+
+      <entry><para>requires a memory alignment of
+        <replaceable>n</replaceable> bytes. The value
+        <replaceable>n</replaceable> must always be a power of
+        2.</para></entry>
+     </row>
+    </tbody>
+   </tgroup>
+  </table>
+
+  <para>In NASM syntax, the attribute <literal>nobits</literal> is
+   provided as an alias for <literal>noprogbits</literal>.</para>
+
+  <para>The standard primary sections have attribute defaults
+   according their expected use, and any unknown section gets its own
+   defaults, as shown in <xref linkend="elf-standard-sections"
+    />.</para>
+
+  <table id="elf-standard-sections">
+   <title>ELF Standard Sections</title>
+
+   <tgroup cols="6" align="center" colsep="1" rowsep="1">
+    <colspec colname="sectname" />
+    <colspec colname="alloc" />
+    <colspec colname="exec" />
+    <colspec colname="write" />
+    <colspec colname="progbits" />
+    <colspec colname="align" />
+
+    <thead>
+     <row>
+      <entry>Section</entry>
+      <entry><literal>alloc</literal></entry>
+      <entry><literal>exec</literal></entry>
+      <entry><literal>write</literal></entry>
+      <entry><literal>progbits</literal></entry>
+      <entry><literal>align</literal></entry>
+     </row>
+    </thead>
+
+    <tbody>
+     <row>
+      <entry><literal>.bss</literal></entry>
+      <entry>alloc</entry>
+      <entry></entry>
+      <entry>write</entry>
+      <entry></entry>
+      <entry>4</entry>
+     </row>
+
+     <row>
+      <entry><literal>.data</literal></entry>
+      <entry>alloc</entry>
+      <entry></entry>
+      <entry>write</entry>
+      <entry>progbits</entry>
+      <entry>4</entry>
+     </row>
+
+     <row>
+      <entry><literal>.rodata</literal></entry>
+      <entry>alloc</entry>
+      <entry></entry>
+      <entry></entry>
+      <entry>progbits</entry>
+      <entry>4</entry>
+     </row>
+
+     <row>
+      <entry><literal>.text</literal></entry>
+      <entry>alloc</entry>
+      <entry>exec</entry>
+      <entry></entry>
+      <entry>progbits</entry>
+      <entry>16</entry>
+     </row>
+
+     <row>
+      <entry><literal>.comment</literal></entry>
+      <entry></entry>
+      <entry></entry>
+      <entry></entry>
+      <entry>progbits</entry>
+      <entry>0</entry>
+     </row>
+
+     <row>
+      <entry>unknown</entry>
+      <entry>alloc</entry>
+      <entry></entry>
+      <entry></entry>
+      <entry>progbits</entry>
+      <entry>1</entry>
+     </row>
+    </tbody>
+   </tgroup>
+  </table>
+ </section>
+
+ <section id="objfmt-elf-directives">
+  <title>ELF Directives</title>
+
+  <indexterm>
+   <primary><literal>elf</literal></primary>
+   <secondary>directives</secondary>
+  </indexterm>
+
+  <para>ELF adds additional assembler directives to define weak
+   symbols (<literal>WEAK</literal>), set symbol size
+   (<literal>SIZE</literal>), and indicate whether a symbol is
+   specifically a function or an object (<literal>TYPE</literal>).
+   ELF also adds a directive to assist in identifying the source file
+   or version, <literal>IDENT</literal>.</para>
+
+  <section id="objfmt-elf-dir-ident">
+   <title><literal>IDENT</literal>: Add file identification</title>
+
+   <indexterm>
+    <primary><literal>IDENT</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>version control</primary>
+   </indexterm>
+
+   <para>The <literal>IDENT</literal> directive allows adding
+    arbitrary string data to an ELF object file that will be saved in
+    the object and executable file, but will not be loaded into memory
+    like data in the <literal>.data</literal> section.  It is often
+    used for saving version control keyword information from tools
+    such as <command>cvs</command> or <command>svn</command> into
+    files so that the source revision the object was created with can
+    be read using the <command>ident</command> command found on most
+    Unix systems.</para>
+
+   <para>The directive takes one or more string parameters.  Each
+    parameter is saved in sequence as a 0-terminated string in the
+    <literal>.comment</literal> section of the object file.  Multiple
+    uses of the <literal>IDENT</literal> directive are legal, and the
+    strings will be saved into the <literal>.comment</literal> section
+    in the order given in the source file.</para>
+
+   <para>In NASM syntax, no wrapper macro is provided for
+    <literal>IDENT</literal>, so it must be wrapped in square
+    brackets.  Example use in NASM syntax:</para>
+
+   <programlisting>[ident "$Id$"]</programlisting>
+  </section>
+
+  <section id="objfmt-elf-dir-size">
+   <title><literal>SIZE</literal>: Set symbol size</title>
+
+   <indexterm>
+    <primary><literal>SIZE</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>elf</literal></primary>
+    <secondary>symbol size</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>size</primary>
+    <secondary>of symbols</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>symbol sizes</primary>
+    <secondary>specifying</secondary>
+   </indexterm>
+
+   <para>ELF's symbol table has the capability of storing a size for a
+    symbol.  This is commonly used for functions or data objects.
+    While the size can be specificed directly for
+    <literal>COMMON</literal> symbols, the <literal>SIZE</literal>
+    directive allows for specifying the size of any symbol, including
+    local symbols.</para>
+
+   <para>The directive takes two parameters; the first parameter is
+    the symbol name, and the second is the size.  The size may be a
+    constant or an expression.  Example:</para>
+
+   <programlisting>func:
+        ret
+.end:
+size func func.end-func</programlisting>
+  </section>
+
+  <section id="objfmt-elf-dir-type">
+   <title><literal>TYPE</literal>: Set symbol type</title>
+
+   <indexterm>
+    <primary><literal>TYPE</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>elf</literal></primary>
+    <secondary>symbol type</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>type</primary>
+    <secondary>of symbols</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>symbol types</primary>
+    <secondary>specifying</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>object</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>function</literal></primary>
+   </indexterm>
+
+   <para>ELF's symbol table has the capability of indicating whether a
+    symbol is a function or data.  While this can be specified
+    directly in the <literal>GLOBAL</literal> directive (see <xref
+     linkend="objfmt-elf-dir-global" />), the <literal>TYPE</literal>
+    directive allows specifying the symbol type for any symbol,
+    including local symbols.</para>
+
+   <para>The directive takes two parameters; the first parameter is
+    the symbol name, and the second is the symbol type.  The symbol
+    type must be either <literal>function</literal> or
+    <literal>object</literal>.  An unrecognized type will cause a
+    warning to be generated.  Example of use:</para>
+
+   <programlisting>func:
+        ret
+type func function
+section .data
+var dd 4
+type var object</programlisting>
+  </section>
+
+  <section id="objfmt-elf-dir-weak">
+   <title><literal>WEAK</literal>: Create weak symbol</title>
+
+   <indexterm>
+    <primary><literal>WEAK</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>elf</literal></primary>
+    <secondary>weak reference</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>weak reference</primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>library</primary>
+   </indexterm>
+
+   <para>ELF allows defining certain symbols as <quote>weak</quote>.
+    Weak symbols are similar to global symbols, except during linking,
+    weak symbols are only chosen after global and local symbols during
+    symbol resolution.  Unlike global symbols, multiple object files
+    may declare the same weak symbol, and references to a symbol get
+    resolved against a weak symbol only if no global or local symbols
+    have the same name.</para>
+
+   <para>This functionality is primarily useful for libraries that
+    want to provide common functions but not come into conflict with
+    user programs.  For example, libc has a syscall (function) called
+    <quote>read</quote>.  However, to implement a threaded process
+    using POSIX threads in user-space, libpthread needs to supply a
+    function also called <quote>read</quote> that provides a blocking
+    interface to the programmer, but actually does non-blocking calls
+    to the kernel.  To allow an application to be linked to both libc
+    and libpthread (to share common code), libc needs to have its
+    version of the syscall with a non-weak name like
+    <quote>_sys_read</quote> with a weak symbol called
+    <quote>read</quote>.  If an application is linked against libc
+    only, the linker won't find a non-weak symbol for
+    <quote>read</quote>, so it will use the weak one. If the same
+    application is linked against libc <emphasis>and</emphasis>
+    libpthread, then the linker will link <quote>read</quote> calls to
+    the symbol in libpthread, ignoring the weak one in libc,
+    regardless of library link order.  If libc used a non-weak name,
+    which <quote>read</quote> function the program ended up with might
+    depend on a variety of factors; a weak symbol is a way to tell the
+    linker that a symbol is less important resolution-wise.</para>
+
+   <para>The <literal>WEAK</literal> directive takes a single
+    parameter, the symbol name to declare weak.  Example:</para>
+
+   <programlisting>weakfunc:
+strongfunc:
+        ret
+weak weakfunc
+global strongfunc</programlisting>
+  </section>
+ </section>
+
+ <section id="objfmt-elf-dir-global">
+  <title>ELF Extensions to the <literal>GLOBAL</literal>
+   Directive</title>
+
+   <indexterm>
+    <primary><literal>GLOBAL</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>symbol sizes</primary>
+    <secondary>specifying</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>size</primary>
+    <secondary>of symbols</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>symbol types</primary>
+    <secondary>specifying</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>type</primary>
+    <secondary>of symbols</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>function</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>object</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>data</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>internal</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>hidden</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>protected</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>default</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>shared library</primary>
+   </indexterm>
+
+  <para>ELF object files can contain more information about a global
+   symbol than just its address: they can contain the size of the
+   symbol and its type as well.  These are not merely debugger
+   conveniences, but are actually necessary when the program being
+   written is a shared library.  Yasm therefore supports some
+   extensions to the NASM syntax <literal>GLOBAL</literal> directive
+   (see <xref linkend="nasm-directive-global" />), allowing you to
+   specify these features.  Yasm also provides the ELF-specific
+   directives in <xref linkend="objfmt-elf-directives" /> to allow
+   specifying this information for non-global symbols.</para>
+
+  <para>You can specify whether a global variable is a function or a
+   data object by suffixing the name with a colon and the word
+   <literal>function</literal> or <literal>data</literal>.
+   (<literal>object</literal> is a synonym for
+   <literal>data</literal>.) For example:</para>
+
+  <programlisting>global   hashlookup:function, hashtable:data</programlisting>
+
+  <para>exports the global symbol <literal>hashlookup</literal> as a
+   function and <literal>hashtable</literal> as a data object.</para>
+
+  <para>Optionally, you can control the ELF visibility of the symbol.
+   Just add one of the visibility keywords:
+   <literal>default</literal>, <literal>internal</literal>,
+   <literal>hidden</literal>, or <literal>protected</literal>.  The
+   default is <literal>default</literal>, of course.  For example, to
+   make <literal>hashlookup</literal> hidden:</para>
+
+  <programlisting>global   hashlookup:function hidden</programlisting>
+
+  <para>You can also specify the size of the data associated with the
+   symbol, as a numeric expression (which may involve labels, and even
+   forward references) after the type specifier. Like this:</para>
+
+  <programlisting>global  hashtable:data (hashtable.end - hashtable)
+
+hashtable:
+        db this,that,theother  ; some data here
+.end:</programlisting>
+
+  <para>This makes Yasm automatically calculate the length of the
+   table and place that information into the ELF symbol table.  The
+   same information can be given more verbosely using the
+   <literal>TYPE</literal> (see <xref linkend="objfmt-elf-dir-type"
+    />) and <literal>SIZE</literal> (see <xref
+    linkend="objfmt-elf-dir-size" />) directives as follows:</para>
+
+  <programlisting>global  hashtable
+type hashtable object
+size hashtable hashtable.end - hashtable
+
+hashtable:
+        db this,that,theother  ; some data here
+.end:</programlisting>
+
+  <para>Declaring the type and size of global symbols is necessary
+   when writing shared library code.</para>
+ </section>
+
+ <section id="objfmt-elf-dir-common">
+  <title>ELF Extensions to the <literal>COMMON</literal>
+   Directive</title>
+
+   <indexterm>
+    <primary>common variables</primary>
+    <secondary>alignment in elf</secondary>
+   </indexterm>
+
+   <indexterm>
+    <primary>alignment</primary>
+    <secondary>of common variables</secondary>
+   </indexterm>
+
+   <para>ELF also allows you to specify alignment requirements on
+    common variables. This is done by putting a number (which must be
+    a power of two) after the name and size of the common variable,
+    separated (as usual) by a colon. For example, an array of
+    doublewords would benefit from 4-byte alignment:</para>
+
+   <programlisting>common  dwordarray 128:4</programlisting>
+
+   <para>This declares the total size of the array to be 128 bytes,
+    and requires that it be aligned on a 4-byte boundary.</para>
+ </section>
 </chapter>
