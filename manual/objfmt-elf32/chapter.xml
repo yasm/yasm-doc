@@ -570,4 +570,158 @@ hashtable:
    <para>This declares the total size of the array to be 128 bytes,
     and requires that it be aligned on a 4-byte boundary.</para>
  </section>
+
+ <section id="objfmt-elf-wrt">
+  <title><literal>elf32</literal> Special Symbols and
+   <literal>WRT</literal></title>
+
+  <indexterm>
+   <primary>Position-Independent Code</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>PIC</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>WRT</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>ELF</primary>
+   <secondary>shared libraries</secondary>
+  </indexterm>
+
+  <indexterm>
+   <primary>relocations</primary>
+   <secondary>PIC-specific</secondary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..gotpc</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..gotoff</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..got</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..plt</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..sym</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>_GLOBAL_OFFSET_TABLE_</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>global offset table</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>GOT</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>program linkage table</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>PLT</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>$$</literal></primary>
+  </indexterm>
+
+  <para>The ELF specification contains enough features to allow
+   position-independent code (PIC) to be written, which makes ELF
+   shared libraries very flexible. However, it also means Yasm has to
+   be able to generate a variety of strange relocation types in ELF
+   object files, if it is to be an assembler which can write
+   PIC.</para>
+
+  <para>Since ELF does not support segment-base references, the
+   <literal>WRT</literal> operator is not used for its normal purpose;
+   therefore Yasm's <literal>elf32</literal> output format makes use
+   of <literal>WRT</literal> for a different purpose, namely the
+   PIC-specific relocation types.</para>
+
+  <para><literal>elf32</literal> defines five special symbols which
+   you can use as the right-hand side of the <literal>WRT</literal>
+   operator to obtain PIC relocation types.  They are
+   <literal>..gotpc</literal>, <literal>..gotoff</literal>,
+   <literal>..got</literal>, <literal>..plt</literal> and
+   <literal>..sym</literal>. Their functions are summarized
+   here:</para>
+
+  <variablelist>
+   <varlistentry>
+    <term><literal>..gotpc</literal></term>
+
+    <listitem><para>Referring to the symbol marking the global offset
+      table base using <literal>wrt ..gotpc</literal> will end up
+      giving the distance from the beginning of the current section to
+      the global offset table.
+      (<literal>_GLOBAL_OFFSET_TABLE_</literal> is the standard symbol
+      name used to refer to the GOT.) So you would then need to add
+      <literal>$$</literal> to the result to get the real address of
+      the GOT.</para></listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term><literal>..gotoff</literal></term>
+
+    <listitem><para>Referring to a location in one of your own
+      sections using <literal>wrt ..gotoff</literal> will give the
+      distance from the beginning of the GOT to the specified
+      location, so that adding on the address of the GOT would give
+      the real address of the location you wanted.</para></listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term><literal>..got</literal></term>
+
+    <listitem><para>Referring to an external or global symbol using
+      <literal>wrt ..got</literal> causes the linker to build an entry
+      <emphasis>in</emphasis> the GOT containing the address of the
+      symbol, and the reference gives the distance from the beginning
+      of the GOT to the entry; so you can add on the address of the
+      GOT, load from the resulting address, and end up with the
+      address of the symbol.</para></listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term><literal>..plt</literal></term>
+
+    <listitem><para>Referring to a procedure name using <literal>wrt
+       ..plt</literal> causes the linker to build a procedure linkage
+      table entry for the symbol, and the reference gives the address
+      of the PLT entry.  You can only use this in contexts which would
+      generate a PC-relative relocation normally (i.e. as the
+      destination for <literal>CALL</literal> or
+      <literal>JMP</literal>), since ELF contains no relocation type
+      to refer to PLT entries absolutely.</para></listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term><literal>..sym</literal></term>
+
+    <listitem><para>Referring to a symbol name using <literal>wrt
+       ..sym</literal> causes NASM to write an ordinary relocation,
+      but instead of making the relocation relative to the start of
+      the section and then adding on the offset to the symbol, it will
+      write a relocation record aimed directly at the symbol in
+      question.  The distinction is a necessary one due to a
+      peculiarity of the dynamic linker.</para></listitem>
+   </varlistentry>
+  </variablelist>
+ </section>
 </chapter>
