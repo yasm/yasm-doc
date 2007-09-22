@@ -18,11 +18,177 @@
 
  <indexterm>
   <primary>Executable and Linkable Format</primary>
+  <secondary>64-bit</secondary>
  </indexterm>
 
  <indexterm>
   <primary>Solaris x86-64</primary>
  </indexterm>
 
- <para></para>
+ <indexterm>
+  <primary>amd64</primary>
+ </indexterm>
+
+ <para>The <literal>elf64</literal> object format is the 64-bit
+  version of the Executable and Linkable Object Format.  As it shares
+  many similarities with <literal>elf32</literal>, only differences
+  between <literal>elf32</literal> and <literal>elf64</literal> will
+  be described in this chapter.  For details on
+  <literal>elf32</literal>, see <xref linkend="objfmt-elf32"
+   />.</para>
+
+ <para>Yasm defaults to <literal>BITS 64</literal> mode when
+  outputting to the <literal>elf64</literal> object format.</para>
+
+ <para><literal>elf64</literal> supports the same debug formats as
+  <literal>elf32</literal>, however, the <literal>stabs</literal>
+  debug format is limited to 32-bit addresses, so
+  <literal>dwarf2</literal> (see <xref linkend="dbgfmt-dwarf2" />) is
+  the recommended debugging format.</para>
+
+ <para><literal>elf64</literal> also supports the exact same sections,
+  section attributes, and directives as <literal>elf32</literal>.  See
+  <xref linkend="objfmt-elf-section" /> for more details on section
+  attributes, and <xref linkend="objfmt-elf-directives" /> for details
+  on the additional directives ELF provides.</para>
+
+ <section id="objfmt-elf64-wrt">
+  <title><literal>elf64</literal> Special Symbols and
+   <literal>WRT</literal></title>
+
+  <indexterm>
+   <primary>Position-Independent Code</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>PIC</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>WRT</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>ELF</primary>
+   <secondary>64-bit shared libraries</secondary>
+  </indexterm>
+
+  <indexterm>
+   <primary>relocations</primary>
+   <secondary>PIC-specific</secondary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..gotpcrel</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..got</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..plt</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary><literal>..sym</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>global offset table</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>GOT</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>program linkage table</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>PLT</primary>
+  </indexterm>
+
+  <para>The primary difference between <literal>elf32</literal> and
+   <literal>elf64</literal> (other than 64-bit support in general) is
+   the differences in shared library handling and position-independent
+   code.  As <literal>BITS 64</literal> enables the use of
+   <literal>RIP</literal>-relative addressing, most variable accesses
+   can be relative to RIP, allowing easy relocation of the shared
+   library to a different memory address.</para>
+
+  <para>While RIP-relative addressing is available, it does not handle
+   all possible variable access modes, so special symbols are still
+   required, as in <literal>elf32</literal>.  And as with
+   <literal>elf32</literal>, the <literal>elf64</literal> output
+   format makes use of <literal>WRT</literal> for utilizing the
+   PIC-specific relocation types.</para>
+
+  <para><literal>elf64</literal> defines four special symbols which
+   you can use as the right-hand side of the <literal>WRT</literal>
+   operator to obtain PIC relocation types.  They are
+   <literal>..gotpcrel</literal>, <literal>..got</literal>,
+   <literal>..plt</literal> and <literal>..sym</literal>. Their
+   functions are summarized here:</para>
+
+  <variablelist>
+   <varlistentry>
+    <term><literal>..gotpcrel</literal></term>
+
+    <listitem><para>While RIP-relative addressing allows you to encode
+      an instruction pointer relative data reference to
+      <literal>foo</literal> with <literal>[rel foo]</literal>, it's
+      sometimes necessary to encode a RIP-relative reference to a
+      linker-generated symbol pointer for symbol foo; this is done
+      using <literal>wrt ..gotpcrel</literal>, e.g. <literal>[rel foo
+       wrt ..gotpcrel]</literal>.  Unlike in <literal>elf32</literal>,
+      this relocation, combined with RIP-relative addressing, makes it
+      possible to load an address from the GOT using a single
+      instruction.  Note that since RIP-relative references are
+      limited to a signed 32-bit displacement, the GOT size accessible
+      through this method is limited to 2 GB.</para></listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term><literal>..got</literal></term>
+
+    <listitem><para>As in <literal>elf32</literal>, referring to an
+      external or global symbol using <literal>wrt ..got</literal>
+      causes the linker to build an entry <emphasis>in</emphasis> the
+      GOT containing the address of the symbol, and the reference
+      gives the distance from the beginning of the GOT to the entry;
+      so you can add on the address of the GOT, load from the
+      resulting address, and end up with the address of the
+      symbol.</para></listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term><literal>..plt</literal></term>
+
+    <listitem><para>As in <literal>elf32</literal>, referring to a
+       procedure name using <literal>wrt ..plt</literal> causes the
+       linker to build a procedure linkage table entry for the symbol,
+       and the reference gives the address of the PLT entry.  You can
+       only use this in contexts which would generate a PC-relative
+       relocation normally (i.e. as the destination for
+       <literal>CALL</literal> or <literal>JMP</literal>), since ELF
+       contains no relocation type to refer to PLT entries
+       absolutely.</para></listitem>
+   </varlistentry>
+
+   <varlistentry>
+    <term><literal>..sym</literal></term>
+
+    <listitem><para>As in <literal>elf32</literal>, referring to a
+       symbol name using <literal>wrt ..sym</literal> causes Yasm to
+       write an ordinary relocation, but instead of making the
+       relocation relative to the start of the section and then adding
+       on the offset to the symbol, it will write a relocation record
+       aimed directly at the symbol in question.  The distinction is a
+       necessary one due to a peculiarity of the dynamic
+       linker.</para></listitem>
+   </varlistentry>
+  </variablelist>
+ </section>
 </chapter>

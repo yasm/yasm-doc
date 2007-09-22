@@ -52,6 +52,9 @@
   <literal>elf64</literal> based on the target machine architecture
   (see <xref linkend="yasm-option-machine" />).</para>
 
+ <para>Yasm defaults to <literal>BITS 32</literal> mode when
+  outputting to the <literal>elf32</literal> object format.</para>
+
  <section id="objfmt-elf-dbgfmts">
   <title>Debugging Format Support</title>
 
@@ -571,7 +574,7 @@ hashtable:
     and requires that it be aligned on a 4-byte boundary.</para>
  </section>
 
- <section id="objfmt-elf-wrt">
+ <section id="objfmt-elf32-wrt">
   <title><literal>elf32</literal> Special Symbols and
    <literal>WRT</literal></title>
 
@@ -589,7 +592,7 @@ hashtable:
 
   <indexterm>
    <primary>ELF</primary>
-   <secondary>shared libraries</secondary>
+   <secondary>32-bit shared libraries</secondary>
   </indexterm>
 
   <indexterm>
@@ -715,7 +718,7 @@ hashtable:
     <term><literal>..sym</literal></term>
 
     <listitem><para>Referring to a symbol name using <literal>wrt
-       ..sym</literal> causes NASM to write an ordinary relocation,
+       ..sym</literal> causes Yasm to write an ordinary relocation,
       but instead of making the relocation relative to the start of
       the section and then adding on the offset to the symbol, it will
       write a relocation record aimed directly at the symbol in
