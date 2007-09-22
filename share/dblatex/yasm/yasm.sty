@@ -22,6 +22,7 @@
 % Needed packages
 \usepackage{ifthen}
 \usepackage{float}       
+\usepackage{footmisc} 
 
 \newcommand{\DBKreleaseinfo}{Working Paper}
 
@@ -150,10 +151,33 @@
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 % Safeguard against long headers.
+\IfFileExists{truncate.sty}{
+\usepackage{truncate}
+% Use an ellipsis when text would be larger than x% of the text width.
+% Preserve left/right text alignment using \hfill (works for English).
+\fancyhead[ol]{\truncate{0.49\textwidth}{\sl\leftmark}}
+\fancyhead[er]{\truncate{0.49\textwidth}{\hfill\sl\rightmark}}
+\fancyhead[el]{\truncate{0.49\textwidth}{\sl\leftmark}}
+\fancyhead[or]{\truncate{0.49\textwidth}{\hfill\sl\rightmark}}
+}{
 \fancyhead{} % clear all header fields
 \fancyhead[el]{\sl\leftmark}
 \fancyhead[or]{\hfill\sl\rightmark}
+}
 \pagestyle{fancy}
+
+% Define front/main/back matter if not available
+\makeatletter
+\@ifundefined{frontmatter}{
+  \def\frontmatter{\cleardoublepage\pagenumbering{roman}}
+}{}
+\@ifundefined{mainmatter}{
+  \def\mainmatter{\cleardoublepage\pagenumbering{arabic}}
+}{}
+\@ifundefined{backmatter}{
+  \def\backmatter{\if@openright\cleardoublepage\else\clearpage\fi}
+}{}
+\makeatother
 
 % ---------------------- 
 % Most Common Packages   
