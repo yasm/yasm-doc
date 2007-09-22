@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<chapter id="objfmt-bin">
+ <title><literal>bin</literal>: Flat-Form Binary Output</title>
+
+ <indexterm>
+  <primary><literal>bin</literal></primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Flat-Form Binary</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>pure binary</primary>
+ </indexterm>
+
+ <para></para>
+</chapter>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<chapter id="objfmt-win32">
+ <title><literal>win32</literal>: Microsoft Win32 Object Files</title>
+
+ <indexterm>
+  <primary><literal>win32</literal></primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Windows</primary>
+  <secondary>32-bit</secondary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Visual C++</primary>
+ </indexterm>
+
+ <para></para>
+</chapter>

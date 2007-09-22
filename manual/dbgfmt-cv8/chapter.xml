@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<chapter id="dbgfmt-cv8">
+ <title><literal>cv8</literal>: CodeView Debugging Format for VC8</title>
+
+ <indexterm>
+  <primary><literal>cv8</literal></primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Visual Studio 2005</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Visual C++ 8.0</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>CodeView</primary>
+ </indexterm>
+
+ <para></para>
+</chapter>

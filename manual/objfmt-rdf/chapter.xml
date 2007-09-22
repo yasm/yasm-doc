@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<chapter id="objfmt-rdf">
+ <title><literal>rdf</literal>: Relocatable Dynamic Object File Format</title>
+
+ <indexterm>
+  <primary><literal>rdf</literal></primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>RDOFF</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Relocatable Dynamic Object File Format</primary>
+ </indexterm>
+
+ <para></para>
+</chapter>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id$ -->
+<chapter id="objfmt-elf64">
+ <title><literal>elf64</literal>: Executable and Linkable Format
+  64-bit Object Files</title>
+
+ <indexterm>
+  <primary><literal>elf</literal></primary>
+  <secondary><literal>elf64</literal></secondary>
+ </indexterm>
+
+ <indexterm>
+  <primary><literal>Linux</literal></primary>
+  <secondary><literal>elf</literal></secondary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Executable and Linkable Format</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Solaris x86-64</primary>
+ </indexterm>
+
+ <para></para>
+</chapter>

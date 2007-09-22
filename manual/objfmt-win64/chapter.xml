@@ -3,7 +3,8 @@
 		"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!-- $Id$ -->
 <chapter id="objfmt-win64">
- <title><literal>win64</literal>: PE32+ Object Files</title>
+ <title><literal>win64</literal>: PE32+ (Microsoft Win64) Object
+  Files</title>
 
  <indexterm>
   <primary><literal>win64</literal></primary>
@@ -15,6 +16,15 @@
 
  <indexterm>
   <primary>PE32+</primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Windows</primary>
+  <secondary>64-bit</secondary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Visual C++</primary>
  </indexterm>
 
  <para>The <literal>win64</literal> or <literal>x64</literal> object

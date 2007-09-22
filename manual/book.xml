@@ -88,7 +88,7 @@
    <para>The chapters in this part of the book document Yasm's support
     for various object file formats.</para>
   </partintro>
-  <!--
+
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="objfmt-bin/chapter.xml" />
 
@@ -96,17 +96,28 @@
    href="objfmt-coff/chapter.xml" />
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-   href="objfmt-elf/chapter.xml" />
+   href="objfmt-elf32/chapter.xml" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-elf64/chapter.xml" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-macho32/chapter.xml" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-macho64/chapter.xml" />
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+   href="objfmt-rdf/chapter.xml" />
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="objfmt-win32/chapter.xml" />
-  -->
+
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="objfmt-win64/chapter.xml" />
-  <!--
+
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="objfmt-xdf/chapter.xml" />
-  -->
  </part>
 
  <part id="dbgfmts">
@@ -116,16 +127,15 @@
    <para>The chapters in this part of the book document Yasm's support
     for various debugging formats.</para>
   </partintro>
-  <!--
+
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-   href="dbgfmt-codeview/chapter.xml" />
+   href="dbgfmt-cv8/chapter.xml" />
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="dbgfmt-dwarf2/chapter.xml" />
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
    href="dbgfmt-stabs/chapter.xml" />
-  -->
  </part>
 
  <part id="architectures">
