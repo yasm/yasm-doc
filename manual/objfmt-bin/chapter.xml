@@ -17,5 +17,389 @@
   <primary>pure binary</primary>
  </indexterm>
 
- <para></para>
+ <indexterm>
+  <primary><filename class="extension">.COM</filename></primary>
+ </indexterm>
+
+ <indexterm>
+  <primary><filename class="extension">.SYS</filename></primary>
+ </indexterm>
+
+ <indexterm>
+  <primary>Flash</primary>
+ </indexterm>
+
+ <para>The <literal>bin</literal> <quote>object format</quote> does
+  not produce object files: the output file produced contains only the
+  section data; no headers or relocations are generated.  The output
+  can be considered <quote>plain binary</quote>, and is useful for
+  operating system and boot loader development, generating MS-DOS
+  <filename class="extension">.COM</filename> executables and
+  <filename class="extension">.SYS</filename> device drivers, and
+  creating images for embedded target environments (e.g. Flash
+  ROM).</para>
+
+ <para>The <literal>bin</literal> object format supports an unlimited
+  number of named sections.  See <xref linkend="objfmt-bin-section"/>
+  for details.  The only restriction on these sections is that their
+  storage locations in the output file cannot overlap.</para>
+
+ <para>When used with the x86 architecture, the <literal>bin</literal>
+  object format starts Yasm in 16-bit mode.  In order to write native
+  32-bit or 64-bit code, an explicit <literal>BITS 32</literal> or
+  <literal>BITS 64</literal> directive is required
+  respectively.</para>
+
+ <para><literal>bin</literal> produces an output file with no
+  extension by default; it simply strips the extension from the input
+  file name.  Thus the default output filename for the input file
+  <filename>foo.asm</filename> is simply
+  <filename>foo</filename>.</para>
+
+ <section id="objfmt-bin-org">
+  <title><literal>ORG</literal>: Binary Origin</title>
+
+  <indexterm>
+   <primary><literal>ORG</literal></primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>Origin</primary>
+  </indexterm>
+
+  <indexterm>
+   <primary>Binary origin</primary>
+  </indexterm>
+
+  <para><literal>bin</literal> provides the <literal>ORG</literal>
+   directive in NASM syntax to allow setting of the memory address at
+   which the output file is initially loaded. The
+   <literal>ORG</literal> directive may only be used once (as the
+   output file can only be initially loaded into a single location).
+   If <literal>ORG</literal> is not specified, <literal>ORG
+    0</literal> is used by default.</para>
+
+  <para>This makes the operation of NASM-syntax <literal>ORG</literal>
+   very different from the operation of <literal>ORG</literal> in
+   other assemblers, which typically simply move the assembly location
+   to the value given.  <literal>bin</literal> provides a more
+   powerful alternative in the form of extensions to the
+   <literal>SECTION</literal> directive; see <xref
+    linkend="objfmt-bin-section"/> for details.</para>
+
+  <para>When combined with multiple sections, <literal>ORG</literal>
+   also has the effect of defaulting the LMA of the first section to
+   the <literal>ORG</literal> value to make the output file as small
+   as possible.  If this is not the desired behavior, explicitly
+   specify a LMA for all sections via either <literal>START</literal>
+   or <literal>FOLLOWS</literal> qualifiers in the
+   <literal>SECTION</literal> directive.</para>
+  </section>
+
+  <section id="objfmt-bin-section">
+   <title><literal>bin</literal> Extensions to the
+    <literal>SECTION</literal> Directive</title>
+
+   <indexterm>
+    <primary><literal>VALIGN</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>VFOLLOWS</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>FOLLOWS</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>ALIGN</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>VMA</primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>LMA</primary>
+   </indexterm>
+
+   <para>The <literal>bin</literal> object format allows the use of
+    multiple sections of arbitrary names.  It also extends the
+    <literal>SECTION</literal> (or <literal>SEGMENT</literal>)
+    directive to allow complex ordering of the segments both in the
+    output file or initial load address (also known as LMA) and at the
+    ultimate execution address (the virtual address or VMA).</para>
+
+   <para>The VMA is the execution address.  Yasm calculates absolute
+    memory references within a section assuming that the program code
+    is at the VMA while being executed.  The LMA, on the other hand,
+    specifies where a section is <emphasis>initially</emphasis>
+    loaded, as well as its location in the output file.</para>
+
+   <para>Often, VMA will be the same as LMA.  However, they may be
+    different if the program or another piece of code copies
+    (relocates) a section prior to execution.  A typical example of
+    this in an embedded system would be a piece of code stored in ROM,
+    but is copied to faster RAM prior to execution.  Another example
+    would be overlays: sections loaded on demand from different file
+    locations to the same execution location.</para>
+
+   <para>The <literal>bin</literal> extensions to the
+    <literal>SECTION</literal> directive allow flexible specification
+    of both VMA and LMA, including alignment constraints.  As with
+    other object formats, additional attributes may be added after the
+    section name.  The available attributes are listed in <xref
+     linkend="bin-section-attributes"/>.</para>
+
+   <table id="bin-section-attributes">
+    <title><literal>bin</literal> Section Attributes</title>
+
+    <tgroup cols="2" colsep="1" rowsep="1">
+     <colspec colname="attribute" align="center" />
+     <colspec colname="action" align="left" />
+
+     <thead>
+      <row>
+       <entry>Attribute</entry>
+       <entry>Indicates the section</entry>
+      </row>
+     </thead>
+
+     <tbody>
+      <row>
+       <entry><literal>progbits</literal></entry>
+
+       <entry><para>is stored in the disk image, as opposed to
+         allocated and initialized at load.</para></entry>
+      </row>
+
+      <row>
+       <entry><literal>nobits</literal></entry>
+
+       <entry><para>is allocated and initialized at load (the opposite
+         of <literal>progbits</literal>).  Only one of
+         <literal>progbits</literal> or <literal>nobits</literal> may
+         be specified; they are mutually exclusive
+         attributes.</para></entry>
+      </row>
+
+      <row>
+       <entry><literal>start=<replaceable>address</replaceable></literal></entry>
+
+       <entry><para>has an LMA starting at
+         <replaceable>address</replaceable>.  If a LMA alignment
+         constraint is given, it is checked against the provided
+         address and a warning is issued if
+         <replaceable>address</replaceable> does not meet the
+         alignment constraint.</para></entry>
+      </row>
+
+      <row>
+       <entry><literal>follows=<replaceable>sectname</replaceable></literal></entry>
+
+       <entry><para>should follow the section named
+         <replaceable>sectname</replaceable> in the output file (LMA).
+         If a LMA alignment constraint is given, it is respected and a
+         gap is inserted such that the section meets its alignment
+         requirement.  Note that as LMA overlap is not allowed,
+         typically only one section may follow another.</para></entry>
+      </row>
+
+      <row>
+       <entry><literal>align=<replaceable>n</replaceable></literal></entry>
+
+       <entry><para>requires a LMA alignment of
+         <replaceable>n</replaceable> bytes.  The value
+         <replaceable>n</replaceable> must always be a power of 2.
+         LMA alignment defaults to 4 if not specified.</para></entry>
+      </row>
+
+      <row>
+       <entry><literal>vstart=<replaceable>address</replaceable></literal></entry>
+
+       <entry><para>has an VMA starting at
+         <replaceable>address</replaceable>.  If a VMA alignment
+         constraint is given, it is checked against the provided
+         address and a warning is issued if
+         <replaceable>address</replaceable> does not meet the
+         alignment constraint.</para></entry>
+      </row>
+
+      <row>
+       <entry><literal>vfollows=<replaceable>sectname</replaceable></literal></entry>
+
+       <entry><para>should follow the section named
+         <replaceable>sectname</replaceable> in the output file (VMA).
+         If a VMA alignment constraint is given, it is respected and a
+         gap is inserted such that the section meets its alignment
+         requirement.  VMA overlap is allowed, so more than one
+         section may follow another (possibly useful in the case of
+         overlays).</para></entry>
+      </row>
+
+      <row>
+       <entry><literal>valign=<replaceable>n</replaceable></literal></entry>
+
+       <entry><para>requires a VMA alignment of
+         <replaceable>n</replaceable> bytes.  The value
+         <replaceable>n</replaceable> must always be a power of 2.
+         VMA alignment defaults to the LMA alignment if not
+         specified.</para></entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+
+   <para>Only one of <literal>start</literal> or
+    <literal>follows</literal> may be specified for a section; the
+    same restriction applies to <literal>vstart</literal> and
+    <literal>vfollows</literal>.</para>
+
+   <para>Unless otherwise specified via the use of
+    <literal>follows</literal> or <literal>start</literal>, Yasm by
+    default assumes the implicit ordering given by the order of the
+    sections in the input file.  A section named
+    <literal>.text</literal> is always the first section.  Any code
+    which comes before an explicit <literal>SECTION</literal>
+    directive goes into the <literal>.text</literal> section.  The
+    <literal>.text</literal> section attributes may be overridden by
+    giving an explicit <literal>SECTION .text</literal> directive with
+    attributes.</para>
+
+   <para>Also, unless otherwise specified, Yasm defaults to setting
+    VMA=LMA.  If just <literal>valign</literal> is specified, Yasm
+    just takes the LMA and aligns it to the required alignment.  This
+    may have the effect of pushing following sections' VMAs to non-LMA
+    addresses as well, to avoid VMA overlap.</para>
+
+   <para>Yasm treats <literal>nobits</literal> sections in a special
+    way in order to minimize the size of the output file.  As
+    <literal>nobits</literal> sections can be 0-sized in the LMA
+    realm, but cannot be if located between two other sections (due to
+    the VMA=LMA default), Yasm moves all <literal>nobits</literal>
+    sections with unspecified LMA to the end of the output file, where
+    they can savely have 0 LMA size and thus not take up any space in
+    the output file.  If this behavior is not desired, a
+    <literal>nobits</literal> section LMA (just like a
+    <literal>progbits</literal> section) may be specified using either
+    the <literal>follows</literal> or <literal>start</literal> section
+    attribute.</para>
+  </section>
+
+  <section id="objfmt-bin-ssym">
+   <title><literal>bin</literal> Special Symbols</title>
+
+   <indexterm>
+    <primary><literal>section.start</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>section.vstart</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><literal>section.length</literal></primary>
+   </indexterm>
+
+   <para>To facilitate writing code that copies itself from one
+    location to another (e.g. from its LMA to its VMA during
+    execution), the <literal>bin</literal> object format provides
+    several special symbols for every defined section.  Each special
+    symbol begins with <literal>section.</literal> followed by the
+    section name.  The supported special <literal>bin</literal>
+    symbols are:</para>
+
+   <variablelist>
+    <varlistentry>
+     <term><literal>section.<replaceable>sectname</replaceable>.start</literal></term>
+
+     <listitem><para>Set to the LMA address of the section named
+       <replaceable>sectname</replaceable>.</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+     <term><literal>section.<replaceable>sectname</replaceable>.vstart</literal></term>
+
+     <listitem><para>Set to the VMA address of the section named
+       <replaceable>sectname</replaceable>.</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+     <term><literal>section.<replaceable>sectname</replaceable>.length</literal></term>
+
+     <listitem><para>Set to the length of the section named
+       <replaceable>sectname</replaceable>.  The length is considered
+       the runtime length, so <literal>nobits</literal> sections'
+       length is their runtime length, not 0.</para></listitem>
+    </varlistentry>
+   </variablelist>
+  </section>
+
+  <section id="objfmt-bin-map">
+   <title>Map Files</title>
+
+   <indexterm>
+    <primary><literal>[MAP]</literal></primary>
+   </indexterm>
+
+   <indexterm>
+    <primary>Map file</primary>
+   </indexterm>
+
+   <indexterm>
+    <primary><option>--mapfile</option></primary>
+   </indexterm>
+
+   <para>Map files may be generated in <literal>bin</literal> via the
+    use of the <literal>[MAP]</literal> directive.  The map filename
+    may be specified either with a command line option
+    (<option>--mapfile=<replaceable>filename</replaceable></option>)
+    or in the <literal>[MAP]</literal> directive.  If a map is
+    requested but no output filename is given, the map output goes to
+    standard output by default.</para>
+
+   <para>If no <literal>[MAP]</literal> directive is given in the
+    input file, no map output is generated.  If
+    <literal>[MAP]</literal> is given with no options, a brief map is
+    generated.  The <literal>[MAP]</literal> directive accepts the
+    following options to control what is included in the map file.
+    More than one option may be specified.  Any option other than the
+    ones below is interpreted as the output filename.</para>
+
+   <variablelist>
+    <varlistentry>
+     <term><literal>brief</literal></term>
+
+     <listitem><para>Includes the input and output filenames, origin
+       (<literal>ORG</literal> value), and a brief section summary
+       listing the VMA and LMA start and stop addresses and the
+       section length of every section.</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+     <term><literal>sections</literal></term>
+     <term><literal>segments</literal></term>
+
+     <listitem><para>Includes a detailed list of sections, including
+       the VMA and LMA alignment, any <quote>follows</quote> settings,
+       as well as the VMA and LMA start addresses and the section
+       length.</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+     <term><literal>symbols</literal></term>
+
+     <listitem><para>Includes a detailed list of all EQU values and
+       VMA and LMA symbol locations, grouped by
+       section.</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+     <term><literal>all</literal></term>
+
+     <listitem><para>All of the above.</para></listitem>
+    </varlistentry>
+   </variablelist>
+  </section>
 </chapter>
