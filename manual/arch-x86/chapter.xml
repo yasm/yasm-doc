@@ -169,6 +169,11 @@
       </row>
 
       <row>
+       <entry><literal>XSAVE</literal></entry>
+       <entry>XSAVE instructions</entry>
+      </row>
+
+      <row>
        <entry><literal>3DNow</literal></entry>
        <entry>3DNow! instructions</entry>
       </row>
@@ -462,15 +467,15 @@
       <row>
        <entry><literal>Nehalem</literal></entry>
 
-       <entry><literal>SSE4.2</literal>, <literal>SSE4.1</literal>,
-        <literal>SSSE3</literal>, <literal>SSE3</literal>,
-        <literal>SSE2</literal>, <literal>SSE</literal>,
-        <literal>MMX</literal>, <literal>FPU</literal>,
-        <literal>SMM</literal>, <literal>Prot</literal>,
-        <literal>Priv</literal></entry>
+       <entry><literal>XSAVE</literal>, <literal>SSE4.2</literal>,
+        <literal>SSE4.1</literal>, <literal>SSSE3</literal>,
+        <literal>SSE3</literal>, <literal>SSE2</literal>,
+        <literal>SSE</literal>, <literal>MMX</literal>,
+        <literal>FPU</literal>, <literal>SMM</literal>,
+        <literal>Prot</literal>, <literal>Priv</literal></entry>
 
        <entry>All instructions available on the Intel codename
-        Nehalem processor, including SSE4.2 and 64-bit
+        Nehalem processor, including XSAVE, SSE4.2, and 64-bit
         instructions.</entry>
       </row>
 
