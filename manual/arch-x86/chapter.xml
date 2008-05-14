@@ -500,10 +500,9 @@
       </row>
 
       <row>
-       <entry><literal>Sandybridge</literal></entry>
+       <entry><literal>Westmere</literal></entry>
 
        <entry><literal>CLMUL</literal>, <literal>AES</literal>,
-        <literal>FMA</literal>, <literal>AVX</literal>,
         <literal>XSAVE</literal>, <literal>SSE4.2</literal>,
         <literal>SSE4.1</literal>, <literal>SSSE3</literal>,
         <literal>SSE3</literal>, <literal>SSE2</literal>,
@@ -511,9 +510,25 @@
         <literal>FPU</literal>, <literal>SMM</literal>,
         <literal>Prot</literal>, <literal>Priv</literal></entry>
 
-       <entry>All instructions available on the Intel codename Sandy
-        Bridge processor, including AVX, FMA, AES, and FCLMULQDQ
+       <entry>All instructions available on the Intel codename
+        Westmere processor, including AES and FCLMULQDQ
         instructions.</entry>
+      </row>
+
+      <row>
+       <entry><literal>Sandybridge</literal></entry>
+
+       <entry><literal>AVX</literal>, <literal>CLMUL</literal>,
+        <literal>AES</literal>, <literal>XSAVE</literal>,
+        <literal>SSE4.2</literal>, <literal>SSE4.1</literal>,
+        <literal>SSSE3</literal>, <literal>SSE3</literal>,
+        <literal>SSE2</literal>, <literal>SSE</literal>,
+        <literal>MMX</literal>, <literal>FPU</literal>,
+        <literal>SMM</literal>, <literal>Prot</literal>,
+        <literal>Priv</literal></entry>
+
+       <entry>All instructions available on the Intel codename Sandy
+        Bridge processor, including AVX instructions.</entry>
       </row>
 
       <row>
