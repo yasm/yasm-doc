@@ -1420,10 +1420,6 @@ default abs
 
   <para>is encoded in six bytes, with a full dword immediate operand
    <literal>66 68 21 00 00 00</literal>.</para>
-
-  <para>With the optimizer off, the same code (six bytes) is generated
-   whether the <literal>STRICT</literal> keyword was used or
-   not.</para>
  </section>
 
  <section id="nasm-crit">
