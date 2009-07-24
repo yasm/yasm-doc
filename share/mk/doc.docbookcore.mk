@@ -54,6 +54,7 @@ pdf: ${DOC}.pdf
 ${DOC}.pdf: ${DOC}.xml ${IMAGES_EPS}
 	${DBLATEX} -t pdf -S ../share/dblatex/yasm.specs -b pdftex \
 		-o ${DOC}.pdf \
+		-P latex.unicode.use=1 \
 		-P doc.lot.show="figure,table,equation" \
 		${DOC}.xml
 
