@@ -1,4 +1,4 @@
-// $Id: chapter.xml 2014 2007-11-17 10:46:42Z peter $
+// $Id$
 [[objfmt-bin]]
 == `bin`: Flat-Form Binary Output
 

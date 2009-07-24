@@ -1,4 +1,4 @@
-// $Id: introduction.xml 1608 2006-09-03 07:30:57Z peter $
+// $Id$
 [[introduction]]
 === Introduction
 

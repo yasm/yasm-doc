@@ -1,4 +1,4 @@
-// $Id: chapter.xml 1784 2007-02-22 03:51:21Z peter $
+// $Id$
 [[running]]
 == Running Yasm
 

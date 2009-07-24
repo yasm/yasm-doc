@@ -1,4 +1,4 @@
-// $Id: chapter.xml 1996 2007-09-22 00:07:46Z peter $
+// $Id$
 [[objfmt-win64]]
 == `win64`: PE32+ (Microsoft Win64) Object Files
 

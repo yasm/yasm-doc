@@ -1,4 +1,4 @@
-// $Id: chapter.xml 2182 2009-03-21 05:16:51Z peter $
+// $Id$
 [[arch-x86]]
 == x86 Architecture
 

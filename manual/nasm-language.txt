@@ -1,4 +1,4 @@
-// $Id: chapter.xml 2128 2008-10-05 08:46:23Z peter $
+// $Id$
 [[nasm-language]]
 == The NASM Language
 

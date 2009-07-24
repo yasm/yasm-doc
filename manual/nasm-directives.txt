@@ -1,4 +1,4 @@
-// $Id: chapter.xml 1995 2007-09-21 23:08:28Z peter $
+// $Id$
 [[nasm-directives]]
 == NASM Assembler Directives
 

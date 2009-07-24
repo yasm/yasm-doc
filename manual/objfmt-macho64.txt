@@ -1,4 +1,4 @@
-// $Id: chapter.xml 1996 2007-09-22 00:07:46Z peter $
+// $Id$
 [[objfmt-macho64]]
 == `macho64`: Mach 64-bit Object File Format
 

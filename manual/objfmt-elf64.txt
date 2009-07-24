@@ -1,4 +1,4 @@
-// $Id: chapter.xml 1999 2007-09-22 04:00:46Z peter $
+// $Id$
 [[objfmt-elf64]]
 == `elf64`: Executable and Linkable Format 64-bit Object Files
 
