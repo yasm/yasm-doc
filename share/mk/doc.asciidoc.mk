@@ -19,8 +19,13 @@ include ../share/mk/doc.docbookcore.mk
 
 # XML
 ${DOC}.xml: ${MASTERDOC} ${SRCS}
-	${ASCIIDOC} -o $@ -a docinfo -a lang=${DOCLANG} -b docbook \
+	${ASCIIDOC} \
+		-o $@ \
+		-a docinfo \
+		-a lang=${DOCLANG} \
+		-b docbook \
 		-d ${DOCTYPE} \
+		-f ../share/asciidoc/asciidoc.conf \
 		${MASTERDOC}
 	${XMLLINT} --nonet --noout --valid $@
 
