@@ -1,6 +1,7 @@
 # $Id$
 DOC=	manual
 MASTERDOC=	manual.txt
+DOCLANG=	ru
 
 SRCS= manual-docinfo.xml
 SRCS+= introduction.txt

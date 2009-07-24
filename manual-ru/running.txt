@@ -1,9 +1,9 @@
 // $Id$
 [[running]]
-== Running Yasm
+== Запуск Yasm
 
 [[yasm-synopsis]]
-=== **yasm** Synopsis
+=== Синтаксис командной строки **yasm**
 
 ++++
 <cmdsynopsis>
@@ -18,7 +18,7 @@
   </arg>
 
   <arg choice="opt" rep="repeat">
-    <option><replaceable>other options</replaceable></option>
+    <option><replaceable>другие параметры</replaceable></option>
   </arg>
 
   <arg choice="req"><replaceable>infile</replaceable></arg>
@@ -26,377 +26,400 @@
 ++++
 
 [[yasm-description]]
-=== Description
+=== Описание
 
-The **yasm** command assembles the file ?infile? and directs output to
-the file ?outfile? if specified.  If ?outfile? is not specified,
-**yasm** will derive a default output file name from the name of its
-input file, usually by appending `.o` or `.obj`, or by removing all
-extensions for a raw binary file.  Failing that, the output file name
-will be `yasm.out`.
+Команда **yasm** ассемблирует файл ?infile? и непосредственно выводит
+результат в файл ?outfile?  если определен. Если ?outfile?
+неопределён, **yasm** извлекает выходной файл с названием по
+умолчанию - такое как у входного файла, обычно с расширением `.o` или
+`.obj`, или без всяких расширении для необработанного бинарного файла.
+В случае отсутствия входного файла, `yasm.out` будет названием
+выходного файла.
 
-If called with an ?infile? of ""-"", **yasm** assembles the standard
-input and directs output to the file ?outfile?, or `yasm.out` if no
-?outfile? is specified.
+Если используется ""-"" в качетсве ?infile?, **yasm** ассемблирует
+стандартный вход и непосредственно выводит результат в файл ?outfile?,
+или `yasm.out` если ?outfile? неопределён.
 
-If errors or warnings are discovered during execution, Yasm outputs
-the error message to `stderr` (usually the terminal).  If no errors or
-warnings are encountered, Yasm does not output any messages.
+Если во время выполнения программы обнаружены ошибки или
+предупреждения, Yasm выводит сообщение ошибки в `stderr` (обычно
+терминал). Если ошибок или предупреждении не обнаружено, Yasm не
+выводит никаких сообщении.
 
 [[yasm-options]]
-=== Options
+=== Параметры
 
-Many options may be given in one of two forms: either a dash followed
-by a single letter, or two dashes followed by a long option name.
-Options are listed in alphabetical order.
+Большинство параматров могут быть переданы используя одну из двух
+форм: либо тире с одной буквой, либо два тире с длинным названием
+параметра. Параметры перечислены в алфавитном порядке.
 
 [[yasm-general-options]]
-==== General Options
+==== Основные параметры
 
 [[yasm-option-arch]]
-===== %-a ?arch?% or %--arch=?arch?%: Select target architecture
+===== %-a ?arch?% или %--arch=?arch?%: Выбор целевой архитектуры
 
-Selects the target architecture.  The default architecture is ""x86"",
-which supports both the IA-32 and derivatives and AMD64 instruction
-sets.  To print a list of available architectures to standard output,
-use ""help"" as ?arch?.  See <<running-arch>> for a list of supported
-architectures.
+Выбирает целевую архитектуру. Архитектура ""x86"" является
+архитектурой по умолчанию, которая поддерживает оба наборы команд:
+IA-32 и производные, и AMD64. Для вывода списка доступных архитектур в
+стандартный вывод, воспользуйтесь ""help"" в качестве ?arch?. См.
+параграф <<running-arch>>, где приведен список поддержываемых
+архитектур.
 
 [[yasm-option-oformat]]
-===== %-f ?format?% or %--oformat=?format?%: Select object format
+===== %-f ?format?% или %--oformat=?format?%: Выбор формата объекта
 
-Selects the output object format.  The default object format is
-""bin"", which is a flat format binary with no relocation.  To print a
-list of available object formats to standard output, use ""help"" as
-?format?.  See <<running-objfmt>> for a list of supported object
-formats.
+Выбирает формат выходного объекта. Формат ""bin"" является форматом
+объекта по умолчанию, который на самом деле плоский бинарный формат
+без распределения. Для вывода списка доступных форматов объекта в
+стандартный вывод, воспользуйтесь ""help"" в качестве ?format?. См.
+параграф <<running-objfmt>>, где приведен список поддержываемых
+форматов объекта.
 
 [[yasm-option-dformat]]
-===== %-g ?debug?% or %--dformat=?debug?%: Select debugging format
+===== %-g ?debug?% или %--dformat=?debug?%: Выбор формата отладки
 
-Selects the debugging format for debug information.  Debugging
-information can be used by a debugger to associate executable code
-back to the source file or get data structure and type information.
-Available debug formats vary between different object formats;
-**yasm** will error when an invalid combination is selected.  The
-default object format is selected by the object format.  To print a
-list of available debugging formats to standard output, use ""help""
-as ?debug?.  See <<running-dbgfmt>> for a list of supported debugging
-formats.
+Выбирает формат отладки для отладочной информации. Отладочная
+информация может использоваться отладчиком, чтобы связать исполняемый
+код назад к исходному файлу или получить структуру данных и информацию
+типа. Доступные форматы отладки изменяются между различными форматами
+объекта; **yasm** ошибётся если неправильная комбинация будет выбрана.
+Формат отладки по умолчанию выбирается форматом объекта. Для вывода
+списка доступных форматов отладки в стандартный вывод, воспользуйтесь
+""help"" в качестве ?debug?. См. параграф <<running-dbgfmt>>, где
+приведен список поддержываемых форматов отладки.
 
 [[yasm-option-help]]
-===== %-h% or %--help%: Print a summary of options
+===== %-h% или %--help%: Вывод резюме параметров
 
-Prints a summary of invocation options.  All other options are
-ignored, and no output file is generated.
+Выводит резюме вызовных параметров. Остальные параметры игнорируются,
+а выходной файл не генерируется.
 
 [[yasm-option-lformat]]
-===== %-L ?list?% or %--lformat=?list?%: Select list file format
+===== %-L ?list?% или %--lformat=?list?%: Выбор формата листинг-файла
 
-Selects the format/style of the output list file.  List files
-typically intermix the original source with the machine code generated
-by the assembler.  The default list format is ""nasm"", which mimics
-the NASM list file format.  To print a list of available list file
-formats to standard output, use ""help"" as ?list?.
+Выбирает формат/стиль выходного листинг-файла. Листинг-файлы, как
+правило, смешивают первоначальный исходный код с машинным кодом
+сгенерированный ассемблером. Форматом листинга по умолчанию является
+""nasm"", который имитирует формат листинга NASM. Для вывода списка
+доступных форматов листинг-файла в стандартный вывод, воспользуйтесь
+""help"" в качестве ?list?.
 
 [[yasm-option-list]]
-===== %-l ?listfile?% or %--list=?listfile?%: Specify list filename
+===== %-l ?listfile?% или %--list=?listfile?%: Определение названия листинг-файла
 
-Specifies the name of the output list file.  If this option is not
-used, no list file is generated.
+Определяет название выходного листинг-файла. Если этот параметр не
+используется, листинг-файл не генерируется.
 
 [[yasm-option-machine]]
-===== %-m ?machine?% or %--machine=?machine?%: Select target machine architecture
+===== %-m ?machine?% или %--machine=?machine?%: Выбор целевой машины данной архитектуры
 
-Selects the target machine architecture.  Essentially a subtype of the
-selected architecture, the machine type selects between major subsets
-of an architecture.  For example, for the ""x86"" architecture, the
-two available machines are ""x86"", which is used for the IA-32 and
-derivative 32-bit instruction set, and ""amd64"", which is used for
-the 64-bit instruction set.  This differentiation is required to
-generate the proper object file for relocatable object formats such as
-COFF and ELF.  To print a list of available machines for a given
-architecture to standard output, use ""help"" as ?machine? and the
-given architecture using %-a ?arch?%.  See <<architectures>> for more
-details.
+Выбирает целевую машину данной архитектуры. По существу подтип
+выбранной архитектуры, тип машины выбирает между главными подтипами
+архитектуры. Например, для архитектуры ""x86"" доступны две машины:
+""x86"", которая используется набором инструкции IA-32 и производным
+32-битовым набором инструкции, и ""amd64"", которая используется
+64-битовым набором инструкции. Это различение требуется для генерации
+правильного объектного файла для распределенных форматов объекта таких
+как COFF и ELF. Для вывода списка доступных машин данной архитектуры в
+стандартный вывод, воспользуйтесь ""help"" в качестве ?machine? и
+укажите данную архитектуру с помощю
+%-a ?arch?%. См. часть <<architectures>> для более подробной
+%информации.
 
 [[yasm-option-objfile]]
-===== %-o ?filename?% or %--objfile=?filename?%: Specify object filename
+===== %-o ?filename?% или %--objfile=?filename?%: Определение названия объектного файла
 
-Specifies the name of the output file, overriding any default name
-generated by Yasm.
+Определяет название выходного файла, отвергая любые названия по
+умолчанию генерируемые Yasm.
 
 [[yasm-option-parser]]
-===== %-p ?parser?% or %--parser=?parser?%: Select parser
+===== %-p ?parser?% или %--parser=?parser?%: Выбор синтаксического анализатора
 
-Selects the parser (the assembler syntax).  The default parser is
-""nasm"", which emulates the syntax of NASM, the Netwide Assembler.
-Another available parser is ""gas"", which emulates the syntax of GNU
-AS.  To print a list of available parsers to standard output, use
-""help"" as ?parser?.  See <<running-parser>> for a list of supported
-parsers.
+Выбирает синтаксический анализатор (синтаксис ассемблера).
+Синтаксическим анализатором по умолчанию является ""nasm"", который
+эмулирует синтаксис NASM (Netwide Assembler). Другим доступным
+синтаксическим анализатором является ""gas"", который эмулирует
+синтаксис GNU AS. Для вывода списка доступных синтаксических
+анализаторов в стандартный вывод, воспользуйтесь ""help"" в качестве
+?parser?. См. параграф <<running-parser>>, где приведен список
+поддержываемых синтаксических анализаторов.
 
 [[yasm-option-preproc]]
-===== %-r ?preproc?% or %--preproc=?preproc?%: Select preprocessor
+===== %-r ?preproc?% или %--preproc=?preproc?%: Выбор препроцессора
 
-Selects the preprocessor to use on the input file before passing it to
-the parser.  Preprocessors often provide macro functionality that is
-not included in the main parser.  The default preprocessor is
-""nasm"", which is an imported version of the actual NASM
-preprocessor.  A ""raw"" preprocessor is also available, which simply
-skips the preprocessing step, passing the input file directly to the
-parser.  To print a list of available preprocessors to standard
-output, use ""help"" as ?preproc?.
+Выбирает препроцессор для обработки входного файла прежде, чем
+передать его к синтаксическому анализатору. Препроцессоры часто
+обеспечивают функциональные возможности макросов, которые не включены
+в основной синтаксический анализатор. Препроцессором по умолчанию
+является ""nasm"", который на самом деле импортированная версия
+фактического препроцессора NASM. Доступен также препроцессор ""raw"",
+который просто пропускает шаг препроцессорной обработки, передавая
+входной файл непосредственно к синтаксическому анализатору. Для вывода
+списка доступных препроцессоров в стандартный вывод, воспользуйтесь
+""help"" в качестве ?preproc?.
 
 [[yasm-option-version]]
-===== %--version%: Get the Yasm version
+===== %--version%: Получение версии Yasm
 
-This option causes Yasm to prints the version number of Yasm as well
-as a license summary to standard output.  All other options are
-ignored, and no output file is generated.
+Этот параметр заставляет Yasm вывести его номер версии также как и
+резюме лицензии в стандартный вывод. Все другие параметры игнорируются
+и выходной файл не генерируется.
 
 [[yasm-warning-options]]
-==== Warning Options
+==== Параметры предупреждения
 
-%-W% options have two contrary forms: %-W?name?% and %-Wno-?name?%.
-Only the non-default forms are shown here.
+Параметры %-W% имеют две противоположные формы: %-W?name?% и
+%-Wno?-name?%. Здесь приведены только нестандартные формы.
 
-The warning options are handled in the order given on the command
-line, so if %-w% is followed by %-Worphan-labels%, all warnings are
-turned off _except_ for orphan-labels.
+Параметры предупреждения обрабатываются в порядке, данном в командной
+строке, поэтому если %-w% сопровождается %-Worphan-labels%, все
+предупреждения выключены за _исключением_ строк исходника, в которых
+находятся метки без завершающего двоеточия.
 
 [[yasm-option-w]]
-===== %-w%: Inhibit all warning messages
+===== %-w%: Запрещение всех предупреждающих сообщений
 
-This option causes Yasm to inhibit all warning messages.  As discussed
-above, this option may be followed by other options to re-enable
-specified warnings.
+Этот параметр заставляет Yasm запрещать все предупреждающие сообщения.
+Как обсуждено выше, этот параметр может сопровождаться другими
+параметрами, чтобы вновь отблокировать определенные предупреждения.
 
 [[yasm-option-werror]]
-===== %-Werror%: Treat warnings as errors
+===== %-Werror%: Обработка предупреждений как ошибок
 
-This option causes Yasm to treat all warnings as errors.  Normally
-warnings do not prevent an object file from being generated and do not
-result in a failure exit status from **yasm**, whereas errors do.
-This option makes warnings equivalent to errors in terms of this
-behavior.
+Этот параметр заставляет Yasm обрабатывать все предупреждения как
+ошибки. Обычно предупреждения не препятствуют тому, чтобы объектный
+файл был сгенерирован, и не приводят к состоянию отказа выхода из
+**yasm**, тогда как ошибки это делают. Этот параметр делает
+предупреждения эквивалентными ошибкам с точки зрения этого поведения.
 
 [[yasm-option-wno-unrecognized-char]]
-===== %-Wno-unrecognized-char%: Do not warn on unrecognized input characters
+===== %-Wno-unrecognized-char%: Не предупреждать об неопознанных вводных символах
 
-Causes Yasm to not warn on unrecognized characters found in the input.
-Normally Yasm will generate a warning for any non-ASCII character
-found in the input file.
+Заставляет Yasm не предупреждать об неопознанных символах, найденных
+во вводе. Обычно Yasm генерирует предупреждение для любого символа
+не-ASCII, найденного во входном файле.
 
 [[yasm-option-worphan-labels]]
-===== %-Worphan-labels%: Warn on labels lacking a trailing colon
+===== %-Worphan-labels%: Предупреждать о метках без завершающего двоеточия
 
-When using the NASM-compatible parser, causes Yasm to warn about
-labels found alone on a line without a trailing colon.  While these
-are legal labels in NASM syntax, they may be unintentional, due to
-typos or macro definition ordering.
+Когда используется NASM-совместимый синтаксический анализатор, этот
+параметр заставляет Yasm предупреждать о метках без завершающего
+двоеточия, если они единственные в строке. В то время как они являются
+правильными метками в синтаксисе NASM, они могут быть неумышленными,
+из-за опечаток или упорядочения определений макросов.
 
 [[yasm-option-x]]
-===== %-X ?style?%: Change error/warning reporting style
+===== %-X ?style?%: Изменение стиля сообщений об ошибках/предупреждениях
 
-Selects a specific output style for error and warning messages.  The
-default is ""gnu"" style, which mimics the output of **gcc**.  The
-""vc"" style is also available, which mimics the output of Microsoft's
-Visual Studio compiler.
+Выбирает определенный стиль вывода для сообщений об ошибках и
+предупреждающих сообщений. Стилем по умолчанию является ""gnu"",
+который имитирует вывод **gcc**. Доступен также стиль ""vc"", который
+имитирует вывод компилятора Microsoft Visual Studio.
 
-This option is available so that Yasm integrates more naturally into
-IDE environments such as **Visual Studio** or **Emacs**, allowing the
-IDE to correctly recognize the error/warning message as such and link
-back to the offending line of source code.
+Этот параметр доступен, чтобы Yasm более свободно интегрировал в среды
+IDE, такие как **Visual Studio** или **Emacs**, позволяя IDE правильно
+распознать сообщение об ошибке/предупреждающее сообщение как таковое и
+связаться с нарушительной строкой исходного текста.
 
 [[yasm-preprocessor-options]]
-==== Preprocessor Options
+==== Параметры препроцессора
 
-While these preprocessor options theoretically will affect any
-preprocessor, the only preprocessor currently in Yasm is the ""nasm""
-preprocessor.
+Теоретически эти препроцессорные параметры будут действительны для
+любого препроцессора, но в настоящее время единственным препроцессором
+в Yasm является препроцессор ""nasm"".
 
 [[yasm-option-d]]
-===== %-D ?macro[=value]?%: Pre-define a macro
+===== %-D ?macro[=value]?%: Предопределение макроса
 
-Pre-defines a single-line macro.  The value is optional (if no value
-is given, the macro is still defined, but to an empty value).
+Предопределяет однострочный макрос. Значение макроса указывать
+необязательно (если значение не указано, макрос будет определен, но на
+пустое значение).
 
 [[yasm-option-preproc-only]]
-===== %-e% or %--preproc-only%: Only preprocess
+===== %-e% или %--preproc-only%: Только препроцессирование
 
-Stops assembly after the preprocessing stage; preprocessed output is
-sent to the specified output name or, if no output name is specified,
-the standard output.  No object file is produced.
+Останавливает процесс ассемблирования после препроцессорного уровня;
+вывод препроцессора отправляется в определенный названием вывод или в
+стандартный вывод (если вывод не определен). Объектный файл не
+производится.
 
 [[yasm-option-i]]
-===== %-I ?path?%: Add include file path
+===== %-I ?путь?%: Добавление пути включаемых файлов
 
-Adds directory ?path? to the search path for include files.  The
-search path defaults to only including the directory in which the
-source file resides.
+Добавляет ?путь? каталога к пути поиска файлов для включения. По
+умолчанию путь для поиска файлов включает только каталог, в котором
+находится исходный файл.
 
 [[yasm-option-p]]
-===== %-P ?filename?%: Pre-include a file
+===== %-P ?filename?%: Предварительное включение файла
 
-Pre-includes file ?filename?, making it look as though ?filename? was
-prepended to the input.  Can be useful for prepending multi-line
-macros that the %-D% can't support.
+Предварительно включает файл ?filename?, так, как если бы ?filename?
+был включен во вводе. Может быть полезным для предварительного
+добавления многострочных макросов, которых %-D% не поддерживает.
 
 [[yasm-option-u]]
-===== %-U ?macro?%: Undefine a macro
+===== %-U ?macro?%: Отмена определения макроса
 
-Undefines a single-line macro (may be either a built-in macro or one
-defined earlier in the command line with %-D% (see <<yasm-option-d>>).
+Отменяет определённый однострочный макрос (либо встроенный макрос либо
+макрос ранее определен в командной строке с помощю ключа %-D% (см.
+параграф <<yasm-option-d>>)).
 
 [[running-arch]]
-=== Supported Target Architectures
+=== Поддерживаемые архитектуры
 
-Yasm supports the following instruction set architectures (ISAs).  For
-more details see <<architectures>>.
+Yasm поддерживает следующие архитектурные наборы инструкций (АНИ). См.
+Часть 5 для более подробной информации.
 
 lc3b::
-  The ""lc3b"" architecture supports the LC-3b ISA as used in the ECE
-  411 (formerly ECE 312) course at the University of Illinois,
-  Urbana-Champaign, as well as other university courses.  See
-  http://courses.ece.uiuc.edu/ece411/ for more details and example
-  code.  The ""lc3b"" architecture consists of only one machine:
-  ""lc3b"".
+  Архитектура ""lc3b"" поддерживает АНИ LC-3b, который применяется в
+  курсе ECE411 (формально ECE312) на Университете Illinois,
+  Urbane-Champaign, как и на остальных университетских курсах. Для
+  более подробной информации и примеров исходного кода смотрите
+  http://courses.ece.uiuc.edu/ece411/. Архитектура ""lc3b"" состоит
+  только из одной машины: ""lc3b"".
 
 x86::
-  The ""x86"" architecture supports the IA-32 instruction set and
-  derivatives (including 16-bit and non-Intel instructions) and the
-  AMD64 instruction set.  It consists of two machines: ""x86"" (for
-  the IA-32 and derivatives) and ""amd64"" (for the AMD64 and
-  derivatives).  The default machine for the ""x86"" architecture is
-  the ""x86"" machine.
+  Архитектура ""x86"" поддерживает набор инструкций IA-32 и
+  производные (включая 16-битовые и неИнтеловские инструкции) и набор
+  инструкций AMD64. Она состоит из двух машин: ""x86"" (для IA-32 и
+  производных) и ""amd64"" (для AMD64 и производных). Машиной для
+  архитектуры ""x86"" по умолчанию является машина ""x86"".
 
 [[running-parser]]
-=== Supported Parsers (Syntaxes)
+=== Поддерживаемые синтаксические анализаторы (синтаксисы)
 
-Yasm parses the following assembler syntaxes:
+Yasm анализирует следующие синтаксисы ассемблера:
 
 nasm::
-  NASM syntax is the most full-featured syntax supported by Yasm.
-  Yasm is nearly 100% compatible with NASM for 16-bit and 32-bit x86
-  code.  Yasm additionally supports 64-bit AMD64 code with Yasm
-  extensions to the NASM syntax.  For more details see <<nasm>>.
+  Синтаксис NASM является наиболее полнофункциональным синтаксисом
+  поддерживаемым в Yasm. Yasm почти в 100% совместим с NASM для
+  16-битового и 32-битового x86 кода. Дополнительно Yasm поддерживает
+  64-битовый AMD64 код с Yasm расширениями к синтаксису NASM. См.
+  Часть <<nasm>> для более подробной информации.
 
 gas::
-  The GNU Assembler (GAS) is the de-facto cross-platform assembler for
-  modern Unix systems, and is used as the backend for the GCC
-  compiler.  Yasm's support for GAS syntax is moderately good,
-  although immature: not all directives are supported, and only 32-bit
-  x86 and AMD64 architectures are supported.  There is also no support
-  for the GAS preprocessor.  Despite these limitations, Yasm's GAS
-  syntax support is good enough to handle essentially all x86 and
-  AMD64 GCC compiler output.  For more details see <<gas>>.
+  GNU Ассемблер (GAS) является фактическим межплатформенным
+  ассемблером для современных Unix систем, и используется как
+  _backend_ для GCC компилятора. Поддержка синтаксиса GAS в Yasm
+  умеренно хороша, хотя не вполне развита: поддерживаются не все
+  директивы и только 32-битовая x86 и AMD64 архитектуры. Также не
+  поддерживается препроцессор GAS. Несмотря на эти ограничения,
+  поддержка синтаксиса GAS в Yasm достаточно хороша, чтобы обработать
+  по существу весь вывод x86 и AMD64 GCC компилятора. См. Часть
+  <<gas>> для более подробной информации.
 
 [[running-objfmt]]
-=== Supported Object Formats
+=== Поддерживаемые форматы объектов
 
-Yasm supports the following object formats.  More details can be found
-in <<objfmts>>.
+Yasm поддерживает следующие форматы объектов. Больше подробностей
+можно найти в Части <<objfmts>>.
 
 bin::
-  The ""bin"" object format produces a flat-format, non-relocatable
-  binary file.  It is appropriate for producing DOS .COM executables
-  or things like boot blocks.  It supports only 3 sections and those
-  sections are written in a predefined order to the output file.
+  Формат ""bin"" объекта производит плоско-форматной, неперемещаемой
+  бинарный файл. Он является подходящим для создания DOS'овских
+  исполняемых .COM программ или таких вещей как блоки начальной
+  загрузки. Поддерживаются только три секции и они записываются в
+  предопределенном порядке в выходной файл.
 
 coff::
-  The COFF object format is an older relocatable object format used on
-  older Unix and compatible systems, and also (more recently) on the
-  DJGPP development system for DOS.
+  Формат COFF объекта это старый перемещаемый объектный формат
+  применяемый на старых UNIX и совместимых системах, а также (позже)
+  на разработочной системе DJGPP для DOS.
 
 dbg::
-  The ""dbg"" object format is not a ""real"" object format; the
-  output file it creates simply describes the sequence of calls made
-  to it by Yasm and the final object and symbol table information in a
-  human-readable text format (that in a normal object format would get
-  processed into that object format's particular binary
-  representation).  This object format is not intended for real use,
-  but rather for debugging Yasm's internals.
+  Формат ""dbg"" объекта не является ""реальным"" форматом объекта;
+  выходной файл, который он создает просто, описывает
+  последовательность сделанных к нему вызовов с помощю Yasm,
+  окончательный объект и таблицу идентификаторов в удобочитаемом
+  текстовом формате (который в нормальном формате объекта
+  обрабатывается в специфическое двойное представление того объектного
+  формата). Этот формат объекта не предназначен для реального
+  использования, а скорее для того, чтобы отладить внутреннюю
+  организацию Yasm.
 
 elf::
-  The ELF object format really comes in two flavors: ""elf32"" (for
-  32-bit targets) and ""elf64"" (for 64-bit targets).  ELF is a
-  standard object format in common use on modern Unix and compatible
-  systems (e.g. Linux, FreeBSD).  ELF has complex support for
-  relocatable and shared objects.
+  Формат ELF объекта существует в двух типах: ""elf32"" (для
+  32-битовых целей) и ""elf64"" (для 64-битовых целей). ELF -
+  стандартный формат объекта в общем используемый на современных Unix
+  и совместимых системах (например Linux, FreeBSD). ELF имеет сложную
+  поддержку переместимых и общедоступных объектов.
 
 macho::
-  The Mach-O object format really comes in two flavors: ""macho32""
-  (for 32-bit targets) and ""macho64"" (for 64-bit targets).  Mach-O
-  is used as the object format on MacOS X.  As Yasm currently only
-  supports x86 and AMD64 instruction sets, it can only generate Mach-O
-  objects for Intel-based Macs.
+  Формат Mach-O объекта существует в двух типах: ""macho32"" (для
+  32-битовых целей) и ""macho64"" (для 64-битовых целей). Mach-O
+  используется как формат объекта на MacOS X. Поскольку Yasm в
+  настоящее время поддерживает только наборы команд x86 и AMD64, он
+  может только произвести Mach-O объекты для основанных на Интеле
+  Mac'ов.
 
 rdf::
-  The RDOFF2 object format is a simple multi-section format originally
-  designed for NASM.  It supports segment references but not WRT
-  references.  It was designed primarily for simplicity and has
-  minimalistic headers for ease of loading and linking.  A complete
-  toolchain (linker, librarian, and loader) is distributed with NASM.
+  Формат RDOFF2 объекта это простой мультисекционный формат,
+  первоначально разработанный для NASM. Он поддерживает сегментные
+  ссылки, но не ссылки WRT. Прежде всего был разработан для простоты и
+  имеет минималистические заголовки для простоты загрузки и
+  компоновки.  Полный набор инструментов (компоновщик, библиотекарь, и
+  загрузчик) распространяется с NASM.
 
 win32::
-  The Win32 object format produces object files compatible with
-  Microsoft compilers (such as Visual Studio) that target the 32-bit
-  x86 Windows platform.  The object format itself is an extended
-  version of COFF.
+  Формат Win32 объекта производит объектные файлы совместимые с
+  компиляторами Microsoft (таких, как Visual C\++), предназначенные на
+  32-битовую x86 платформу Windows. Сам формат объекта это расширенная
+  версия COFF.
 
 win64::
-  The Win64 object format produces object files compatible with
-  Microsoft compilers that target the 64-bit ""x64"" Windows platform.
-  This format is very similar to the win32 object format, but produces
-  64-bit objects.
+  Формат Win64 объекта производит объектные файлы совместимые с
+  компиляторами Microsoft, предназначенные на 64-битовую ""x64""
+  платформу Windows. Этот формат очень похож на формат Win32 объекта,
+  но производит 64-битовые объекты.
 
 xdf::
-  The XDF object format is essentially a simplified version of COFF.
-  It's a multi-section relocatable format that supports 64-bit
-  physical and virtual addresses.
+  Формат XDF объекта - по существу упрощенная версия COFF. Это также
+  мультисекционный распределенный формат, который поддерживает
+  64-битовые физические и виртуальные адресации.
 
 [[running-dbgfmt]]
-=== Supported Debugging Formats
+=== Поддерживаемые форматы отладки
 
-Yasm supports generation of source-level debugging information in the
-following formats.  More details can be found in <<dbgfmts>>.
+Yasm поддерживает генерирование информации об отладке исходного уровня
+в следующих форматах. Больше подробностей можно найти в Части
+<<dbgfmts>>.
 
 cv8::
-  The CV8 debug format is used by Microsoft Visual Studio 2005
-  (version 8.0) and is completely undocumented, although it bears
-  strong similarities to earlier CodeView formats.  Yasm's support for
-  the CV8 debug format is currently limited to generating
-  assembly-level line number information (to allow some level of
-  source-level debugging).  The CV8 debug information is stored in the
-  `.debug$S` and `.debug$T` sections of the Win64 object file.
+  Формат CV8 отладки применяется в Microsoft Visual Studio 2005
+  (версия 8.0) и полностью недокументирован, хотя он имеет сильное
+  сходство с ранними форматами CodeView. Поддержка формата CV8 отладки
+  в настоящее время ограничивается генерацией информации номера строки
+  ассемблерного уровня (чтобы позволить на некоторый уровень отладки
+  исходного уровня). Информация об отладке сохраняется в секциях
+  `.debug$S` и `.debug$T` объектного файла Win64.
 
 dwarf2::
-  The DWARF 2 debug format is a complex, well-documented standard for
-  debugging information.  It was created to overcome shortcomings in
-  STABS, allowing for much more detailed and compact descriptions of
-  data structures, data variable movement, and complex language
-  structures such as in C++.  The debugging information is stored in
-  sections (just like normal program sections) in the object file.
-  Yasm supports full pass-through of DWARF2 debugging information
-  (e.g. from a C++ compiler), and can also generate assembly-level
-  line number information.
+  Формат DWARF2 отладки - сложный, хорошо документированный стандарт
+  для информации об отладке. Он был создан, чтобы преодолеть
+  недостатки в STABS, учитывая намного более детальные и компактные
+  описания структур данных, движения переменной данных, и сложных
+  языковых структур таких как в C\++. Информация об отладке
+  сохраняется в секциях (точно так же, как нормальные программные
+  секции) в объектном файле.  Yasm поддерживает полную передачу
+  информации об отладке DWARF2 (например, от C\++ компилятора), и
+  может также генерировать информацию номера строки ассемблерного
+  уровня.
 
 null::
-  The ""null"" debug format is a placeholder; it adds no debugging
-  information to the output file.
+  Формат ""null"" отладки - указатель места заполнения; он не
+  добавляет информации об отладке к выходному файлу.
 
 stabs::
-  The STABS debug format is a poorly documented, semi-standard format
-  for debugging information in COFF and ELF object files.  The
-  debugging information is stored as part of the object file's symbol
-  table and thus is limited in complexity and scope.  Despite this,
-  STABS is a common debugging format on older Unix and compatible
-  systems, as well as DJGPP.
+  Формат STABS отладки - плохо документированный, полустандартный
+  формат для информации об отладке в объектных файлах COFF и ELF.
+  Информация об отладке сохраняется как часть таблицы идентификаторов
+  объектного файла и поэтому ограничена в сложности и области
+  видимости.  Несмотря на это, STABS - общий формат отладки на старых
+  Unix и совместимых системах, так же как на DJGPP.
 
 ////
 [[running-examples]]
-=== Examples
+=== Примеры
 ////
 
 // vim: set syntax=asciidoc sw=2 tw=70:
