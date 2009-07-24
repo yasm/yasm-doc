@@ -15,4 +15,5 @@ and asciidoc sources:
 - Ghostscript
 - groff + GNU pic
 - HTML Tidy
+- realpath
 
