@@ -1,0 +1,9 @@
+// $Id$
+[[objfmt-rdf]]
+== `rdf`: Relocatable Dynamic Object File Format
+
+indexterm:[`rdf`]
+indexterm:[RDOFF]
+indexterm:[Relocatable Dynamic Object File Format]
+
+// vim: set syntax=asciidoc sw=2 tw=70:

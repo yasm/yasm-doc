@@ -1,0 +1,9 @@
+// $Id$
+[[objfmt-macho32]]
+== `macho32`: Mach 32-bit Object File Format
+
+indexterm:[`macho`,`macho32`]
+indexterm:[Mach-O]
+indexterm:[Mac OSX]
+
+// vim: set syntax=asciidoc sw=2 tw=70:
