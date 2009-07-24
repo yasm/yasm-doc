@@ -19,11 +19,12 @@ XSLHTMLCHUNK?=	../share/xml/style-chunk.xsl
 
 TIDYOPTS?=	-wrap 90 -m -raw -preserve -f /dev/null -asxml ${TIDYFLAGS}
 
-.PHONY: all install html html-split pdf
+.PHONY: all install xml html html-split pdf
 
 .DEFAULT_GOAL := all
 
 all: html html-split pdf
+xml: ${DOC}.xml
 
 include ../share/mk/doc.images.mk
 
