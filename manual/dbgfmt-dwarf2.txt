@@ -1,0 +1,10 @@
+// $Id: chapter.xml 1996 2007-09-22 00:07:46Z peter $
+[[dbgfmt-dwarf2]]
+== `dwarf2`: DWARF2 Debugging Format
+
+indexterm:[`dwarf2`]
+indexterm:[DWARF]
+indexterm:[ELF,debugging]
+indexterm:[gdb]
+
+// vim: set syntax=asciidoc sw=2 tw=70:

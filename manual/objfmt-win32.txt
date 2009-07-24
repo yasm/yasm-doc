@@ -1,0 +1,13 @@
+// $Id: chapter.xml 1996 2007-09-22 00:07:46Z peter $
+[[objfmt-win32]]
+== `win32`: Microsoft Win32 Object Files
+
+indexterm:[Windows,32-bit]
+indexterm:[Vista]
+The ((`win32`)) object format generates Microsoft ((Win32)) object
+files for use on the 32-bit native ((Windows XP)) (and Vista)
+platforms.  Object files produced using this object format may be
+linked with 32-bit Microsoft linkers such as ((Visual Studio)) in
+order to produce 32-bit ((PE)) executables.
+
+// vim: set syntax=asciidoc sw=2 tw=70:

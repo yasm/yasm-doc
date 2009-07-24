@@ -1,0 +1,10 @@
+// $Id: chapter.xml 1997 2007-09-22 03:02:46Z peter $
+[[dbgfmt-stabs]]
+== `stabs`: Stabs Debugging Format
+
+indexterm:[`stabs`]
+indexterm:[COFF,debugging]
+indexterm:[ELF,debugging]
+indexterm:[gdb]
+
+// vim: set syntax=asciidoc sw=2 tw=70:

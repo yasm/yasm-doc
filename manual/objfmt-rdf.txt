@@ -1,0 +1,9 @@
+// $Id: chapter.xml 1996 2007-09-22 00:07:46Z peter $
+[[objfmt-rdf]]
+== `rdf`: Relocatable Dynamic Object File Format
+
+indexterm:[`rdf`]
+indexterm:[RDOFF]
+indexterm:[Relocatable Dynamic Object File Format]
+
+// vim: set syntax=asciidoc sw=2 tw=70:
