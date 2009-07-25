@@ -1,0 +1,47 @@
+// $Id$
+[[parsing]]
+== Parsing
+
+The assembly process begins with yasm calling the %%do_parse%% routine
+implemented by the parser module.  The primary parameters given
+%%do_parse%% include the object to parse into, the preprocessor to
+use, and the initial input file and filename.  All of the output of
+the parser goes into the object; this consists primarily of a list of
+sections.
+
+To build the sections and their constituent bytecodes, the parser must
+call functions provided by the architecture module (to identify
+instructions and registers) and the object format module (to create
+sections, implement the global, extern, common directives as well as
+any other object format specific directives such as ORG).  The parser
+is expected to obtain its text input from the preprocessor moudle.
+
+Usually the parser is implemented in two distinct portions: a
+tokenizer that breaks the inputs into discrete chunks (tokens) such as
+identifiers, separators (such as comma and semicolon), and numbers,
+and a parser that looks for certain sequences of tokens to generate
+the output.  See a compiler book such as <<AhoSethiUllman96>> for more
+details.
+
+All parsers need to use the %%parse_check_id%% function provided by
+the architecture module to determine if a particular text identifier
+is an instruction or register.  Some assembler syntaxes may be able to
+infer this by usage, but it is still necessary for them to call
+%%parse_check_id%% in order to validate this assumption and to obtain
+the information required by the architecture to later recognize the
+instruction or register.  The architecture is required to pass all
+information needed to uniquely identify an instruction or register
+through the 4-word data parameter passed to %%parse_check_id%%.  The
+parser in return is expected to save this information in the standard
+insn bytecode or its operands.
+
+In order to separate the parser module from in-depth parsing of an
+instruction and its operands, the parser is expected to form insn
+bytecodes that contain the arch data for the parsed instruction (from
+%%parse_check_id%%) and a list of yasm_insn_operand structures.  Each
+operand may be designated as a register (in which case the arch data
+from the register's %%parse_check_id%% call is required), an immediate
+value or expression (as a yasm_expr), or a memory location (as a
+yasm_effaddr).
+
+// vim: set syntax=asciidoc sw=2 tw=70:

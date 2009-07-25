@@ -1,0 +1,128 @@
+// $Id: chapter.xml 1222 2005-08-31 00:43:39Z peter $
+[[data-structures]]
+== Data Structures
+
+Yasm, like other assemblers and compilers, is at its heart just a data
+processing application.  It transforms data from one form (ASCII
+source code) to another (binary object code).  Thus, the data
+structures used to keep track of the internal state of the assembler
+are the most important things for a coder working on the assembler to
+understand.  This chapter attempts to present reasoned explanations
+for the many decisions made while designing the most important data
+structures in the yasm assembler.
+
+[[data-structures-bytecode]]
+=== Bytecodes
+
+The use of ""bytecodes"" as the basic building block of the assembler
+was a fundamental requirement of both the goals (see <<goals>>) and
+the architecture (see <<architecture>>) of yasm.  A bytecode is
+essentially nothing more than a single machine instruction or
+assembler pseudo-instruction stored in an expanded format that keeps
+track of all the internal state information needed by the assembler
+to:
+
+- Optimize the instruction size by resolving circular dependencies
+  between instructions.
+
+- Resolve labels that are used before they are defined.
+
+- Detect error conditions such as undefined labels.
+
+- Output symbolic debugging information and a list file.
+
+- Calculate (and re-calculate) sizes and relative positions of
+  instructions and data.
+
+Most, if not all, other assemblers accomplish the above goals by
+re-parsing the source code in multiple passes.  As yasm only parses
+the code once, bytecodes are needed to store all the information for
+every parsed instruction and pseudo-instruction.  This fundamental
+difference is a trade-off choice between processing time and required
+memory space.  The bytecode method requires that the entire source
+file's content must be stored in memory at one time (its content in
+terms of assembler state, not the actual ASCII source).  To minimize
+the memory space that must be used, the yasm implementation tries to
+make the bytecode size as small as possible.
+
+[[data-structures-bytecode-goals]]
+==== Bytecode Design Goals
+
+- Instruction set independence: architecture-specific data is
+  associated with each bytecode, but is not a part of the main
+  bytecode data structure.
+
+- Pseudo-instructions and instructions treated essentially the same.
+  Data declarations and space reserving pseudo-instructions should be
+  treated as a special case of architecture-specific data.
+
+- Source code syntax independence.  Commonalities between syntaxes
+  should be utilized as to make non-parser stages as independent as
+  possible of the original source.
+
+[[data-structures-bytecode-data]]
+==== Bytecode Data
+
+To satisfy the above requirements, a good deal of data must be kept in
+the `bytecode` data structure.  The main bytecode data structure
+contains such information as:
+
+- The number of multiples of the bytecode.  In some cases, it's
+  desirable to have an instruction or set of data values repeated a
+  number of times.  Rather than storing multiple copies of the
+  bytecode in memory, it saves memory to store the numerical multiple.
+  In addition, the number of multiples may be a more complex
+  expression, depending on the sizes and locations of other bytecodes.
+
+- The virtual line number (TODO: add reference) describing the source
+  location of the bytecode.  Used for symbolic debugging output, list
+  files, and error messages.
+
+- The total calculated length of the bytecode's contents.  While it
+  may seem that this is a waste of space or a simple space/speed
+  trade-off (instead of recalculating, we save the calculated value),
+  this actually has a more complex reason for being present.  See the
+  discussion on optimization for details (TODO: add reference).
+
+- The starting offset of the bytecode.  Used to speed up relative
+  offset lookups from expressions.
+
+Additional data describing the actual contents of the bytecode is
+associated with the above data.  There are two broad categories of
+this data: assembler pseudo-instructions, which are available on all
+architectures, and architecture-specific instructions.  Data values
+are treated as pseudo-instructions.
+
+[[data-structures-bytecode-data-pseudo]]
+===== Assembler Pseudo-Instructions
+
+To be written.
+
+[[data-structures-section]]
+=== Sections
+
+Object files (and entire programs) are commonly divided into multiple
+segments or sections.  Often these divisions are made based on what
+the data will be used for during execution of the program: code and
+various types of data.  To save disk space, many object formats offer
+a special section that reserves memory space for data but does not
+actually store any data in the object file: UNIX systems usually refer
+to this section as the ""`.bss`"" section.  An object file typically
+has many sections of various types, and may include special sections
+for debugging and symbol information.
+
+In yasm, each section (or segment) described in the input file is
+stored into a `section` structure.  The most important data kept in
+the `section` structure is a linked list of bytecodes describing the
+section's contents.  Other per-section data is also stored, including:
+
+- The starting address of the section contents.  This determines the
+  virtual starting offset of data within the section.
+
+- The (unique) section name.
+
+- Object format specific data.  Object formats may define extensions
+  to the standard section options.  The gathered data is kept with the
+  section it pertains to, in an object format defined data structure.
+
+// vim: set syntax=asciidoc sw=2 tw=70:

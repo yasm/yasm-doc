@@ -1,0 +1,41 @@
+// $Id: chapter.xml 1222 2005-08-31 00:43:39Z peter $
+[[coding-style]]
+== Coding Style
+
+[[coding-style-portability]]
+=== Portability
+
+For maximum portability, all code should conform to ANSI/ISO C89 (C99
+is not yet well-supported enough to be portable).  Prototypes should
+always be provided for all functions (we don't attempt to be friendly
+to pre-ANSI C compilers; there are just too many unknowns).
+
+Adding small platform-specific features (such as using %%abort%%
+instead of %%exit%% on fatal errors) is allowed, but the functionality
+should be checked for using **autoconf**.  Major platform-specific
+features should be avoided unless the functionality can be emulated on
+all platforms.  Path and directory searches for header files fall into
+this latter category.
+
+Functions which are standard in some environments but not strictly
+ANSI C (such as %%strdup%% and %%strcasecmp%%) should be checked for
+using **autoconf** and functionally identical replacements included in
+the package.
+
+A small set of allocation replacements are provided that do internal
+allocation failure (NULL return) checks.  These are named identically
+to the functions they replace, with a prepended ""x"".  E.g.
+%%xstrdup%%, %%xmalloc%%, etc.  These functions should be used instead
+of the corresponding standard C library functions in order to maintain
+standardized error checking and messages for all memory allocation.
+
+[[coding-style-formatting]]
+=== Formatting and Indentation
+
+An indentation level of 4 spaces and 8 spaces to a tab should be
+maintained.  However, at the present time no other specific style
+rules are required.  While any formatting style can be used, it is
+highly recommended that new code match existing code, especially when
+modifying existing files.
+
+// vim: set syntax=asciidoc sw=2 tw=70:

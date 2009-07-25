@@ -1,0 +1,63 @@
+// $Id: chapter.xml 2221 2009-07-25 01:44:09Z peter $
+[[architecture]]
+== Architecture
+
+Yasm is conceptually divided into a number of separable modules.
+
+Assuming that the programmatic interface of each module is
+well-defined, it is easy to customize the different parts of the
+assembler.  Contributors can write new parsers, new preprocessors, new
+optimizers, and new object formats.  Multiple types of each module may
+be simultaneously compiled in and are user-selectable at runtime via
+command-line or other configuration methods.
+
+<<architecture-pipeline>> illustrates the 3-stage pipeline
+architecture of the assembler, and where each particular interface
+fits between the pipeline stages.  The data passed between each stage
+is structured as a linked list of bytecodes (an internal
+representation of a machine instruction or assembler
+pseudo-instruction, see <<data-structures-bytecode>> for more
+information).  Two additional stages are shown in
+<<architecture-pipeline>>, the preprocessor and the debug format,
+which while being major components of the overall architecture,
+execute in parallel with a main pipeline stage.
+
+However, yasm isn't a pipeline in the traditional computer
+architecture sense of the word, as none of the stages execute in
+parallel.
+
+[[architecture-pipeline]]
+.Pipeline Architecture of Yasm
+image::architecture/pipeline[formats="eps,png"]
+
+In addition to the main pipeline shown in <<architecture-pipeline>>, a
+number of additional modules are necessary in order to have a fully
+functional assembler.  Some of these modules are called from multiple
+stages and thus must be able to function under many different
+conditions.  <<architecture-modular>> shows how the pipeline
+interfaces with these additional modules to create a complete
+assembler.
+
+[[architecture-modular]]
+.Modular Architecture of Yasm
+image::architecture/modular[formats="eps,png"]
+
+A variety of support modules provide basic data structures and I/O
+functions.  Many of these modules are called or used in some fashion
+by nearly every module shown in <<architecture-modular>>.
+<<architecture-support>> shows the relationships between these support
+modules.
+
+[[architecture-support]]
+.Yasm Support Modules
+image::architecture/support[formats="eps,png"]
+
+<<architecture-multi>> shows an example of a built-out assembler with
+multiple preprocessors, parsers, object formats, etc, and how all the
+pieces fit together.
+ 
+[[architecture-multi]]
+.Built-out Yasm (example)
+image::architecture/multi[formats="eps,png"]
+
+// vim: set syntax=asciidoc sw=2 tw=70:

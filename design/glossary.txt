@@ -1,34 +1,36 @@
-<!DOCTYPE glossary PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<glossary>
- <title>Glossary</title>
+// $Id$
+== Glossary
 
- <glossentry id="glossary.bytecode">
+[glossary]
+++++
+ <glossentry id="glossary-bytecode">
   <glossterm>Bytecode</glossterm>
 
   <glossdef>
-   <para>The fundamental unit of yasm assembly.  Usually represents a
+    <simpara>The fundamental unit of yasm assembly.  Usually represents a
     single machine instruction or assembler psuedo-instruction, stored
     in an expanded format that includes assembler state information
     such as length, source line number, etc.  It can store duplicates
     in a compressed format by storing only the number of
-    multiples.</para>
+    multiples.</simpara>
   </glossdef>
  </glossentry>
 
- <glossentry id="glossary.section">
+ <glossentry id="glossary-section">
   <glossterm>Section</glossterm>
 
   <glossdef>
-   <para>A contiguous memory area.  Represented in yasm as a single
+    <simpara>A contiguous memory area.  Represented in yasm as a single
     list of bytecodes, a list of relocations, and a number of
     section-level flags.  Generally a yasm section maps directly into
-    a object file section.</para>
+    a object file section.</simpara>
   </glossdef>
  </glossentry>
 
- <glossentry id="glossary.segment">
+ <glossentry id="glossary-segment">
   <glossterm>Segment</glossterm>
-  <glosssee otherterm="glossary.section" />
+  <glosssee otherterm="glossary-section" />
  </glossentry>
-</glossary>
+++++
+
+// vim: set syntax=asciidoc sw=2 tw=70:

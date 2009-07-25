@@ -1,8 +1,7 @@
-<!DOCTYPE bibliography PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<bibliography>
- <title>Bibliography</title>
-
+// $Id$
+== Bibliography
+[bibliography]
+++++
  <biblioentry id="AhoSethiUllman96">
   <abbrev>AhoSethiUllman96</abbrev>
   <authorgroup>
@@ -49,4 +48,6 @@
   </publisher>
   <title>Assemblers and Loaders</title>
  </biblioentry>
-</bibliography>
+++++
+
+// vim: set syntax=asciidoc sw=2 tw=70:
