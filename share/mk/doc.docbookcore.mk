@@ -17,7 +17,7 @@ XMLCATALOGFILES?=	../share/xml/catalog.xml
 XSLHTML?=	../share/xml/style-html.xsl
 XSLHTMLCHUNK?=	../share/xml/style-chunk.xsl
 
-TIDYOPTS?=	-wrap 90 -m -raw -preserve -f /dev/null -asxml ${TIDYFLAGS}
+TIDYOPTS?=	-wrap 90 -m -raw -f /dev/null -asxml ${TIDYFLAGS}
 
 .PHONY: all install xml html html-split pdf
 
