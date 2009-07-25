@@ -34,11 +34,11 @@
   <title>Pipeline Architecture of Yasm</title>
 
   <mediaobject>
-   <imageobject role="fo">
-    <imagedata fileref="pipeline.svg" format="SVG" />
+   <imageobject role="pdf">
+    <imagedata fileref="architecture/pipeline.eps" format="EPS" />
    </imageobject>
    <imageobject role="html">
-    <imagedata fileref="pipeline.png" format="PNG" />
+    <imagedata fileref="architecture/pipeline.png" format="PNG" />
    </imageobject>
   </mediaobject>
  </figure>
@@ -55,11 +55,11 @@
   <title>Modular Architecture of Yasm</title>
 
   <mediaobject>
-   <imageobject role="fo">
-    <imagedata fileref="modular.svg" format="SVG" />
+   <imageobject role="pdf">
+    <imagedata fileref="architecture/modular.eps" format="EPS" />
    </imageobject>
    <imageobject role="html">
-    <imagedata fileref="modular.png" format="PNG" />
+    <imagedata fileref="architecture/modular.png" format="PNG" />
    </imageobject>
   </mediaobject>
  </figure>
@@ -75,11 +75,11 @@
   <title>Yasm Support Modules</title>
 
   <mediaobject>
-   <imageobject role="fo">
-    <imagedata fileref="support.svg" format="SVG" />
+   <imageobject role="pdf">
+    <imagedata fileref="architecture/support.eps" format="EPS" />
    </imageobject>
    <imageobject role="html">
-    <imagedata fileref="support.png" format="PNG" />
+    <imagedata fileref="architecture/support.png" format="PNG" />
    </imageobject>
   </mediaobject>
  </figure>
@@ -93,11 +93,11 @@
   <title>Built-out Yasm (example)</title>
 
   <mediaobject>
-   <imageobject role="fo">
-    <imagedata fileref="multi.svg" format="SVG" />
+   <imageobject role="pdf">
+    <imagedata fileref="architecture/multi.eps" format="EPS" />
    </imageobject>
    <imageobject role="html">
-    <imagedata fileref="multi.png" format="PNG" />
+    <imagedata fileref="architecture/multi.png" format="PNG" />
    </imageobject>
   </mediaobject>
  </figure>

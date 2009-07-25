@@ -1,0 +1,71 @@
+.PS
+# $Id$
+linewid=0.25; lineht=0.25; boxht=0.2; ellipseht=0.2;
+aseg=0.15;
+
+down;
+ellipse shaded "skyblue" ".ASM File";
+arrow down aseg;
+PREPROC: box shaded "orange" wid 1 "Preprocessor";
+# PREPROC RHS flowdown
+{
+  move to 2/3 <PREPROC.sw,PREPROC.se>;
+  arrow down aseg then right 2 then down aseg;
+  PARSER: box shaded "orange" "Parser";
+  # PARSER flowdown
+  {
+    move to 1/3 <PARSER.sw,PARSER.se>;
+    arrow down aseg*2;
+    OBJ: box shaded "green" "Object";
+    # OBJ flowdown
+    {
+      move to 1/3 <OBJ.sw,OBJ.se>;
+      arrow down aseg then left 0.5 then down aseg <-->;
+      OBJFMT: box shaded "orange" wid 1 "Object Format";
+
+      move to 2/3 <OBJ.sw,OBJ.se>;
+      arrow down aseg*4+boxht <-->;
+      ARCH: box shaded "orange" "Architecture";
+    }
+
+    move to 2/3 <PARSER.sw,PARSER.se>;
+    arrow down aseg then right 0.35 then \
+      down to (2/3 <PARSER.sw,PARSER.se>+(0.35,0), ARCH.n+(0,aseg)) then \
+      left to 3/4 <ARCH.nw,ARCH.ne>+(0,aseg) then \
+      down aseg;
+  }
+}
+
+# OBJFMT flowdown
+{
+  move to 1/5 <OBJFMT.sw,OBJFMT.se>;
+  arrow down aseg*0.5 then left 1.05 then down aseg*1.5;
+  LISTFMT: box shaded "orange" "List Format" \
+      with .ne at last arrow .end + (boxwid/3,0);
+  # LISTFMT flowdown
+  {
+    arrow down aseg;
+    LISTFILE: ellipse shaded "skyblue" "List File";
+  }
+
+  move to 2/5 <OBJFMT.sw,OBJFMT.se>;
+  arrow down aseg then left 0.4 then down aseg <-->;
+  DBGFMT: box shaded "orange" wid 1 "Debug Format";
+
+  move to 3/5 <OBJFMT.sw,OBJFMT.se>;
+  arrow down aseg*3+boxht;
+  OBJFILE: ellipse shaded "skyblue" "Object File";
+
+  move to 4/5 <OBJFMT.sw,OBJFMT.se>;
+  arrow down aseg then \
+    right to 1/4 <ARCH.nw,ARCH.ne>+(0,aseg) then \
+    down aseg;
+}
+
+# PREPROC LHS flowdown (connection to LISTFMT)
+{
+  move to 1/3 <PREPROC.sw,PREPROC.se>;
+  arrow down to (1/3 <PREPROC.sw,PREPROC.se>, LISTFMT.n);
+}
+
+.PE

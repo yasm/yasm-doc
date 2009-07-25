@@ -1,0 +1,156 @@
+.PS
+# $Id$
+linewid=0.25; lineht=0.25; boxht=0.2; ellipseht=0.2;
+aseg=0.15;
+
+# Basic layout
+#down;
+#PREPROCS: [
+#  right;
+#  NASM: box shaded "orange" wid 1.2 "NASM Preprocessor";
+#  move;
+#  GAS: box shaded "orange" wid 1.2 "GAS Preprocessor";
+#]
+#move aseg*2;
+#PARSERS: [
+#  right;
+#  NASM: box shaded "orange" "NASM Parser";
+#  move;
+#  GAS: box shaded "orange" "GAS Parser";
+#]
+
+
+down;
+ASMFILE: ellipse shaded "skyblue" ".ASM File";
+{
+  move to ASMFILE.sw;
+  arrow down aseg then left 1 then down aseg;
+  NASM_PREPROC: box shaded "orange" wid 1.2 "NASM Preprocessor";
+  # NASM_PREPROC RHS flowdown
+  {
+    move to 2/3 <NASM_PREPROC.sw,NASM_PREPROC.se>;
+    arrow down aseg*2;
+    NASM_PARSER: box shaded "orange" wid 1 "NASM Parser";
+  }
+
+  move to ASMFILE.se;
+  arrow down aseg then right 1 then down aseg dashed;
+  GAS_PREPROC: box shaded "yellow" wid 1.2 "GAS Preprocessor";
+  # GAS_PREPROC RHS flowdown
+  {
+    move to 2/3 <GAS_PREPROC.sw,GAS_PREPROC.se>;
+    arrow down aseg*2 dashed;
+    GAS_PARSER: box shaded "yellow" wid 1 "GAS Parser";
+  }
+}
+
+move to 1/2 <NASM_PARSER.s,GAS_PARSER.s>+(0,-aseg*2);
+OBJ: box shaded "green" "Object";
+# OBJ flowdown
+{
+  move to 1/4 <OBJ.sw,OBJ.se>;
+  arrow down aseg then left 1 then down aseg <--> dashed;
+  ELF_OBJFMT: box shaded "yellow" wid 0.5 "ELF";
+
+  move to 2/4 <OBJ.sw,OBJ.se>;
+  arrow down aseg*2 <-->;
+  OBJ_OBJFMT: box shaded "orange" wid 0.5 "OBJ";
+
+  move to 3/4 <OBJ.sw,OBJ.se>;
+  arrow down aseg then right 0.875 then down aseg*5+boxht*2 <-->;
+  ARCH: box shaded "orange" wid 1.1 "x86 Architecture";
+}
+
+# NASM_PARSER flowdown
+{
+  move to 1/3 <NASM_PARSER.sw,NASM_PARSER.se>;
+  arrow down aseg then \
+    right to 1/3 <OBJ.nw,OBJ.ne>+(0,aseg) then \
+    down aseg;
+
+  move to 2/3 <NASM_PARSER.sw,NASM_PARSER.se>;
+  arrow down aseg/2 then \
+    right to (4/6 <ARCH.nw,ARCH.ne>, NASM_PARSER.s+(0,-aseg/2)) then \
+    down to 4/6 <ARCH.nw,ARCH.ne>;
+}
+
+# GAS_PARSER flowdown
+{
+  move to 1/3 <GAS_PARSER.sw,GAS_PARSER.se>;
+  arrow down aseg then \
+    left to 2/3 <OBJ.nw,OBJ.ne>+(0,aseg) then \
+    down aseg dashed;
+
+  move to 2/3 <GAS_PARSER.sw,GAS_PARSER.se>;
+  arrow down to (2/3 <GAS_PARSER.sw,GAS_PARSER.se>, ARCH.n) dashed;
+}
+
+move to 1/2 <ELF_OBJFMT.s,OBJ_OBJFMT.s>+(0,-aseg*5);
+OBJFILE: ellipse shaded "skyblue" "Object File";
+
+# OBJ_OBJFMT flowdown
+{
+  move to 1/5 <OBJ_OBJFMT.sw,OBJ_OBJFMT.se>;
+  arrow down aseg*2 then left 1.5 then down aseg*2+boxht;
+  LISTFMT: box shaded "orange" wid 1.2 "NASM List Format" \
+      with .ne at last arrow .end + (boxwid/3,0);
+  # LISTFMT flowdown
+  {
+    arrow down aseg;
+    LISTFILE: ellipse shaded "skyblue" "List File";
+  }
+
+  move to 2/5 <OBJ_OBJFMT.sw,OBJ_OBJFMT.se>;
+  arrow down aseg*3 then \
+    left to (OBJFILE.ne, OBJ_OBJFMT.s+(0,-aseg*3)) then \
+    down to OBJFILE.ne;
+
+  move to 3/5 <OBJ_OBJFMT.sw,OBJ_OBJFMT.se>;
+  arrow down aseg*5+boxht*2 <-->;
+  DBGFMT: box shaded "orange" wid 1 "Turbo Debug";
+
+  move to 4/5 <OBJ_OBJFMT.sw,OBJ_OBJFMT.se>;
+  arrow down aseg then \
+    right to (2/6 <ARCH.nw,ARCH.ne>, OBJ_OBJFMT.s+(0,-aseg)) then \
+    down to 2/6 <ARCH.nw,ARCH.ne>;
+}
+
+# ELF_OBJFMT flowdown
+{
+  move to 1/5 <ELF_OBJFMT.sw,ELF_OBJFMT.se>;
+  arrow down aseg*1.5 then \
+    left to (3/5 <LISTFMT.nw,LISTFMT.ne>, ELF_OBJFMT.s+(0,-aseg*1.5)) then \
+    down to 3/5 <LISTFMT.nw,LISTFMT.ne> dashed;
+
+  move to 2/5 <ELF_OBJFMT.sw,ELF_OBJFMT.se>;
+  arrow down aseg*5+boxht*2 <--> dashed;
+  DBGFMT: box shaded "yellow" wid 0.5 "STABS";
+
+  move to 3/5 <ELF_OBJFMT.sw,ELF_OBJFMT.se>;
+  arrow down aseg*3 then \
+    right to (OBJFILE.nw, ELF_OBJFMT.s+(0,-aseg*3)) then \
+    down to OBJFILE.nw dashed;
+
+  move to 4/5 <ELF_OBJFMT.sw,ELF_OBJFMT.se>;
+  arrow down aseg*1.5 then \
+    right to (1/6 <ARCH.nw,ARCH.ne>, ELF_OBJFMT.s+(0,-aseg*1.5)) then \
+    down to 1/6 <ARCH.nw,ARCH.ne> dashed;
+}
+
+# NASM_PREPROC LHS flowdown (connection to LISTFMT)
+{
+  move to 1/3 <NASM_PREPROC.sw,NASM_PREPROC.se>;
+  arrow down aseg/2 then \
+    left to (1/5 <LISTFMT.nw,LISTFMT.ne>, NASM_PREPROC.s+(0,-aseg/2)) then \
+    down to 1/5 <LISTFMT.nw,LISTFMT.ne>;
+}
+
+# GAS_PREPROC LHS flowdown (connection to LISTFMT)
+{
+  move to 1/3 <GAS_PREPROC.sw,GAS_PREPROC.se>;
+  arrow down aseg then \
+    left to (2/5 <LISTFMT.nw,LISTFMT.ne>, GAS_PREPROC.s+(0,-aseg)) then \
+    down to 2/5 <LISTFMT.nw,LISTFMT.ne> dashed;
+}
+
+.PE
