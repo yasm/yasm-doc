@@ -1,6 +1,6 @@
 // $Id$
 [[nasm-language]]
-== The NASM Language
+== Язык NASM
 
 ////
  <chapterinfo>
@@ -17,77 +17,82 @@
 ////
 
 [[nasm-syntax]]
-=== Layout of a NASM Source Line
+=== Обзор ассемблерной строки NASM
 
-Like most assemblers, each NASM source line contains (unless it is a
-macro, a preprocessor directive or an assembler directive: see
-<<nasm-directives>>) some combination of the four fields
+Как большинство ассемблеров, каждая исходная строка NASM содержит
+(если это не макрос, препроцессорная или ассемблерная директива: см.
+<<nasm-directives>>), некоторую комбинацию четырех полей
 
 [source]
 ----
-label:  instruction operands        ; comment
+метка:  инструкция операнды         ; комментарий
 ----
 
-As usual, most of these fields are optional; the presence or absence
-of any combination of a label, an instruction and a comment is
-allowed. Of course, the operand field is either required or forbidden
-by the presence and nature of the instruction field.
+Как обычно, большинство этих полей необязательны; допускается
+присутствие или отсутствие любой комбинации метки, инструкции и
+комментарий. Конечно, необходимость поля операндов определяется
+присутствием и природой поля инструкций.
 
-NASM uses backslash (\) as the line continuation character; if a line
-ends with backslash, the next line is considered to be a part of the
-backslash-ended line.
+В NASM используется наклонная черта влево (\) как символ продолжения
+строки; если строка заканчивается наклонной чертой влево, то следующая
+будет рассматриватся как часть строки законченной наклонной чертой
+влево.
 
-NASM places no restrictions on white space within a line: labels may
-have white space before them, or instructions may have no space before
-them, or anything. The ((colon)) after a label is also optional.  Note
-that this means that if you intend to code `lodsb` alone on a line,
-and type `lodab` by accident, then that's still a valid source line
-which does nothing but define a label.  Running NASM with the
-command-line option %-w+((orphan-labels))% will cause it to warn you
-if you define a label alone on a line without a trailing colon.
+indexterm:[`:`]
+NASM не накладывает ограничений на количество пробелов в строке: метки
+могут иметь пробелы вначале, а инструкции могут не иметь никаких
+пробелов и т.п. Двоеточие после метки также необязательно (Это
+означает, что если вы хотите поместить в строку инструкцию `lodsb`, а
+введете `lodab`, строка останется корректной, но вместо инструкции
+будет объявлена метка. Выявить данные опечатки отчасти можно, введя в
+строке запуска NASM ключ %-w+((orphan-labels))% — в этом случае при
+обнаружении метки без заключительного двоеточия будет выдаваться
+предупреждение).
 
 indexterm:[`$`,prefix]
-((Valid characters)) in labels are letters, numbers, `_`, `$`, `#`,
-`@`, `~`, `.`, and `?`. The only characters which may be used as the
-_first_ character of an identifier are letters, `.` (with special
-meaning: see <<nasm-local-label>>), `_` and `?`.  An identifier may
-also be prefixed with a `$` to indicate that it is intended to be read
-as an identifier and not a reserved word; thus, if some other module
-you are linking with defines a symbol called `eax`, you can refer to
-`$eax` in NASM code to distinguish the symbol from the register.
+Допустимыми символами в метках являются буквы, цифры, знаки `_`, `$`,
+`#`, `@`, `~`, `.` и `?`. Допустимые символы в начале метки (первый
+символ метки) — только буквы, точка (`.`) (со специальным значением:
+см. <<nasm-local-label>>), знак подчеркивания (`_`) и вопросительный
+знак (`?`). В идентификаторе может также присутствовать префикс `$`
+для указания того, что это действительно идентификатор, а не
+зарезервированное слово; таким образом, если некоторый компонуемый
+вами модуль описывает символ `eax`, вы можете в коде NASM (для
+указания того, что это не регистр) сослаться на него так: `$eax`.
 
 indexterm:[address-size prefixes]
-The instruction field may contain any machine instruction: Pentium and
-P6 instructions, FPU instructions, MMX instructions and even
-undocumented instructions are all supported. The instruction may be
-prefixed by `LOCK`, `REP`, `REPE`/`REPZ` or `REPNE`/`REPNZ`, in the
-usual way.  Explicit address-size and ((operand-size prefixes)) `A16`,
-`A32`, `O16` and `O32` are provided.  You can also use the name of a
-segment register as an instruction prefix: coding `es mov [bx],ax` is
-equivalent to coding `mov [es:bx],ax`. We recommend the latter syntax,
-since it is consistent with other syntactic features of the language,
-but for instructions such as `LODSB`, which has no operands and yet
-can require a ((segment override)), there is no clean syntactic way to
-proceed apart from `es lodsb`.
+Поле инструкций может содержать любые процессорные инструкции:
+поддерживаются инструкции Pentium и P6, FPU, MMX, а также некоторые
+недокументированные инструкции. Перед инструкциями могут
+присутствовать префиксы `LOCK`, `REP`, `REPE/REPZ` или `REPNE/REPNZ`,
+используемые по их обычному предназначению. Поддерживаются префиксы
+размера адреса и ((операнда)) `A16`, `A32`, `O16` и `O32`. В качестве
+префикса инструкции вы можете использовать также обозначение
+сегментного регистра: код `es mov [bx],ax` эквивалентен коду `mov
+[es:bx],ax`. Мы рекомендуем использовать последний синтаксис, т.к. он
+согласуется с другими синтаксическими особенностями языка, однако для
+инструкций, не имеющих операндов (например, `LODSB`) и требующих в
+некоторых случаях ((замены сегмента)), на данный момент не существует
+никакого синтаксического способа обойти конструкцию `es lodsb`.
 
-An instruction is not required to use a prefix: prefixes such as `CS`,
-`A32`, `LOCK` or `REPE` can appear on a line by themselves, and NASM
-will just generate the prefix bytes.
+Инструкции не требуется использовать префиксы: префиксы, такие как
+`CS`, `A32`, `LOCK` или `REPE` могут присутствовать в строке
+самостоятельно и при этом NASM будет генерировать соответствующие
+префикс-байты.
 
-In addition to actual machine instructions, NASM also supports a
-number of pseudo-instructions, described in <<nasm-pseudop>>.
+В дополнение к инструкциям процессора, NASM поддерживает также
+несколько псевдо-инструкций, описанных в <<nasm-pseudop>>.
 
-Instruction ((operands)) may take a number of forms: they can be
-registers, described simply by the register name (e.g.  `AX`, `BP`,
-`EBX`, `CR0`): NASM does not use the **gas**-style syntax in which
-register names must be prefixed by a `%` sign), or they can be
-((effective addresses)) (see <<nasm-effaddr>>), constants
-(<<nasm-const>>) or expressions (<<nasm-expr>>).
+((Операнды)) инструкций могут принимать несколько форм: они могут быть
+регистрами (например, `AX`, `BP`, `EBX`, `CR0`: NASM не использует
+синтаксис в стиле **gas**, где имена регистров должны предваряться
+знаком `%`), ((эффективными адресами)) (см. <<nasm-effaddr>>),
+константами (<<nasm-const>>) или выражениями (<<nasm-expr>>).
 
-For ((floating-point)) instructions, NASM accepts a wide range of
-syntaxes: you can use two-operand forms like MASM supports, or you can
-use NASM's native single-operand forms in most cases.  For example,
-you can code:
+Для инструкций ((сопроцессора)) NASM допускает различные формы
+синтаксиса: вы можете использовать двух-операндную форму,
+поддерживаемую MASMом, а также чисто NASMовскую одно-операндную форму
+Например, вы можете написать:
 
 [source]
 ----
@@ -98,10 +103,10 @@ you can code:
         fadd    to st1          ; so does this
 ----
 
-Almost any floating-point instruction that references memory must use
-one of the prefixes ((`DWORD`)), ((`QWORD`)), ((`TWORD`)),
-((`DDQWORD`)), or ((`OWORD`)) to indicate what size of ((memory
-operand)) it refers to.
+Почти любая инструкция сопроцессора, ссылающаяся на содержимое памяти,
+должна использовать один из префиксов ((`DWORD`)), ((`QWORD`)),
+((`TWORD`)), ((`DDQWORD`)), или ((`OWORD`)) для указания на то,
+операнд какого размера должен участвовать в команде.
 
 [[nasm-pseudop]]
 === Pseudo-Instructions
