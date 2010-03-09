@@ -5,6 +5,7 @@ MASTERDOC=	manual.txt
 SRCS= manual-docinfo.xml
 SRCS+= introduction.txt
 SRCS+= running.txt
+SRCS+= vsyasm.txt
 SRCS+= nasm-language.txt
 SRCS+= nasm-preprocessor.txt
 SRCS+= nasm-directives.txt

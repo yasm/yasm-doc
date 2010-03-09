@@ -13,6 +13,8 @@ include::introduction.txt[]
 
 include::running.txt[]
 
+include::vsyasm.txt[]
+
 [[nasm]]
 = NASM Syntax
 
