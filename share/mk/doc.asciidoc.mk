@@ -28,5 +28,5 @@ ${DOC}.xml: ${MASTERDOC} ${SRCS}
 		-f ../share/asciidoc/asciidoc.conf \
 		${ASCIIDOCFLAGS} \
 		${MASTERDOC}
-	${XMLLINT} --nonet --noout --valid $@
+	${XMLLINT} --nonet --noout $@
 
