@@ -36,6 +36,10 @@ PS2EPS?=	gs
 PS2EPSOPTS?=	-q -dNOPAUSE -dSAFER -dDELAYSAFER \
 		-sPAPERSIZE=letter -r72 -sDEVICE=bit \
 		-sOutputFile=/dev/null ${PS2EPSFLAGS} ps2epsi.ps
+PS2BBOX?=	gs
+PS2BBOXOPTS?=	-q -dNOPAUSE -dBATCH -dSAFER -dDELAYSAFER \
+		-sPAPERSIZE=letter -r72 -sDEVICE=bbox \
+		-sOutputFile=/dev/null ${PS2BBOXFLAGS}
 
 # The default resolution eps2png (82) assumes a 640x480 monitor, and is too
 # low for the typical monitor in use today. The resolution of 100 looks
@@ -106,7 +110,12 @@ endif
 # from the command line.  So ps->eps suffix rule is defined.  In the rule,
 # gs(1) is used to generate the bitmap preview and the size of the
 # bounding box.
+#
+# ps2epsi.ps in GS 8.70 requires $outfile before the conversion and it
+# must contain %%BoundingBox line which the "gs -sDEVICE=bbox" outputs
+# (the older versions calculated BBox directly in ps2epsi.ps).
 %.eps: %.ps
+	${PS2BBOX} ${PS2BBOXOPTS} $< > $@ 2>&1
 	${SETENV} outfile=$@ ${PS2EPS} ${PS2EPSOPTS} < $< 1>&2
 	(echo "save countdictstack mark newpath /showpage {} def /setpagedevice {pop} def";\
 		echo "%%EndProlog";\
