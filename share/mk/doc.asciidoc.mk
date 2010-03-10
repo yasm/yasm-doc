@@ -26,6 +26,7 @@ ${DOC}.xml: ${MASTERDOC} ${SRCS}
 		-b docbook \
 		-d ${DOCTYPE} \
 		-f ../share/asciidoc/asciidoc.conf \
+		${ASCIIDOCFLAGS} \
 		${MASTERDOC}
 	${XMLLINT} --nonet --noout --valid $@
 
