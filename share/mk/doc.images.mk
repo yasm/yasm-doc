@@ -14,10 +14,10 @@ EPS2PNMOPTS?=	-q -dBATCH -dGraphicsAlphaBits=4 -dTextAlphaBits=4 \
 		-dNOPAUSE -dSAFER -sDEVICE=pnm -sOutputFile=-
 
 #
-# epsgeom is a perl script for 1) extracting geometry information
+# epsgeom is a python script for 1) extracting geometry information
 # from a .eps file and 2) arrange it for ghostscript's pnm driver.
 #
-EPSGEOM?=	perl ../share/misc/epsgeom
+EPSGEOM?=	python ../share/misc/epsgeom.py
 EPSGEOMOPTS?=	${EPS2PNM_RES} ${EPS2PNM_RES}
 PNMTOPNG?=	pnmtopng
 PNMTOPNGOPTS?=	${PNMTOPNGFLAGS}
