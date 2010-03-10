@@ -113,9 +113,9 @@ endif
 		echo "%%Page: 1 1";\
 		echo "%%BeginDocument: $<";\
 	) >> $@
-	${SED}	-e '/^%%BeginPreview:/,/^%%EndPreview[^!-~]*$$/d' \
+	${SED}	-e '/^%%BeginPreview:/,/^%%EndPreview[^[:graph:]]*$$/d' \
 		-e '/^%!PS-Adobe/d' \
-		-e '/^%%[A-Za-z][A-Za-z]*[^!-~]*$$/d'\
+		-e '/^%%[A-Za-z][A-Za-z]*[^[:graph:]]*$$/d'\
 		-e '/^%%[A-Za-z][A-Za-z]*: /d' < $< >> $@
 	(echo "%%EndDocument";\
 		echo "%%Trailer";\
