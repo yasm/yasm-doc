@@ -370,7 +370,7 @@ PROC_FRAME      sample
     mov         rsi,[rbp+0x18]  ; with a push; this is not part of the
     mov         rdi,[rbp-0x10]  ; official epilog
 
-    lea         rsp,[rbp-0x20]  ; This is the official epilog
+    lea         rsp,[rbp+0x20]  ; This is the official epilog
     pop         rbp
     ret
 ENDPROC_FRAME
@@ -453,7 +453,7 @@ END_PROLOGUE
     mov          rsi,[rbp+0x18] ; a push (not a part of the official epilog)
     mov          rdi,[rbp-0x10]
 
-    lea          rsp,[rbp-0x20] ; the official epilogue
+    lea          rsp,[rbp+0x20] ; the official epilogue
     pop          rbp
     ret
 ENDPROC_FRAME
