@@ -14,5 +14,5 @@ include ../share/mk/doc.docbookcore.mk
 
 # XML
 ${DOC}.xml: ${MASTERDOC} ${SRCS}
-	${XMLLINT} --xinclude ${MASTERDOC} > ${DOC}.xml
+	${XMLLINT} --nonet --xinclude ${MASTERDOC} > ${DOC}.xml
 

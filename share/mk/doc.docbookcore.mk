@@ -32,6 +32,7 @@ include ../share/mk/doc.images.mk
 html-split: index.html
 index.html HTML.manifest: ${DOC}.xml ${IMAGES_PNG}
 	env XML_CATALOG_FILES="${XMLCATALOGFILES}" ${XSLTPROC} \
+		--nonet \
 		--stringparam use.extensions 0 \
 		${XSLHTMLCHUNK} \
 		${DOC}.xml 2> .xslterr
@@ -44,6 +45,7 @@ index.html HTML.manifest: ${DOC}.xml ${IMAGES_PNG}
 html: ${DOC}.html
 ${DOC}.html: ${DOC}.xml ${IMAGES_PNG}
 	env XML_CATALOG_FILES="${XMLCATALOGFILES}" ${XSLTPROC} \
+		--nonet \
 		--output ${DOC}.html \
 		--stringparam use.extensions 0 \
 		${XSLHTML} \
