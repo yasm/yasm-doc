@@ -3,9 +3,7 @@ the design document (and other DocBook documentation) from their XML
 and asciidoc sources:
 
 - GNU make
-- asciidoc 8.4.5 + local patch
-  The distribution needs to be patched with
-  share/asciidoc/asciidoc.py.patch to build correct output.
+- asciidoc 8.5.3
 - dblatex
   dblatex has a number of dependences:
   - Python >= 2.4
