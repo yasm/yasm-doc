@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-rdf]]
 == `rdf`: Relocatable Dynamic Object File Format
 

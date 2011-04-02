@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-coff]]
 == `coff`: Common Object File Format
 

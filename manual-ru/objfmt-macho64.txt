@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-macho64]]
 == `macho64`: Mach 64-bit Object File Format
 

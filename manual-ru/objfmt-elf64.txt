@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-elf64]]
 == `elf64`: Executable and Linkable Format 64-bit Object Files
 

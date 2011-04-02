@@ -1,5 +1,3 @@
-# $Id$
-#
 # Requires:
 # - asciidoc
 # - xsltproc (usually part of libxslt package)

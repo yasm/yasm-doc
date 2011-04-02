@@ -1,4 +1,3 @@
-// $Id$
 [[dbgfmt-cv8]]
 == `cv8`: CodeView Debugging Format for VC8
 

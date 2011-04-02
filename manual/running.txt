@@ -1,4 +1,3 @@
-// $Id$
 [[running]]
 == Running Yasm
 

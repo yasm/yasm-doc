@@ -1,4 +1,3 @@
-// $Id$
 [[arch-x86]]
 == x86 Architecture
 

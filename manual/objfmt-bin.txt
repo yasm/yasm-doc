@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-bin]]
 == `bin`: Flat-Form Binary Output
 

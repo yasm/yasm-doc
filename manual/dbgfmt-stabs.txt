@@ -1,4 +1,3 @@
-// $Id$
 [[dbgfmt-stabs]]
 == `stabs`: Stabs Debugging Format
 

@@ -1,4 +1,3 @@
-# $Id$
 DOC=	design
 MASTERDOC=	design.txt
 

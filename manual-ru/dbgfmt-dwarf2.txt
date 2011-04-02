@@ -1,4 +1,3 @@
-// $Id$
 [[dbgfmt-dwarf2]]
 == `dwarf2`: DWARF2 Debugging Format
 

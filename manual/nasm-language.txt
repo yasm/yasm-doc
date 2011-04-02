@@ -1,4 +1,3 @@
-// $Id$
 [[nasm-language]]
 == The NASM Language
 

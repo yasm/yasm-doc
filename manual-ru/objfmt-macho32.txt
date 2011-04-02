@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-macho32]]
 == `macho32`: Mach 32-bit Object File Format
 

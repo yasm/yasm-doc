@@ -1,4 +1,3 @@
-// $Id$
 [[vsyasm]]
 == **VSYASM** - Yasm for Microsoft Visual Studio 2010
 

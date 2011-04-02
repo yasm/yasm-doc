@@ -1,4 +1,3 @@
-# $Id$
 DOC=	manual
 MASTERDOC=	manual.txt
 

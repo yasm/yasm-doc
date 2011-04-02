@@ -1,5 +1,3 @@
-# $Id$
-#
 # Requires:
 # - xsltproc (usually part of libxslt package)
 # - xmllint (usually part of libxml2 package)

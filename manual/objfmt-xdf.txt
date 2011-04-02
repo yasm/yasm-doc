@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-xdf]]
 == `xdf`: Extended Dynamic Object Format
 

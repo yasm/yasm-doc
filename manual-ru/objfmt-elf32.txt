@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-elf32]]
 == `elf32`: Executable and Linkable Format 32-bit Object Files
 

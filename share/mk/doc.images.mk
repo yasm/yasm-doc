@@ -1,5 +1,3 @@
-# $Id$
-#
 # Largely copied from FreeBSD's doc/share/mk/doc.images.mk, but converted
 # to GNU make syntax.
 #

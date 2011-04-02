@@ -1,7 +1,6 @@
 Yasm User Manual
 ================
 Peter Johnson <yasm-doc@tortall.net>
-$Id$
 
 = Preface
 

@@ -1,4 +1,3 @@
-// $Id$
 [[objfmt-win64]]
 == `win64`: PE32+ (Microsoft Win64) Object Files
 
