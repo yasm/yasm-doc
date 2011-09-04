@@ -1,8 +1,9 @@
 #!/bin/sh
 # Determine OS platform
-UNAME=$(uname | tr "[:upper:]" "[:lower:]")
+UNAME=$(uname)
+DISTRO=
 # If Linux, try to determine specific distribution
-if [ "$UNAME" == "linux" ]; then
+if [ X"$UNAME" = X"Linux" ]; then
     # If available, use LSB to identify distribution
     if [ -f /etc/lsb-release -o -d /etc/lsb-release.d ]; then
         DISTRO=$(lsb_release -i | cut -d: -f2 | sed s/'^\t'//)
@@ -12,5 +13,7 @@ if [ "$UNAME" == "linux" ]; then
     fi
 fi
 # For everything else (or if above failed), just use generic identifier
-[ "$DISTRO" == "" ] && DISTRO=$UNAME
+if [ X"$DISTRO" = X"" ]; then
+    DISTRO=$UNAME
+fi
 echo $DISTRO
