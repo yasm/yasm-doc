@@ -17,9 +17,9 @@ appears in three forms:
 Yasm only directly supports relocatable object files. Other tools,
 such as the GNU Linker **ld**, help turn relocatable object files into
 the other formats.  Yasm supports generation of both 32-bit and 64-bit
-ELF files, called `elf32` and `elf64`.  A generic interface to both is
-also provided, `elf`, which selects between `elf32` and `elf64` based
-on the target machine architecture (see <<yasm-option-machine>>).
+ELF files, called `elf32` and `elf64`.  An additional format, called
+`elfx32`, is a 32-bit ELF file that supports 64-bit execution
+(instructions and registers) while limiting pointer sizes to 32-bit.
 
 Yasm defaults to `BITS 32` mode when outputting to the `elf32` object
 format.

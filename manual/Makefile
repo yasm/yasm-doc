@@ -12,6 +12,7 @@ SRCS+= objfmt-bin.txt
 SRCS+= objfmt-coff.txt
 SRCS+= objfmt-elf32.txt
 SRCS+= objfmt-elf64.txt
+SRCS+= objfmt-elfx32.txt
 SRCS+= objfmt-macho32.txt
 SRCS+= objfmt-macho64.txt
 SRCS+= objfmt-rdf.txt

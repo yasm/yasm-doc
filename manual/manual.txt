@@ -70,6 +70,8 @@ include::objfmt-elf32.txt[]
 
 include::objfmt-elf64.txt[]
 
+include::objfmt-elfx32.txt[]
+
 include::objfmt-macho32.txt[]
 
 include::objfmt-macho64.txt[]

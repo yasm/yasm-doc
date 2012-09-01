@@ -310,11 +310,11 @@ dbg::
   but rather for debugging Yasm's internals.
 
 elf::
-  The ELF object format really comes in two flavors: ""elf32"" (for
-  32-bit targets) and ""elf64"" (for 64-bit targets).  ELF is a
-  standard object format in common use on modern Unix and compatible
-  systems (e.g. Linux, FreeBSD).  ELF has complex support for
-  relocatable and shared objects.
+  The ELF object format really comes in three flavors: ""elf32"" (for
+  32-bit targets), ""elf64"" (for 64-bit targets), and ""elfx32"" (for
+  x32 targets).  ELF is a standard object format in common use on
+  modern Unix and compatible systems (e.g. Linux, FreeBSD).  ELF has
+  complex support for relocatable and shared objects.
 
 macho::
   The Mach-O object format really comes in two flavors: ""macho32""

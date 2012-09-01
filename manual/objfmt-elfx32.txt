@@ -1,0 +1,82 @@
+[[objfmt-elfx32]]
+== `elfx32`: ELF 32-bit Object Files for 64-bit Processors
+
+indexterm:[`elf`,`elfx32`]
+indexterm:[`Linux`,`x32`]
+indexterm:[Executable and Linkable Format,x32]
+indexterm:[amd64]
+
+The `elfx32` object format is the 32-bit version of the Executable and
+Linkable Object Format for 64-bit execution.  Similar to `elf64`, it
+allows for use of 64-bit registers and instructions, but like `elf32`,
+limits pointers to 32 bits in size.  As it shares many similarities
+with `elf32` and `elf64`, only differences between these formats and
+`elfx32` will be described in this chapter.  For details on `elf32`,
+see <<objfmt-elf32>>; for details on `elf64`, see <<objfmt-elf64>>.
+Operating system support for `elfx32` is currently less common than
+for `elf64`.
+
+Yasm defaults to `BITS 64` mode when outputting to the `elfx32` object
+format.
+
+`elfx32` supports the same debug formats, sections, section
+attributes, and directives as `elf32` and `elf64`.  See
+<<objfmt-elf-section>> for more details on section attributes, and
+<<objfmt-elf-directives>> for details on the additional directives ELF
+provides.
+
+[[objfmt-elfx32-wrt]]
+=== `elfx32` Special Symbols and `WRT`
+
+indexterm:[Position-Independent Code]
+indexterm:[ELF,x32 shared libraries]
+indexterm:[relocations,PIC-specific]
+
+Due to the availability of RIP-relative addressing, `elfx32` shared
+library handling and position-independent code is essentially
+identical to `elf64`.
+
+As in `elf64`, `elfx32` defines four special symbols which you can use
+as the right-hand side of the `WRT` operator to obtain PIC relocation
+types.  They are ((`..gotpcrel`)), ((`..got`)), ((`..plt`)) and
+((`..sym`)) and have the same functionality as they do in `elf64`.
+Their functions are summarized here:
+
+`..gotpcrel`::
+  While RIP-relative addressing allows you to encode an instruction
+  pointer relative data reference to `foo` with `[rel foo]`, it's
+  sometimes necessary to encode a RIP-relative reference to a
+  linker-generated symbol pointer for symbol foo; this is done using
+  `wrt ..gotpcrel`, e.g. `[rel foo wrt ..gotpcrel]`.  As in
+  `elf64`, this relocation, combined with RIP-relative addressing,
+  makes it possible to load an address from the ((global offset
+  table)) using a single instruction.  Note that since RIP-relative
+  references are limited to a signed 32-bit displacement, the ((GOT))
+  size accessible through this method is limited to 2 GB.
+
+`..got`::
+  As in `elf64`, referring to an external or global symbol using `wrt
+  ..got` causes the linker to build an entry _in_ the GOT containing
+  the address of the symbol, and the reference gives the distance from
+  the beginning of the GOT to the entry; so you can add on the address
+  of the GOT, load from the resulting address, and end up with the
+  address of the symbol.
+
+`..plt`::
+  As in `elf64`, referring to a procedure name using `wrt ..plt`
+  causes the linker to build a ((procedure linkage table)) entry for
+  the symbol, and the reference gives the address of the ((PLT))
+  entry.  You can only use this in contexts which would generate a
+  PC-relative relocation normally (i.e. as the destination for `CALL`
+  or `JMP`), since ELF contains no relocation type to refer to PLT
+  entries absolutely.
+
+`..sym`::
+  As in `elf64`, referring to a symbol name using `wrt ..sym` causes
+  Yasm to write an ordinary relocation, but instead of making the
+  relocation relative to the start of the section and then adding on
+  the offset to the symbol, it will write a relocation record aimed
+  directly at the symbol in question.  The distinction is a necessary
+  one due to a peculiarity of the dynamic linker.
+
+// vim: set syntax=asciidoc sw=2 tw=70:
